@@ -1,8 +1,6 @@
 void setup();
 void loop();
 
-uint32_t i = 0;
-
 int main() {
   setup();
   loop();
@@ -11,34 +9,22 @@ int main() {
 }
 
 void setup() {
-
-  Serial.begin(9600);
-  Serial.println("start");
+  DDRD |= (1 << PORTD3);
   
-  // Set timer mode to CTC
-  TCCR0A |= (1 << WGM01);
+  TCCR2A = (1 << COM2A0) | (1 << COM2B1) | (1 << WGM21) | (1 << WGM20);
+  TCCR2B = (1 << WGM22) | (1 << CS21);
 
-  // number of steps
-  OCR0A = 63;
+//  58 kHz 
+//  OCR2A = 33;
+//  OCR2B = 16;
 
-  TIMSK0 |= (1 << OCIE0A);
-
-  // Set prescaler to 8
-  TCCR0B |= (1 << CS01);
-
-  // Enable interrupts  
-  sei();
-
-  delay(1000);
-  TCCR0B &= ~(1 << CS01);
+  // 38 kHz
+  OCR2A = 52;
+  OCR2B = 26;
 }
 
 void loop() {
   while(1) {
-    Serial.println(i);
+  
   }
-}
-
-ISR(TIMER0_COMPA_vect) {
-  i++;
 }
