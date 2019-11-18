@@ -7,10 +7,21 @@
 #define TFT_DC 9
 #define TFT_CS 10
 
-// test data
+// grid size
 #define GRID_X 9
 #define GRID_Y 9
 
+// colors
+#define BLACK    0x0000
+#define BLUE     0x001F
+#define RED      0xF800
+#define GREEN    0x07E0
+#define CYAN     0x07FF
+#define MAGENTA  0xF81F
+#define YELLOW   0xFFE0 
+#define WHITE    0xFFFF
+
+// structs
 struct DIMENSION
 {
 	uint16_t x;
@@ -18,7 +29,6 @@ struct DIMENSION
 	uint16_t width;
 	uint16_t length;
 };
-
 
 // functies
 void drawGrid(Adafruit_ILI9341 *,struct DIMENSION,uint8_t grid[GRID_X][GRID_Y]); 
@@ -51,7 +61,7 @@ int main()
   	screen.setRotation(2);	
 
 	// draw start screen
-	struct DIMENSION dimension = {1,1,219,200};
+	struct DIMENSION dimension = {10,10,219,200};
 	screen.fillScreen(0x0000);
 	drawGrid(&screen,dimension,wrld);
 
@@ -74,9 +84,9 @@ void drawGrid(Adafruit_ILI9341 *pen,struct DIMENSION d,uint8_t world[GRID_X][GRI
 	pen->drawRect(d.x,d.y,d.width,d.length,0x003f);
 
 	// teken grid
-	for(i=d.x,xar=0; i<(d.width-block_w); i+=block_w,xar++)
+	for(i=d.x,xar=0; i<=d.width; i+=block_w,xar++)
 	{
-		for(q=d.y,yar=0; q<(d.length-block_l); q+=block_l,yar++)
+		for(q=d.y,yar=0; q<=d.length; q+=block_l,yar++)
 		{
 			drawBlock(pen,i,q,block_w,block_l,world[xar][yar]);
 		}
@@ -87,7 +97,20 @@ void drawGrid(Adafruit_ILI9341 *pen,struct DIMENSION d,uint8_t world[GRID_X][GRI
 void drawBlock(Adafruit_ILI9341 *pen,uint16_t x,uint16_t y,uint16_t width, uint16_t length,uint8_t type)
 {
   uint16_t color;
-  	color = (type==1)?0xffff:0x07e0;
+  	// bepaal welke kleur
+	switch(type)
+	{
+		case 0:
+			color=WHITE;
+			break;
+		case 1:
+			color=GREEN;
+			break;
+		default:
+			color=BLACK;
+	}	
+
+  	// teken blok
 	pen->fillRect(x,y,width,length,color);
 }
 
