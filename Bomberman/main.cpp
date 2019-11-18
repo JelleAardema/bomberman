@@ -2,6 +2,7 @@
 #include <Adafruit_ILI9341.h>
 #include <Adafruit_GFX.h>
 #include <stdint.h>
+#include <util/delay.h>
 
 // aansluiting spi op scherm
 #define TFT_DC 9
@@ -33,7 +34,7 @@ struct DIMENSION
 // functies
 void drawGrid(Adafruit_ILI9341 *,struct DIMENSION,uint8_t grid[GRID_X][GRID_Y]); 
 void drawBlock(Adafruit_ILI9341 *,uint16_t,uint16_t,uint16_t,uint16_t,uint8_t);
-
+void changeBlock(Adafruit_ILI9341 *,struct DIMENSION,uint8_t grid[GRID_X][GRID_Y],uint16_t,uint16_t,uint8_t);
 
 // hoofd programa
 int main()
@@ -66,7 +67,13 @@ int main()
 	drawGrid(&screen,dimension,wrld);
 
 	// loop
-	while(1);
+	while(1)
+	{
+		changeBlock(&screen,dimension,wrld,4,4,1);
+		_delay_ms(1000);
+		changeBlock(&screen,dimension,wrld,4,4,0);
+		_delay_ms(1000);
+	}
 
   return 0;
 }
@@ -81,7 +88,7 @@ void drawGrid(Adafruit_ILI9341 *pen,struct DIMENSION d,uint8_t world[GRID_X][GRI
 	block_l =d.length/GRID_Y;
 
   	// teken rand van speelveld
-	pen->drawRect(d.x,d.y,d.width,d.length,0x003f);
+	pen->drawRect(d.x,d.y,d.width,d.length,BLUE);
 
 	// teken grid
 	for(i=d.x,xar=0; i<=d.width; i+=block_w,xar++)
@@ -113,4 +120,22 @@ void drawBlock(Adafruit_ILI9341 *pen,uint16_t x,uint16_t y,uint16_t width, uint1
   	// teken blok
 	pen->fillRect(x,y,width,length,color);
 }
+
+// verandert een blok en tekent dat blok
+void changeBlock(Adafruit_ILI9341 *pen,struct DIMENSION d,uint8_t grid[GRID_X][GRID_Y],uint16_t x,uint16_t y,uint8_t newtype)
+{
+  uint16_t block_w,block_l,blockX,blockY;
+	// verander de type van opgageven blok
+	grid[x][y] = newtype;
+	
+	// positie van blok op scherm berekenen
+	block_w = d.width/GRID_X;
+	block_l = d.length/GRID_Y;
+	blockX = d.x + block_w*x;
+	blockY = d.y + block_l*y;
+
+	// herteken het nieuwe blok
+	drawBlock(pen,blockX,blockY,block_w,block_l,grid[x][y]);	
+}
+
 
