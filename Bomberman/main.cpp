@@ -11,16 +11,6 @@
 #define GRID_X 9
 #define GRID_Y 9
 
-uint8_t wrld[GRID_X][GRID_Y]={
-			{1,1,1,1,1,1,1,1,1},
-			{1,0,0,0,0,0,0,0,1},
-			{1,0,1,0,1,0,1,0,1},
-			{1,0,0,0,0,0,0,0,1},
-			{1,0,1,0,1,0,1,0,1},
-			{1,0,0,0,0,0,0,0,1},
-			{1,0,1,0,1,0,1,0,1},
-			{1,0,0,0,0,0,0,0,1},
-			{1,1,1,1,1,1,1,1,1}};
 struct DIMENSION
 {
 	uint16_t x;
@@ -31,8 +21,8 @@ struct DIMENSION
 
 
 // functies
-void drawGrid(Adafruit_ILI9341 *,struct DIMENSION); 
-void drawBlock(Adafruit_ILI9341 *,int,int,int,int,int);
+void drawGrid(Adafruit_ILI9341 *,struct DIMENSION,uint8_t grid[GRID_X][GRID_Y]); 
+void drawBlock(Adafruit_ILI9341 *,uint16_t,uint16_t,uint16_t,uint16_t,uint8_t);
 
 
 // hoofd programa
@@ -42,14 +32,28 @@ int main()
 	init();
 	Adafruit_ILI9341 screen = Adafruit_ILI9341(TFT_CS, TFT_DC);
 	screen.begin();
+
+	// test data
+	uint8_t wrld[GRID_X][GRID_Y]={
+			{1,1,1,1,1,1,1,1,1},
+			{1,0,0,0,0,0,0,0,1},
+			{1,0,1,0,1,0,1,0,1},
+			{1,0,0,0,0,0,0,0,1},
+			{1,0,1,0,1,0,1,0,1},
+			{1,0,0,0,0,0,0,0,1},
+			{1,0,1,0,1,0,1,0,1},
+			{1,0,0,0,0,0,0,0,1},
+			{1,1,1,1,1,1,1,1,1}};
 	
+
+
 	// zet cordinate system
   	screen.setRotation(2);	
 
 	// draw start screen
 	struct DIMENSION dimension = {1,1,219,200};
 	screen.fillScreen(0x0000);
-	drawGrid(&screen,dimension);
+	drawGrid(&screen,dimension,wrld);
 
 	// loop
 	while(1);
@@ -59,7 +63,7 @@ int main()
 
 // 240x320
 // tekent de hele veld
-void drawGrid(Adafruit_ILI9341 *pen,struct DIMENSION d)
+void drawGrid(Adafruit_ILI9341 *pen,struct DIMENSION d,uint8_t world[GRID_X][GRID_Y])
 {
   uint16_t i,q,xar,yar,block_w,block_l;
   	// bereken groote blok
@@ -74,13 +78,13 @@ void drawGrid(Adafruit_ILI9341 *pen,struct DIMENSION d)
 	{
 		for(q=d.y,yar=0; q<(d.length-block_l); q+=block_l,yar++)
 		{
-			drawBlock(pen,i,q,block_w,block_l,wrld[xar][yar]);
+			drawBlock(pen,i,q,block_w,block_l,world[xar][yar]);
 		}
 	}
 }	
 
 // tekent een blok
-void drawBlock(Adafruit_ILI9341 *pen,int x,int y,int width, int length,int type)
+void drawBlock(Adafruit_ILI9341 *pen,uint16_t x,uint16_t y,uint16_t width, uint16_t length,uint8_t type)
 {
   uint16_t color;
   	color = (type==1)?0xffff:0x07e0;
