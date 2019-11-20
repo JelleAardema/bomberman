@@ -49,8 +49,9 @@ int main() {
       incomingByte = Serial.read();
 
       // say what you got:
-      Serial.println("sending: ");
-      Serial.println(incomingByte, DEC);
+      Serial.print("sending: ");
+      Serial.print(incomingByte, DEC);
+      Serial.print("  ");
       Serial.println(incomingByte, BIN);
       sendIR(incomingByte);
     }
