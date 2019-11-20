@@ -136,7 +136,7 @@ void convertBites(){
 
 void sendIR(int data){
   sendData = data;
-  TCCR0B |= (1 << CS02) | (1 << CS00);  //enable timer0
+  TCCR0B |= (1 << CS02));  //enable timer0
   sendBit();
 }
 
@@ -150,7 +150,7 @@ void sendBit(){
     }
   }else{
     if(OCR0A == timeBreak){   //after a breaktime disable timer0
-      TCCR0B &= ~((1 << CS02) | (1 << CS00));
+      TCCR0B &= ~((1 << CS02) | (1 << (CS01) | (1 << CS00));
     }else{        //if no more data
       OCR0A = timeBreak;
     }
@@ -174,7 +174,7 @@ void timer0Init() {
 void timer1Init(){
   TCCR1A = 0;
   TCCR1B = 0;
-  TCCR1B |= (1<<CS12)|(1<<CS10);
+  TCCR1B |= (1<<CS12);
 }
 
 void timer2Init() {
