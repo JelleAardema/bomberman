@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <util/delay.h>
 #include "grid.h"
+#include "player.h"
 
 // hoofd programa
 int main()
@@ -25,7 +26,7 @@ int main()
 			{1,0,0,0,0,0,0,0,1},
 			{1,1,1,1,1,1,1,1,1}};
 	
-
+	struct PLAYER player= {1,1}; 
 
 	// zet cordinate system
   	screen.setRotation(2);	
@@ -38,6 +39,8 @@ int main()
 	// loop
 	while(1)
 	{
+		// move test
+		// change test
 		changeBlock(&screen,dimension,wrld,4,4,1);
 		_delay_ms(1000);
 		changeBlock(&screen,dimension,wrld,4,4,0);
