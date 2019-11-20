@@ -2,8 +2,9 @@
 #ifndef GRID_H
 #define GRID_H
 
+// includes
 #include <Adafruit_ILI9341.h>
-#include <stdint.h>
+#include <Adafruit_GFX.h>
 
 // screen conections spi
 #define TFT_DC 9

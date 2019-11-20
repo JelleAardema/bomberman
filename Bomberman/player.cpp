@@ -1,8 +1,6 @@
 #include <stdint.h>
 #include "player.h"
-
-#define GRID_X 9
-#define GRID_Y 9
+#include "grid.h"
 
 uint8_t step(enum AIM direction,uint8_t world[9][9],struct PLAYER p1)
 {
