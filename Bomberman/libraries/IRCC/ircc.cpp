@@ -32,7 +32,7 @@ volatile int x = 0;
 // timeHigh is double the length of timeLow and has the bit value of 1
 // timeBreak is three times the length of timeLow and is the minimum barrier to check if a set of bits is complete
 #define timeLow 50
-#define variation 5
+#define variation timeLow/3
 #define timeHigh timeLow*2
 #define timeBreak timeLow*3
 
