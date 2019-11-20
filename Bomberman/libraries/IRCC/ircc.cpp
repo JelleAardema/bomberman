@@ -15,11 +15,12 @@ void timer1Init();
 void irSetup();
 void convertBites();
 
-int button = PORTD2;
+int sensorOutput = PORTD2;
 int led = PORTD3;
 
-int volatile sendData = 0;
-int volatile incomingByte = 0;// for serial port 
+volatile int sendData = 0;
+volatile int incomingByte = 0;// for serial port 
+volatile int sendDataFlag = 0;
 
 volatile int buf = 0;     // buffer for recording the time between interrupts
 volatile int bufFlag = 0; // mark if there is data coming in
@@ -31,8 +32,8 @@ volatile int x = 0;
 // timeLow is the base and stands for a bit with a value of 0
 // timeHigh is double the length of timeLow and has the bit value of 1
 // timeBreak is three times the length of timeLow and is the minimum barrier to check if a set of bits is complete
-#define timeLow 50
-#define variation 5
+#define timeLow 60
+#define variation timeLow/3
 #define timeHigh timeLow*2
 #define timeBreak timeLow*3
 
@@ -41,7 +42,7 @@ int timer2Top = 52;         //36 = 56kHz; 52 = 38kHz. default 38kHz
 int main() {
   //setup
   Serial.begin(9600);     //temp; to start serial monitor
-  sendDataSetup(52);  
+  sendDataSetup(36);  
   
   while(1) {    
     if (Serial.available() > 0) {
@@ -49,8 +50,9 @@ int main() {
       incomingByte = Serial.read();
 
       // say what you got:
-      Serial.println("sending: ");
-      Serial.println(incomingByte, DEC);
+      Serial.print("sending: ");
+      Serial.print(incomingByte, DEC);
+      Serial.print("  ");
       Serial.println(incomingByte, BIN);
       sendIR(incomingByte);
     }
@@ -95,15 +97,12 @@ void sendDataSetup(int mode){     //mode = 36 = 56kHz; mode = 52 = 38kHz.
 }
 
 void irSetup(){
-  cli();                          //disable global interrupts
-  DDRD &= ~(1 << button);         //set button to INPUT
-  DDRD |= (1<<led);               //set led to output;
-  PORTD |= (1 << button);         //set button to pull-up
+  DDRD &= ~(1 << sensorOutput);         //set sensorOutput to INPUT
+  PORTD |= (1 << sensorOutput);         //set sensorOutput to pull-up
 
   EIMSK |= (1 << INT0);           //enable INT0 interrupts
   EICRA = (EICRA |(1 << ISC00))   //set ISC00 to 1,
   & (~(1 << ISC01));              //set ISC01 to 0, total interupt on change
-  sei();                          //enable global interrupts
 
   TIMSK1 |= (1<<TOIE1);
 
@@ -134,9 +133,15 @@ void convertBites(){
 }
 
 void sendIR(int data){
-  sendData = data;
-  TCCR0B |= (1 << CS02) | (1 << CS00);  //enable timer0
-  sendBit();
+  if(!sendDataFlag) { 
+    sendDataFlag = 1;
+    sendData = data;
+    TCCR0B |= (1 << CS01) | (1 << CS00);  //enable timer0
+    sendBit();
+  }
+  else {
+    Serial.println("busy");
+  }
 }
 
 void sendBit(){
@@ -149,7 +154,8 @@ void sendBit(){
     }
   }else{
     if(OCR0A == timeBreak){   //after a breaktime disable timer0
-      TCCR0B &= ~((1 << CS02) | (1 << CS00));
+      TCCR0B &= ~((1 << CS02) | (1 << CS01) | (1 << CS00));
+      sendDataFlag = 0;
     }else{        //if no more data
       OCR0A = timeBreak;
     }
@@ -173,14 +179,14 @@ void timer0Init() {
 void timer1Init(){
   TCCR1A = 0;
   TCCR1B = 0;
-  TCCR1B |= (1<<CS12)|(1<<CS10);
+  TCCR1B |= (1<<CS11)| (1 << CS10);
 }
 
 void timer2Init() {
   TCCR2A = 0;             //set entire TCCR2A register to 0
   TCCR2B = 0;             //set entire TCCR2B register to 0
   
-  DDRD |= (1 << PORTD3);        //set pin 3 output
+  DDRD |= (1 << led);        //set pin 3 output
   TCCR2A |= (1 << WGM21) | (1 << WGM20);    //WGM = 111 = fast PWM, top OCRA
   TCCR2B |= (1 << WGM22) | (1 << CS21);   //CS = 101 = prescaler 8
   OCR2A = timer2Top;        //make OCR2A the defined top
