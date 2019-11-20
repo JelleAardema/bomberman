@@ -35,7 +35,8 @@ struct DIMENSION
 
 // functions
 void drawGrid(Adafruit_ILI9341 *,struct DIMENSION,uint8_t grid[GRID_X][GRID_Y]); 
-void drawBlock(Adafruit_ILI9341 *,uint16_t,uint16_t,uint16_t,uint16_t,uint8_t);
+void drawBlock(Adafruit_ILI9341 *,struct DIMENSION,uint8_t);
 void changeBlock(Adafruit_ILI9341 *,struct DIMENSION,uint8_t grid[GRID_X][GRID_Y],uint16_t,uint16_t,uint8_t);
+void calcBlock(struct DIMENSION screen,struct DIMENSION *block,uint16_t x,uint16_t y);
 
 #endif
