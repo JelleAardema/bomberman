@@ -31,8 +31,8 @@ volatile int x = 0;
 // timeLow is the base and stands for a bit with a value of 0
 // timeHigh is double the length of timeLow and has the bit value of 1
 // timeBreak is three times the length of timeLow and is the minimum barrier to check if a set of bits is complete
-#define timeLow 80
-#define variation timeLow/3
+#define timeLow 50
+#define variation 5
 #define timeHigh timeLow*2
 #define timeBreak timeLow*3
 
@@ -136,7 +136,7 @@ void convertBites(){
 
 void sendIR(int data){
   sendData = data;
-  TCCR0B |= (1 << CS01) | (1 << CS02);  //enable timer0
+  TCCR0B |= (1 << CS01) | (1 << CS00);  //enable timer0
   sendBit();
 }
 
@@ -174,7 +174,7 @@ void timer0Init() {
 void timer1Init(){
   TCCR1A = 0;
   TCCR1B = 0;
-  TCCR1B |= (1<<CS11) | (1 << CS12);
+  TCCR1B |= (1<<CS11)| (1 << CS10);
 }
 
 void timer2Init() {
