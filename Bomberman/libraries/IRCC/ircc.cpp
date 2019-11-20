@@ -5,7 +5,7 @@
 // Setup send
 void timer2Init();
 void timer0Init();
-void sendIR(int data);
+void sendIR(uint16_t data);
 void sendBit();
 void sendDataSetup(int mode);
 
@@ -14,18 +14,20 @@ void clearTimer1();
 void timer1Init();
 void irSetup();
 void convertBites();
+uint16_t encodeMovement(int x, int y, int lifes, int bombPlaced);
+void decodeMessage(uint16_t data);
 
 int sensorOutput = PORTD2;
 int led = PORTD3;
 
-volatile int sendData = 0;
-volatile int incomingByte = 0;// for serial port 
+volatile uint16_t sendData = 0;
+volatile uint16_t incomingByte = 0;// for serial port 
 volatile int sendDataFlag = 0;
 
-volatile int buf = 0;     // buffer for recording the time between interrupts
+volatile uint16_t buf = 0;     // buffer for recording the time between interrupts
 volatile int bufFlag = 0; // mark if there is data coming in
 volatile int breaker = 0; // mark if the counter for the interupts has overflown so it can be disabled
-volatile uint8_t data = 0; // the complete set of of bits recieved to form a byte
+volatile uint16_t data = 0; // the complete set of of bits recieved to form a byte
 volatile int x = 0;
 
 // configure the time of interupt
@@ -43,6 +45,8 @@ int main() {
   //setup
   Serial.begin(9600);     //temp; to start serial monitor
   sendDataSetup(36);  
+
+  sendIR(encodeMovement(0b1010, 0b1010, 0b0011, 0b1));
   
   while(1) {    
     if (Serial.available() > 0) {
@@ -116,6 +120,7 @@ void convertBites(){
       if(data){
         Serial.print("received: ");
         Serial.println(data);
+        decodeMessage(data);
         data = 0;
         x = 0;
       }
@@ -132,7 +137,71 @@ void convertBites(){
   }
 }
 
-void sendIR(int data){
+uint16_t encodeMovement(int x, int y, int lifes, int bombPlaced) {
+  uint16_t data = 0;
+  //data = data << 1;
+  data += bombPlaced;
+  
+  data = data << 4;
+  data += lifes;
+
+  data = data << 4;
+  data += y;
+  
+  data = data << 4;  
+  data += x;
+
+  data = data << 3;
+  data += 0b000;
+
+  return data;
+}
+
+void decodeMessage(uint16_t message) {
+  int type = message & 0b111;
+  message = message >> 3;
+  
+    Serial.print("t: ");
+    Serial.println(type,BIN);
+
+  // Movement
+  if(type == 0b000) {
+    int xPlayer2 = message &      0b1111;
+    message = message >> 4;    
+    int yPlayer2 = message &      0b1111;
+    message = message >> 4;
+    int lifesPlayer2 = message &  0b1111;
+    message = message >> 4;
+    int bombPlaced = message &    0b1;
+
+    Serial.print("x: ");
+    Serial.println(xPlayer2,BIN);
+    Serial.print("y: ");
+    Serial.println(yPlayer2,BIN);
+    Serial.print("l: ");
+    Serial.println(lifesPlayer2,BIN);
+    Serial.print("b: ");
+    Serial.println(bombPlaced,BIN);
+  }
+
+  // Level
+  if(type == 0b001) {
+     uint16_t seed = message &    0b1111111111111;
+  }
+
+  // Start game
+  if(type == 0b010) {
+    
+  }
+
+  // Connection
+  if(type == 0b011) {
+    // if host == 1 means I'm the host.
+    int host = message & 0b1;             
+  }
+}
+
+void sendIR(uint16_t data){
   if(!sendDataFlag) { 
     sendDataFlag = 1;
     sendData = data;
