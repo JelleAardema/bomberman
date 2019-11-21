@@ -1,24 +1,10 @@
 #include <avr/io.h>
 #include <stdint.h>
 #include <avr/interrupt.h>
-
-// setup send
-void sendIR(uint16_t data);
-void sendBit();
-void transmitDataSetup();
-void timer2Init();
-void timer0Init();
+#include "ircc.h"
 
 volatile uint16_t sendData = 0;
 volatile int sendDataFlag = 0;
-//volatile uint16_t incomingByte = 0;// for serial port 
-
-// setup receive
-uint16_t receiveIR(){
-void timer1Init();
-void pinInit();
-void receiveBit();
-void clearTimer1();
 
 volatile uint16_t buf = 0;     			// buffer for recording the time between interrupts
 volatile int receiveDataFlag = 0; 		// mark if there the data is complete
@@ -28,15 +14,6 @@ volatile int x = 0;						// steps to left when writing bit
 // used pins
 int sensorOutput = PORTD2;		// sensor pin2
 int led = PORTD3;				// IR led pin3
-
-// configure the time of interupt
-// timeLow is the base and stands for a bit with a value of 0
-// timeHigh is double the length of timeLow and has the bit value of 1
-// timeBreak is three times the length of timeLow and is the minimum barrier to check if a set of bits is complete
-#define timeLow 60
-#define variation timeLow/3
-#define timeHigh timeLow*2
-#define timeBreak timeLow*3
 
 int timer2Top = 52;         //36 = 56kHz; 52 = 38kHz. default 38kHz
 
@@ -115,7 +92,9 @@ void receiveBit(){
 
 // setup
 
-void transmitDataSetup(){     //mode = 36 = 56kHz; mode = 52 = 38kHz.
+void transmitDataSetup(int host){     //mode = 36 = 56kHz; mode = 52 = 38kHz.
+
+  
   if(host) {
     timer2Top = 52;
   }
