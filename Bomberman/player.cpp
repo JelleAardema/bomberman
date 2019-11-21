@@ -5,7 +5,7 @@
 #include <nunchuk.h>
 
 
-uint8_t step(enum AIM direction,uint8_t world[9][9],struct PLAYER p1)
+uint8_t step(enum AIM direction,uint8_t world[9][9],struct PLAYER p1,struct DIMENSION screen)
 {
   uint16_t X = p1.x;
   uint16_t Y = p1.y;
@@ -30,12 +30,12 @@ uint8_t step(enum AIM direction,uint8_t world[9][9],struct PLAYER p1)
 	// check if move is posible
 	if( ((X>=0)&&(X<=GRID_X)) && ((Y>=0)&&(Y<=GRID_Y)) && (!world[X][Y]) )
 	{
-		drawBlock(pen,p1.x,p1.y,0);
+		struct DIMENSION block;
+		calcBlock(screen,&block,p1.x,p1.y);
+		drawBlock(pen,block,0);
 		// change player cordinate to new cordinate
 		p1.y = Y;
 		p1.x = X;
-
-
 		// tell that the move was succesful
 		return 1;
 	}
@@ -44,11 +44,14 @@ uint8_t step(enum AIM direction,uint8_t world[9][9],struct PLAYER p1)
 	return 0;
 }
 
-void drawPlayer(struct PLAYER p1, struct DIMENSION d,Adafruit_ILI9341 *pen)
+void drawPlayer(struct PLAYER p1, struct DIMENSION d,Adafruit_ILI9341 *pen,struct DIMENSION screen)
 {
 	uint16_t block_w,block_l,blockX,blockY;
         // Redraw block
-        drawBlock(pen,p1.x,p1.y,2);
+
+	struct DIMENSION block;
+	calcBlock(screen,&block,p1.x,p1.y);
+        drawBlock(pen,block,2);
 }
 
 void setupNunchuk() {
