@@ -4,6 +4,7 @@
 #include <Wire.h>
 #include <nunchuk.h>
 
+
 uint8_t step(enum AIM direction,uint8_t world[9][9],struct PLAYER p1)
 {
   uint16_t X = p1.x;

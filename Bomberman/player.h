@@ -1,8 +1,8 @@
-#ifndef MOVE_H
-#define MOVE_H
+// header file player
+#ifndef PLAYER_H
+#define PLAYER_H
 
-#include <stdint.h>
-
+// types
 enum AIM
 {
 	UP, DOWN, LEFT, RIGHT

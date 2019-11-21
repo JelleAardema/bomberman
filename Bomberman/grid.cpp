@@ -4,28 +4,26 @@
 #include "grid.h"
 
 // Draw whole grid
-void drawGrid(Adafruit_ILI9341 *pen,struct DIMENSION d,uint8_t world[GRID_X][GRID_Y])
+void drawGrid(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t world[GRID_X][GRID_Y])
 {
-  uint16_t i,q,xar,yar,block_w,block_l;
-  	// calculate size of block
-	block_w =d.width/GRID_X;
-	block_l =d.length/GRID_Y;
-
+  uint16_t x,y;
+  struct DIMENSION block;
   	// Draw border of grid
-	pen->drawRect(d.x,d.y,d.width,d.length,BLUE);
+	pen->drawRect(screen.x,screen.y,screen.width,screen.length,BLUE);
 
 	// Draw grid
-	for(i=d.x,xar=0; i<=d.width; i+=block_w,xar++)
+	for(x=0; x<GRID_X; x++)
 	{
-		for(q=d.y,yar=0; q<=d.length; q+=block_l,yar++)
+		for(y=0; y<GRID_Y; y++)
 		{
-			drawBlock(pen,i,q,block_w,block_l,world[xar][yar]);
+			calcBlock(screen,&block,x,y);
+			drawBlock(pen,block,world[x][y]);
 		}
 	}
 }	
 
 // Draw a block
-void drawBlock(Adafruit_ILI9341 *pen,uint16_t x,uint16_t y,uint16_t width, uint16_t length,uint8_t type)
+void drawBlock(Adafruit_ILI9341 *pen,struct DIMENSION block,uint8_t type)
 {
   uint16_t color;
   	// Decide wich collor is uded
@@ -51,24 +49,30 @@ void drawBlock(Adafruit_ILI9341 *pen,uint16_t x,uint16_t y,uint16_t width, uint1
 	}	
 
   	// Draw block
-	pen->fillRect(x,y,width,length,color);
+	pen->fillRect(block.x,block.y,block.width,block.length,color);
 }
 
 // changeBlock type and Draw change to screen
-void changeBlock(Adafruit_ILI9341 *pen,struct DIMENSION d,uint8_t grid[GRID_X][GRID_Y],uint16_t x,uint16_t y,uint8_t newtype)
+void changeBlock(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t grid[GRID_X][GRID_Y],uint16_t x,uint16_t y,uint8_t newtype)
 {
-  uint16_t block_w,block_l,blockX,blockY;
 	// change type of block
 	grid[x][y] = newtype;
 	
 	// calculate the position and size of block on screen
-	block_w = d.width/GRID_X;
-	block_l = d.length/GRID_Y;
-	blockX = d.x + block_w*x;
-	blockY = d.y + block_l*y;
+	struct DIMENSION block;
+	calcBlock(screen,&block,x,y);
 
 	// Redraw block
-	drawBlock(pen,blockX,blockY,block_w,block_l,grid[x][y]);	
+	drawBlock(pen,block,grid[x][y]);	
 }
 
+// calculate block
+void calcBlock(struct DIMENSION screen,struct DIMENSION *block,uint16_t x,uint16_t y)
+{ 
+	// calculate the position and size of block on screen
+	block->width = screen.width/GRID_X;
+	block->length = screen.length/GRID_Y;
+	block->x = screen.x + block->width*x;
+	block->y = screen.y + block->length*y;
 
+}
