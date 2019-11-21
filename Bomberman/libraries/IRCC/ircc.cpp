@@ -23,6 +23,8 @@ void decodeMessage(uint16_t data);
 
 int sensorOutput = PORTD2;
 int led = PORTD3;
+
+// Host = 0 = 56 kHz, Host = 1 = 38 kHz
 #define host 0
 
 volatile uint16_t sendData = 0;
@@ -190,14 +192,7 @@ uint16_t encodeStart() {
 uint16_t encodeConnection() {
   uint16_t data = 0;
 
-  if(host) {
-    
-    data += 0b0;
-  }
-
-  else {
-    data += 0b1;  
-  }
+  data += host & 0b1;
 
   data = data << 3;
   data += 0b011;
