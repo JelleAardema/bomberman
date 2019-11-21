@@ -2,7 +2,7 @@
 BOARD_TAG = uno
 
 # used libraries werkt aleen voor include van arduino.mk
-ARDUINO_LIBS = Adafruit_GFX  Adafruit_ILI9341 SPI
+ARDUINO_LIBS = Adafruit_GFX  Adafruit_ILI9341 SPI readNunchuk
 USER_LIB_PATH = libraries/
 
 include /usr/share/arduino/Arduino.mk

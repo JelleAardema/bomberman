@@ -37,6 +37,15 @@ void drawBlock(Adafruit_ILI9341 *pen,uint16_t x,uint16_t y,uint16_t width, uint1
 		case 1:
 			color=GREEN;
 			break;
+		case 2:
+			color=BLUE;
+			break;
+		case 3:
+			color=RED;
+			break;
+		case 4:
+			color=YELLOW;
+			break;
 		default:
 			color=BLACK;
 	}	

@@ -1,5 +1,5 @@
 #include <Wire.h>
-#include "nunchuk.h"
+#include <nunchuk.h>
 
 void setupNunchuk() {
   nunchuk_init();

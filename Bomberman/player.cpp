@@ -1,8 +1,8 @@
 #include <stdint.h>
 #include "player.h"
-
-#define GRID_X 9
-#define GRID_Y 9
+#include "grid.h"
+#include <Wire.h>
+#include <nunchuk.h>
 
 uint8_t step(enum AIM direction,uint8_t world[9][9],struct PLAYER p1)
 {
@@ -29,6 +29,7 @@ uint8_t step(enum AIM direction,uint8_t world[9][9],struct PLAYER p1)
 	// check if move is posible
 	if( ((X>=0)&&(X<=GRID_X)) && ((Y>=0)&&(Y<=GRID_Y)) && (!world[X][Y]) )
 	{
+		drawBlock(pen,p1.x,p1.y,0);
 		// change player cordinate to new cordinate
 		p1.y = Y;
 		p1.x = X;
@@ -41,3 +42,49 @@ uint8_t step(enum AIM direction,uint8_t world[9][9],struct PLAYER p1)
 	// tell that the move was a failure
 	return 0;
 }
+
+void drawPlayer(struct PLAYER p1, struct DIMENSION d,Adafruit_ILI9341 *pen)
+{
+	uint16_t block_w,block_l,blockX,blockY;
+        // Redraw block
+        drawBlock(pen,p1.x,p1.y,2);
+}
+
+void setupNunchuk() {
+  nunchuk_init();
+}
+
+enum AIM readNunchuk() {
+    // check if there's any data to read.
+    if (nunchuk_read()) {
+
+       // deadzones of 20, so you're not moving when you're not using the stick.
+       if(nunchuk_joystickX() > 20) {
+           return RIGHT;
+       }
+
+       else if(nunchuk_joystickY() > 20) {
+           return UP;
+       }
+
+       else if(nunchuk_joystickY() < -20) {
+           return DOWN;
+       }
+
+       else if(nunchuk_joystickX() < -20) {
+           return LEFT;
+       }
+
+       // Z button
+       if(nunchuk_buttonZ() == 1) {
+           return BOMB;
+       }
+
+       // C button
+       if(nunchuk_buttonC() == 1) {
+           return BOMB;
+       }
+
+    }
+}
+
