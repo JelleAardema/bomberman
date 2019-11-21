@@ -14,15 +14,16 @@ volatile int sendDataFlag = 0;
 //volatile uint16_t incomingByte = 0;// for serial port 
 
 // setup receive
+uint16_t receiveIR(){
 void timer1Init();
 void pinInit();
-void convertBites();
+void receiveBit();
 void clearTimer1();
 
-volatile uint16_t buf = 0;     	// buffer for recording the time between interrupts
-volatile int bufFlag = 0; 		// mark if there is data coming in
-volatile uint16_t data = 0; 	// the complete set of of bits recieved to form a byte
-volatile int x = 0;				//steps to left when writing bit
+volatile uint16_t buf = 0;     			// buffer for recording the time between interrupts
+volatile int receiveDataFlag = 0; 		// mark if there the data is complete
+volatile uint16_t receiveData = 0; 		// the complete set of of bits recieved
+volatile int x = 0;						// steps to left when writing bit
 
 // used pins
 int sensorOutput = PORTD2;		// sensor pin2
@@ -42,13 +43,14 @@ int timer2Top = 52;         //36 = 56kHz; 52 = 38kHz. default 38kHz
 // interrupts
 
 ISR(INT0_vect){
-    timer1Init();
-    buf = TCNT1;
-    TCNT1 = 0;
-    bufFlag = 1;
+	if(!receiveDataFlag){		//only write data when the last receiveData was read
+		buf = TCNT1;			//record time to last change
+		timer1Init();			//start clock			
+		receiveBit();			//check bit and add to receiveBit
+	}
 }
 
-ISR(TIMER1_OVF_vect){ // disable timer when it overflows
+ISR(TIMER1_OVF_vect){ 		// disable timer when it overflows
 	clearTimer1();
 	buf = timeBreak + 1;
 }
@@ -63,55 +65,52 @@ void sendIR(uint16_t data){
 	if(!sendDataFlag) { 
 		sendDataFlag = 1;
 		sendData = data;
-		TCCR0B |= (1 << CS01) | (1 << CS00);  //enable timer0
+		TCCR0B |= (1 << CS01) | (1 << CS00);  	//enable timer0
 		sendBit();
-	}else {
-		Serial.println("busy");
 	}
 }
 
 void sendBit(){
-  TCCR2A ^= (1 << COM2B1);    //toggle output
-  if(sendData){       //check if there is data
-    if(sendData & 1){   //if the last bit of the data = 1
+  TCCR2A ^= (1 << COM2B1);    					//toggle output
+  if(sendData){       							//check if there is data
+    if(sendData & 1){   						//if the last bit of the data = 1
       OCR0A = timeHigh;
-    }else{        //if last bit of data = 0
+    }else{        								//if last bit of data = 0
       OCR0A = timeLow;  
     }
   }else{
-    if(OCR0A == timeBreak){   //after a breaktime disable timer0
+    if(OCR0A == timeBreak){   					//after a breaktime disable timer0
       TCCR0B &= ~((1 << CS02) | (1 << CS01) | (1 << CS00));
       sendDataFlag = 0;
-    }else{        //if no more data
+    }else{        								//if no more data
       OCR0A = timeBreak;
     }
   }
-  sendData = (sendData >> 1);   //shift data to right
+  sendData = (sendData >> 1);   				//shift data to right
 }
 
 //receiveData
 
-void convertBites(){
-  if(bufFlag){
-    if((buf > (timeBreak - variation)) && (buf < (timeBreak + variation))){
-      if(data){
-        Serial.print("received: ");
-        Serial.println(data);
-        decodeMessage(data);
-        data = 0;
-        x = 0;
-      }
+uint16_t receiveIR(){
+	if(receiveDataFlag){
+		receiveDataFlag = 0;
+		x = 0;
+		return receiveData;
+	}
+	return 0;
+}
 
+void receiveBit(){	
+    if((buf > (timeBreak - variation)) && (buf < (timeBreak + variation))){
+		receiveDataFlag = 1;
     }
     if((buf > (timeHigh - variation)) && (buf < (timeHigh + variation))){
-      data |= (1<<x);
-      x++;
+		receiveData |= (1<<x);
+		x++;
     }
     if((buf > (timeLow - variation)) && (buf < (timeLow + variation))){
-      x++;
+		x++;
     }
-    bufFlag = 0;
-  }
 }
 
 // setup
@@ -123,9 +122,7 @@ void transmitDataSetup(){     //mode = 36 = 56kHz; mode = 52 = 38kHz.
 
   else {
     timer2Top = 36;
-  }
-  
-  
+  }  
   timer0Init();
   timer1Init();
   timer2Init();
@@ -161,6 +158,7 @@ void timer1Init(){
   TCCR1A = 0;
   TCCR1B = 0;
   TCCR1B |= (1<<CS11)| (1 << CS10);
+  TCNT1 = 0;	
 }
 
 void clearTimer1(){
