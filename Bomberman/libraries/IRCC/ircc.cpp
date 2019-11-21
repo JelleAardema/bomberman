@@ -15,10 +15,13 @@ void timer1Init();
 void irSetup();
 void convertBites();
 uint16_t encodeMovement(int x, int y, int lifes, int bombPlaced);
+uint16_t encodeLevel(int seed);
+
 void decodeMessage(uint16_t data);
 
 int sensorOutput = PORTD2;
 int led = PORTD3;
+int host;
 
 volatile uint16_t sendData = 0;
 volatile uint16_t incomingByte = 0;// for serial port 
@@ -46,7 +49,8 @@ int main() {
   Serial.begin(9600);     //temp; to start serial monitor
   sendDataSetup(36);  
 
-  sendIR(encodeMovement(0b1010, 0b1010, 0b0011, 0b1));
+  // sendIR(encodeMovement(0b1, 0b0000, 0b0000, 0b1));
+  
   
   while(1) {    
     if (Serial.available() > 0) {
@@ -58,7 +62,7 @@ int main() {
       Serial.print(incomingByte, DEC);
       Serial.print("  ");
       Serial.println(incomingByte, BIN);
-      sendIR(incomingByte);
+      sendIR(encodeConnection(0b0));
     }
     
     convertBites();
@@ -139,17 +143,16 @@ void convertBites(){
 
 uint16_t encodeMovement(int x, int y, int lifes, int bombPlaced) {
   uint16_t data = 0;
-  //data = data << 1;
-  data += bombPlaced;
+  data += bombPlaced & 0b1;
   
   data = data << 4;
-  data += lifes;
+  data += lifes & 0b1111;
 
   data = data << 4;
-  data += y;
+  data += y & 0b1111;
   
   data = data << 4;  
-  data += x;
+  data += x & 0b1111;
 
   data = data << 3;
   data += 0b000;
@@ -157,12 +160,50 @@ uint16_t encodeMovement(int x, int y, int lifes, int bombPlaced) {
   return data;
 }
 
+uint16_t encodeLevel(int seed) {
+    uint16_t data = 0;
+
+    data += seed & 0b11111111;
+    
+    data = data << 3;
+    data += 0b001;
+      
+    return data;
+}
+
+uint16_t encodeStart() {
+  uint16_t data = 0;
+  data = 0b010;
+
+  return data;
+}
+
+uint16_t encodeConnection() {
+  uint16_t data = 0;
+
+  if(host) {
+    
+    data += 0b0;
+  }
+
+  else {
+    data += 0b1;  
+  }
+
+  data = data << 3;
+  data += 0b011;
+
+  return data;
+}
+
+
 void decodeMessage(uint16_t message) {
   int type = message & 0b111;
   message = message >> 3;
   
     Serial.print("t: ");
     Serial.println(type,BIN);
+
 
   // Movement
   if(type == 0b000) {
@@ -197,7 +238,9 @@ void decodeMessage(uint16_t message) {
   // Connection
   if(type == 0b011) {
     // if host == 1 means I'm the host.
-    int host = message & 0b1;             
+    host = message & 0b1;
+    Serial.print("h: ");
+    Serial.println(host, BIN);         
   }
 }
 
