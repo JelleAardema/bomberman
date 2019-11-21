@@ -1,7 +1,8 @@
-uint8_t step(enum AIM direction,uint8_t world[9][9],struct PLAYER p1,struct DIMENSION scren)
+uint8_t stepper(enum AIM direction,uint8_t world[9][9],struct PLAYER *p1,struct DIMENSION dimension,Adafruit_ILI9341 *pen)
 {
-  uint16_t X = p1.x;
-  uint16_t Y = p1.y;
+  
+  uint16_t X = p1->x;
+  uint16_t Y = p1->y;
 
   // decides new coordinates based on previous x and y position
     switch(direction)
@@ -24,11 +25,11 @@ uint8_t step(enum AIM direction,uint8_t world[9][9],struct PLAYER p1,struct DIME
   if( ((X>=0)&&(X<=GRID_X)) && ((Y>=0)&&(Y<=GRID_Y)) && (!world[X][Y]) )
   {
     struct DIMENSION block;
-    calcBlock(scren,&block,p1.x,p1.y);
-    //drawBlock(scren,block,0);
+    calcBlock(dimension,&block,p1->x,p1->y);
+    drawBlock(pen,block,0);
     // change player cordinate to new cordinate
-    p1.y = Y;
-    p1.x = X;
+    p1->y = Y;
+    p1->x = X;
     // tell that the move was succesful
     return 1;
   }
@@ -37,9 +38,9 @@ uint8_t step(enum AIM direction,uint8_t world[9][9],struct PLAYER p1,struct DIME
   return 0;
 }
 
-void drawPlayer(struct PLAYER p1, Adafruit_ILI9341 *pen,struct DIMENSION screen)
+void drawPlayer(struct PLAYER p1, Adafruit_ILI9341 *pen,struct DIMENSION screeen)
 {
   struct DIMENSION block;
-  calcBlock(screen,&block,p1.x,p1.y);
+  calcBlock(screeen,&block,p1.x,p1.y);
         drawBlock(pen,block,2);
 }

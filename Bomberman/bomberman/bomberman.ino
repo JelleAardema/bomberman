@@ -43,7 +43,7 @@ void drawBlock(Adafruit_ILI9341 *,struct DIMENSION,uint8_t);
 void changeBlock(Adafruit_ILI9341 *,struct DIMENSION,uint8_t grid[GRID_X][GRID_Y],uint16_t,uint16_t,uint8_t);
 void calcBlock(struct DIMENSION screen,struct DIMENSION *block,uint16_t x,uint16_t y);
 
-uint8_t step(enum AIM direction,uint8_t world[9][9],struct PLAYER p1,struct DIMENSION scren); 
+uint8_t stepper(enum AIM direction,uint8_t world[9][9],struct PLAYER p1,struct DIMENSION scren); 
 void drawPlayer(struct PLAYER p1, Adafruit_ILI9341 *pen,struct DIMENSION screen);
 // types
 
@@ -87,6 +87,7 @@ void loop() {
     delay(1000);
     changeBlock(&screen,dimension,wrld,4,4,0);
     delay(1000);
+    stepper(DOWN,wrld,&player1,dimension,&screen);
     drawPlayer(player1,&screen,dimension);
      
 }
