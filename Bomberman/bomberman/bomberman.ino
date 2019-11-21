@@ -79,18 +79,10 @@ void setup() {
  
 }
 
-
- struct PLAYER player1;
-  player1.x = 0;
-  player1.y = 0;
-
 void loop() {
   // change test
     changeBlock(&screen,dimension,wrld,4,4,1);
     delay(1000);
     changeBlock(&screen,dimension,wrld,4,4,0);
     delay(1000);
-    drawPlayer(player1,&screen,dimension);
-    
-    
 }
