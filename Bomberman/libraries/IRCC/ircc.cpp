@@ -74,7 +74,7 @@ uint16_t receiveIR(){
 		receiveData = 0;
 		receiveDataFlag = 0;
 		x = 0;
-		return receiveData;
+		return tempData;
 	}
 	return 0;
 }

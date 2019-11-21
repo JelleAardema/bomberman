@@ -9,7 +9,9 @@
 volatile uint16_t incomingByte = 0;// for serial port 
 volatile uint16_t receiveByte = 0;
 
-#define host 0  //host = 1 = 38kHz; host = 0 = 56kHz
+//wit = 1 = 38kHz
+//black = 0 = 56kHz
+#define host 0
 
 int main() {
 	//setup
@@ -24,7 +26,7 @@ int main() {
 			// say what you got:
 			Serial.print("send:    ");
 			Serial.print(incomingByte, DEC);
-			Serial.print("  ");
+			Serial.print("    ");
 			Serial.println(incomingByte, BIN);
 			sendIR(incomingByte);
 		}
@@ -34,7 +36,7 @@ int main() {
 		if(receiveByte){
 			Serial.print("receive: ");
 			Serial.print(receiveByte, DEC);
-			Serial.print("  ");
+			Serial.print("    ");
 			Serial.println(receiveByte, BIN);
 		}
 	}
