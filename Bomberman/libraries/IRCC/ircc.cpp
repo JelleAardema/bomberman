@@ -70,6 +70,8 @@ void sendBit(){
 
 uint16_t receiveIR(){
 	if(receiveDataFlag){
+		int tempData = receiveData;
+		receiveData = 0;
 		receiveDataFlag = 0;
 		x = 0;
 		return receiveData;

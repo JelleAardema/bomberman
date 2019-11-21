@@ -9,7 +9,7 @@
 volatile uint16_t incomingByte = 0;// for serial port 
 volatile uint16_t receiveByte = 0;
 
-#define host 1
+#define host 0  //host = 1 = 38kHz; host = 0 = 56kHz
 
 int main() {
 	//setup
