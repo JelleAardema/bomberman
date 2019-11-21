@@ -75,7 +75,14 @@ void setup() {
   // draw start screen
   screen.fillScreen(0x0000);
   drawGrid(&screen,dimension,wrld);
+
+ 
 }
+
+
+ struct PLAYER player1;
+  player1.x = 0;
+  player1.y = 0;
 
 void loop() {
   // change test
@@ -83,4 +90,7 @@ void loop() {
     delay(1000);
     changeBlock(&screen,dimension,wrld,4,4,0);
     delay(1000);
+    drawPlayer(player1,&screen,dimension);
+    
+    
 }

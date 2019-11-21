@@ -37,11 +37,8 @@ uint8_t step(enum AIM direction,uint8_t world[9][9],struct PLAYER p1,struct DIME
   return 0;
 }
 
-void drawPlayer(struct PLAYER p1, struct DIMENSION d,Adafruit_ILI9341 *pen,struct DIMENSION screen)
+void drawPlayer(struct PLAYER p1, Adafruit_ILI9341 *pen,struct DIMENSION screen)
 {
-  uint16_t block_w,block_l,blockX,blockY;
-        // Redraw block
-
   struct DIMENSION block;
   calcBlock(screen,&block,p1.x,p1.y);
         drawBlock(pen,block,2);
