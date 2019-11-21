@@ -7,7 +7,7 @@ void timer2Init();
 void timer0Init();
 void sendIR(uint16_t data);
 void sendBit();
-void sendDataSetup(int mode);
+void sendDataSetup();
 
 // Setup receive
 void clearTimer1();
@@ -16,12 +16,14 @@ void irSetup();
 void convertBites();
 uint16_t encodeMovement(int x, int y, int lifes, int bombPlaced);
 uint16_t encodeLevel(int seed);
+uint16_t encodeConnection();
+uint16_t encodeStart();
 
 void decodeMessage(uint16_t data);
 
 int sensorOutput = PORTD2;
 int led = PORTD3;
-int host;
+#define host 0
 
 volatile uint16_t sendData = 0;
 volatile uint16_t incomingByte = 0;// for serial port 
@@ -47,7 +49,7 @@ int timer2Top = 52;         //36 = 56kHz; 52 = 38kHz. default 38kHz
 int main() {
   //setup
   Serial.begin(9600);     //temp; to start serial monitor
-  sendDataSetup(36);  
+  sendDataSetup();  
 
   // sendIR(encodeMovement(0b1, 0b0000, 0b0000, 0b1));
   
@@ -62,7 +64,7 @@ int main() {
       Serial.print(incomingByte, DEC);
       Serial.print("  ");
       Serial.println(incomingByte, BIN);
-      sendIR(encodeConnection(0b0));
+      sendIR(encodeConnection());
     }
     
     convertBites();
@@ -96,8 +98,15 @@ void clearTimer1(){
   TCCR1B = 0;
 }
 
-void sendDataSetup(int mode){     //mode = 36 = 56kHz; mode = 52 = 38kHz.
-  timer2Top = mode;
+void sendDataSetup(){     //mode = 36 = 56kHz; mode = 52 = 38kHz.
+  if(host) {
+    timer2Top = 52;
+  }
+
+  else {
+    timer2Top = 36;
+  }
+  
   timer2Init();
   timer0Init();
   irSetup();
@@ -237,10 +246,11 @@ void decodeMessage(uint16_t message) {
 
   // Connection
   if(type == 0b011) {
+    int otherHost = message & 0b1;
+    
     // if host == 1 means I'm the host.
-    host = message & 0b1;
     Serial.print("h: ");
-    Serial.println(host, BIN);         
+    Serial.println(otherHost, BIN);         
   }
 }
 
