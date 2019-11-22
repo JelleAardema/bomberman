@@ -38,7 +38,7 @@ ISR(TIMER0_COMPA_vect) {      //interrupt on TCNT0 = OCR0A
 
 // sendData
 
-void sendIR(uint16_t data){
+void sendIRCC(uint16_t data){
 	if(!sendDataFlag) { 
 		sendDataFlag = 1;
 		sendData = data;
@@ -68,7 +68,7 @@ void sendBit(){
 
 //receiveData
 
-uint16_t receiveIR(){
+uint16_t receiveIRCC(){
 	if(receiveDataFlag){
 		int tempData = receiveData;
 		receiveData = 0;

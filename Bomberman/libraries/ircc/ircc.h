@@ -14,14 +14,14 @@
 
 
 // function send
-void sendIR(uint16_t data);
+void sendIRCC(uint16_t data);
 void sendBit();
 void transmitDataSetup(int host);
 void timer2Init();
 void timer0Init();
 
 // function receive
-uint16_t receiveIR();
+uint16_t receiveIRCC();
 void timer1Init();
 void pinInit();
 void receiveBit();
