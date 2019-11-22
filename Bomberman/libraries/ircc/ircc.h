@@ -1,4 +1,4 @@
-// header file grid system
+// header file IRCC
 #ifndef IRCC_h
 #define IRCC_h
 
