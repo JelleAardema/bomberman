@@ -58,7 +58,7 @@ uint16_t encodeConnection(int host) {
 
 int decodeMessageType(uint16_t fullMessage){
 	message = fullMessage >> 3;
-	return message & 0b111;
+	return fullMessage & 0b111;
 }
 
 
