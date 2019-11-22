@@ -30,12 +30,12 @@ struct DIMENSION
 };
 enum AIM
 {
-  UP, DOWN, LEFT, RIGHT
+  UP, DOWN, LEFT, RIGHT, BOMB
 };
 
 struct PLAYER
 {
-  uint16_t x,y;
+  uint16_t x,y,color;
 };
 // functions
 void drawGrid(Adafruit_ILI9341 *,struct DIMENSION,uint8_t grid[GRID_X][GRID_Y]); 
@@ -48,8 +48,6 @@ void drawPlayer(struct PLAYER p1, Adafruit_ILI9341 *pen,struct DIMENSION screen)
 // types
 
 
-// functions
-uint8_t step(enum AIM direction,uint8_t world[9][9],struct player p1);
 
 Adafruit_ILI9341 screen = Adafruit_ILI9341(TFT_CS, TFT_DC);
 // test data
@@ -66,7 +64,8 @@ Adafruit_ILI9341 screen = Adafruit_ILI9341(TFT_CS, TFT_DC);
   
 
   struct DIMENSION dimension = {10,10,220,220};
-  struct PLAYER player1 = {1,1}; 
+  struct PLAYER player1 = {1,1,2}; 
+  struct PLAYER player2 = {7,7,3};
 void setup() {
     // setup
   screen.begin(); 
@@ -83,11 +82,10 @@ void setup() {
 
 void loop() {
   // change test
-    changeBlock(&screen,dimension,wrld,4,4,1);
-    delay(1000);
-    changeBlock(&screen,dimension,wrld,4,4,0);
-    delay(1000);
-    stepper(DOWN,wrld,&player1,dimension,&screen);
+    delay(200);
+    stepper(random(-1,5),wrld,&player1,dimension,&screen);
     drawPlayer(player1,&screen,dimension);
+    stepper(random(-1,5),wrld,&player2,dimension,&screen);
+    drawPlayer(player2,&screen,dimension);
      
 }
