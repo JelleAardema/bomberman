@@ -28,10 +28,10 @@ int main() {
 			Serial.print(incomingByte, DEC);
 			Serial.print("    ");
 			Serial.println(incomingByte, BIN);
-			sendIR(incomingByte);
+			sendIRCC(incomingByte);
 		}
 	
-		receiveByte = receiveIR();
+		receiveByte = receiveIRCC();
 	
 		if(receiveByte){
 			Serial.print("receive: ");
