@@ -32,26 +32,4 @@ void loop() {
 
     _delay_ms(500);
 }
-
-int getDirection() {
-
-  if(Nunchuk.state.joy_y_axis > 148) {
-     return 1;
-  }
-  
-  else if(Nunchuk.state.joy_x_axis > 148) {
-    return 2;
-  }
-
-  else if (Nunchuk.state.joy_y_axis < 108) {
-    return 3;
-  }
-
-  else if(Nunchuk.state.joy_x_axis < 108) {
-    return 4;
-  }
-
-  else {
-    return 0;
-  }
-}
+	
