@@ -12,10 +12,10 @@ volatile uint16_t incomingByte = 0;// for serial port
 volatile uint16_t receiveByte = 0;
 int type = 0;
 
-int x1 = 6;
-int y1 = 7;
-int l1 = 5;
-int b1 = 0;
+int x1 = 3;
+int y1 = 4;
+int l1 = 2;
+int b1 = 1;
 
 int x2 = 0;
 int y2 = 0;
