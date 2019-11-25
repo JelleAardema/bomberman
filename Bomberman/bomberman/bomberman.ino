@@ -10,6 +10,10 @@
 #define GRID_X 9
 #define GRID_Y 9
 
+//game behavior rules
+#define FUSETIME 3000     // Fuse time in ms
+#define WALKSPEED 100     // time before next step can be taken
+#define MAXBOMBS 3        // maximum amount of bombs per player
 // colors
 #define BLACK    0x0000
 #define BLUE     0x001F
@@ -36,6 +40,14 @@ enum AIM
 struct PLAYER
 {
   uint16_t x,y,color;
+};
+
+struct BOMB 
+{
+  uint8_t x[MAXBOMBS];
+  uint8_t y[MAXBOMBS];
+  uint8_t fuse[MAXBOMBS];
+  uint8_t range;
 };
 // functions
 void drawGrid(Adafruit_ILI9341 *,struct DIMENSION,uint8_t grid[GRID_X][GRID_Y]); 
@@ -67,6 +79,8 @@ Adafruit_ILI9341 screen = Adafruit_ILI9341(TFT_CS, TFT_DC);
   struct DIMENSION dimension = {10,10,220,220};
   struct PLAYER player1 = {1,1,2}; 
   struct PLAYER player2 = {7,7,3};
+  struct BOMB bomb1;
+  struct BOMB bomb2;
 void setup() {
     // setup
   screen.begin(); 
