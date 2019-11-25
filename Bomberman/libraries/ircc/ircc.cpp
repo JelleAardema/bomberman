@@ -29,7 +29,7 @@ ISR(INT0_vect){
 
 ISR(TIMER1_OVF_vect){ 		// disable timer when it overflows
 	clearTimer1();
-	buf = timeBreak + 1;
+	buf = 0;
 }
 
 ISR(TIMER0_COMPA_vect) {      //interrupt on TCNT0 = OCR0A
@@ -43,7 +43,7 @@ void sendIRCC(uint16_t data){
 		sendDataFlag = 1;
 		sendData = data;
 		TCCR0B |= (1 << CS01) | (1 << CS00);  	//enable timer0
-		sendBit();
+		sendBit();				//should be send start bit
 	}
 }
 
@@ -56,11 +56,11 @@ void sendBit(){
       OCR0A = timeLow;  
     }
   }else{
-    if(OCR0A == timeBreak){   					//after a breaktime disable timer0
+    if(OCR0A == timeStop){   					//after a timeStop disable timer0
       TCCR0B &= ~((1 << CS02) | (1 << CS01) | (1 << CS00));
       sendDataFlag = 0;
     }else{        								//if no more data
-      OCR0A = timeBreak;
+      OCR0A = timeStop;
     }
   }
   sendData = (sendData >> 1);   				//shift data to right
@@ -80,7 +80,7 @@ uint16_t receiveIRCC(){
 }
 
 void receiveBit(){	
-    if((buf > (timeBreak - variation)) && (buf < (timeBreak + variation))){
+    if((buf > (timeStop - variation)) && (buf < (timeStop + variation))){
 		receiveDataFlag = 1;
     }
     if((buf > (timeHigh - variation)) && (buf < (timeHigh + variation))){
@@ -131,7 +131,7 @@ void timer0Init() {
   TCCR0A |= (1 << WGM01);       //WGM = 010 = Clear to Compare, top OCRA
   //TCCR0B |= (1 << CS02) | (1 << CS00);    //CS = 101 = prescaler 1024
   TIMSK0 |= (1<<OCIE0A);        //enable interrupts on compare OCRA
-  //OCR0A = timeBreak;        //make OCR2A the defined top
+  //OCR0A = timeStop;        //make OCR2A the defined top
   TCNT0 = 0;          //set timer to 0;
 }
 

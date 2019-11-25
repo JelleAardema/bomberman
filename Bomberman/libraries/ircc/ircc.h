@@ -10,7 +10,8 @@
 #define timeLow 60
 #define variation timeLow/3
 #define timeHigh timeLow*2
-#define timeBreak timeLow*3
+#define timeStart timeLow*3
+#define timeStop timeLow*4
 
 
 // function send
