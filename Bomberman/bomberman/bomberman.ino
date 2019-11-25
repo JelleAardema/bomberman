@@ -1,6 +1,9 @@
 #include <Adafruit_ILI9341.h>
 #include <Adafruit_GFX.h>
 #include <stdint.h>
+#include <avr/io.h>
+#include <Wire.h>
+#include "nunchuk.h"
 
 // screen conections spi
 #define TFT_DC 9
@@ -11,7 +14,7 @@
 #define GRID_Y 9
 
 //game behavior rules
-#define FUSETIME 3000     // Fuse time in ms
+//#define FUSETIME 300     // Fuse time in ms
 #define WALKSPEED 100     // time before next step can be taken
 #define MAXBOMBS 3        // maximum amount of bombs per player
 // colors
@@ -34,7 +37,7 @@ struct DIMENSION
 };
 enum AIM
 {
-  UP, DOWN, LEFT, RIGHT, BOMB
+  NEUTRAL, LEFT, DOWN, RIGHT,UP, BOMB
 };
 
 struct PLAYER
@@ -59,6 +62,8 @@ void redrawBlock(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t grid[GRID
 
 uint8_t stepper(enum AIM direction,uint8_t world[9][9],struct PLAYER p1,struct DIMENSION scren); 
 void drawPlayer(struct PLAYER p1, Adafruit_ILI9341 *pen,struct DIMENSION screen);
+
+int getDirection();
 // types
 
 
@@ -84,11 +89,13 @@ Adafruit_ILI9341 screen = Adafruit_ILI9341(TFT_CS, TFT_DC);
   struct BOMB bomb2;
 void setup() {
     // setup
+    init();
+    Wire.begin();
   screen.begin(); 
-
+  Nunchuk.begin(0x52);
   // zet cordinate system
     screen.setRotation(1);  
-
+Serial.begin(9600);
   // draw start screen
   screen.fillScreen(0x0000);
   drawGrid(&screen,dimension,wrld);
@@ -99,7 +106,8 @@ void setup() {
 void loop() {
   // change test
     delay(200);
-    stepper(random(-1,5),wrld,&player1,dimension,&screen,&bomb1);
+    Nunchuk.getState(0x52);
+    stepper((AIM)getDirection(),wrld,&player1,dimension,&screen,&bomb1);
     drawPlayer(player1,&screen,dimension);
    // stepper(random(-1,5),wrld,&player2,dimension,&screen);
     //drawPlayer(player2,&screen,dimension);
