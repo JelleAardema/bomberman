@@ -48,6 +48,7 @@ struct BOMB
   uint8_t y[MAXBOMBS];
   uint8_t fuse[MAXBOMBS];
   uint8_t range;
+  uint8_t placed;
 };
 // functions
 void drawGrid(Adafruit_ILI9341 *,struct DIMENSION,uint8_t grid[GRID_X][GRID_Y]); 
@@ -98,9 +99,9 @@ void setup() {
 void loop() {
   // change test
     delay(200);
-    stepper(random(-1,5),wrld,&player1,dimension,&screen);
+    stepper(random(-1,5),wrld,&player1,dimension,&screen,&bomb1);
     drawPlayer(player1,&screen,dimension);
-    stepper(random(-1,5),wrld,&player2,dimension,&screen);
-    drawPlayer(player2,&screen,dimension);
+   // stepper(random(-1,5),wrld,&player2,dimension,&screen);
+    //drawPlayer(player2,&screen,dimension);
      
 }
