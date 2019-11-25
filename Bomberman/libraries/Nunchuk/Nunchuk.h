@@ -26,6 +26,7 @@ class NunChuk {
 		static uint8_t id[];
 		uint8_t getState(uint8_t address);
 		ncState state;
+		int getDirection();
 
 	private:
 		static uint8_t response[];
