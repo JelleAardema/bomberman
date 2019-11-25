@@ -24,7 +24,7 @@ int b2 = 0;
 
 //wit = 1 = 38kHz
 //black = 0 = 56kHz
-#define host 1
+#define host 0
 
 int main() {
 	//setup

@@ -43,10 +43,16 @@ void sendIRCC(uint16_t data){
 		sendDataFlag = 1;
 		sendData = data;
 		TCCR0B |= (1 << CS01) | (1 << CS00);  	//enable timer0
-		sendBit();
+		sendStartBit();
 	}
 }
 
+void sendStartBit(){
+	TCCR2A ^= (1 << COM2B1);
+	OCR0A = 240;
+}
+	
+	
 void sendBit(){
   TCCR2A ^= (1 << COM2B1);    					//toggle output
   if(sendData){       							//check if there is data
@@ -80,16 +86,26 @@ uint16_t receiveIRCC(){
 }
 
 void receiveBit(){	
-    if((buf > (timeBreak - variation)) && (buf < (timeBreak + variation))){
+    if(difference(buf,timeBreak) > variation){
 		receiveDataFlag = 1;
     }
-    if((buf > (timeHigh - variation)) && (buf < (timeHigh + variation))){
+    if(difference(buf,timeHigh) > variation){
 		receiveData |= (1<<x);
 		x++;
     }
-    if((buf > (timeLow - variation)) && (buf < (timeLow + variation))){
+    if(difference(buf,timeLow) > variation){
 		x++;
     }
+}
+
+int difference(int a, int b){
+  if(a>b){
+    return a - b;
+  }
+  if(b>a){
+    return b - a;
+  }
+  return 0;
 }
 
 // setup
