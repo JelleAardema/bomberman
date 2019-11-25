@@ -4,6 +4,7 @@
 
 int started,pos,i,x,y;
 int items[]  {1,2,3};
+int getDirection();
 
 // For the Adafruit shield, these are the default.
 #define TFT_DC 9
@@ -38,7 +39,7 @@ void loop(void) {
     i = 1;
   }
   if(started == 1){
-    if(Nunchuk.state.joy_y_axis < 108){
+    if(getDirection() == 3){
          i++;
          delay(200);
          if(i > 3){
@@ -47,7 +48,7 @@ void loop(void) {
          select();
          Serial.println(i);
     }
-    if(Nunchuk.state.joy_y_axis > 148){
+    if(getDirection() == 1){
        i--;
        delay(200);
        if(i < 1){
