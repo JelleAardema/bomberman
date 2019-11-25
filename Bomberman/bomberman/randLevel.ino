@@ -10,7 +10,7 @@ void genWorld(uint8_t world[GRID_X][GRID_Y],int seed)
         {
                 for(y=0; y<GRID_Y; y++)
                 {
-                        world[x][y] = ear;
+                        world[x][y] = air;
                 }
         }
         // place destructable blacks
@@ -37,14 +37,14 @@ void genWorld(uint8_t world[GRID_X][GRID_Y],int seed)
         {
                 for(y=0; y<2; y++)
                 {
-                        world[x][y]=ear;
+                        world[x][y]=air;
                 }
         }
         for(x=GRID_X-2; x<GRID_X; x++)
         {
                 for(y=GRID_Y-2; y<GRID_Y; y++)
                 {
-                        world[x][y]=ear;
+                        world[x][y]=air;
                 }
         }
 

@@ -69,9 +69,10 @@ int getDirection();
 // random level functions
 enum BLOCK_T
 {
-        ear,
+        air,
         wall,
-        destruct
+        destruct,
+        bomb
 };
 
 void genWorld(uint8_t world[GRID_X][GRID_Y],int seed);

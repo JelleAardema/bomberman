@@ -1,11 +1,11 @@
+// move a player and draw the changes
 uint8_t stepper(enum AIM direction,uint8_t world[9][9],struct PLAYER *p1,struct DIMENSION dimension,Adafruit_ILI9341 *pen,struct BOMB *b1)
-{
-  
+{ 
   uint16_t X = p1->x;
   uint16_t Y = p1->y;
 
   // decides new coordinates based on previous x and y position
-    switch(direction)
+  switch(direction)
   { 
     case NEUTRAL:
       break;
@@ -23,15 +23,15 @@ uint8_t stepper(enum AIM direction,uint8_t world[9][9],struct PLAYER *p1,struct 
       break;
   }
   if(direction == BOMB){
-    changeBlock(&screen,dimension,wrld,p1->x,p1->y,4);
+    changeBlock(&screen,dimension,wrld,p1->x,p1->y,bomb);
     
   }
   // check if move is posible
-  if( ((X>=0)&&(X<=GRID_X)) && ((Y>=0)&&(Y<=GRID_Y)) && (!world[X][Y]) )
+  if( ((X>=0)&&(X<=GRID_X)) && ((Y>=0)&&(Y<=GRID_Y)) && (world[X][Y]==air) )
   {
     struct DIMENSION block;
     calcBlock(dimension,&block,p1->x,p1->y);
-    drawBlock(pen,block,0);
+    drawBlock(pen,block,air);
     // change player cordinate to new cordinate
     p1->y = Y;
     p1->x = X;
@@ -43,9 +43,10 @@ uint8_t stepper(enum AIM direction,uint8_t world[9][9],struct PLAYER *p1,struct 
   return 0;
 }
 
+// draw the player
 void drawPlayer(struct PLAYER p1, Adafruit_ILI9341 *pen,struct DIMENSION screen)
 {
   struct DIMENSION block;
   calcBlock(screen,&block,p1.x,p1.y);
-        drawBlock(pen,block,p1.color);
+  drawBlock(pen,block,p1.color);
 }
