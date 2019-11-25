@@ -38,7 +38,7 @@ void loop(void) {
     i = 1;
   }
   if(started == 1){
-    if(Nunchuk.state.joy_y_axis > 148){
+    if(Nunchuk.state.joy_y_axis < 108){
          i++;
          delay(200);
          if(i > 3){
@@ -47,7 +47,7 @@ void loop(void) {
          select();
          Serial.println(i);
     }
-    if(Nunchuk.state.joy_y_axis < 108){
+    if(Nunchuk.state.joy_y_axis > 148){
        i--;
        delay(200);
        if(i < 1){
