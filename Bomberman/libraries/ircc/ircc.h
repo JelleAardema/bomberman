@@ -16,6 +16,7 @@
 
 // function send
 void sendIRCC(uint16_t data);
+void sendStartBit();
 void sendBit();
 void transmitDataSetup(int host);
 void timer2Init();
@@ -27,5 +28,6 @@ void timer1Init();
 void pinInit();
 void receiveBit();
 void clearTimer1();
+int difference(int a, int b);
 
 #endif
