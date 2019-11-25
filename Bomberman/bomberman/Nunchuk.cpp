@@ -131,7 +131,7 @@ void NunChuk::_getid(uint8_t address) {
 }
 
 int getDirection() {
-
+  
   if(Nunchuk.state.joy_y_axis > 148) {
      return 1;
   }
