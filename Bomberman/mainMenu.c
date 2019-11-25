@@ -2,8 +2,8 @@
 #include <Nunchuk.h>
 #include <Adafruit_ILI9341.h>
 
-int started,pos;
-
+int started,pos,i,x,y;
+int items[]  {1,2,3};
 
 // For the Adafruit shield, these are the default.
 #define TFT_DC 9
@@ -23,6 +23,8 @@ void setup() {
   Nunchuk.begin(0x52); 
   tft.begin();
   
+
+  //Setting up start screen
   tft.fillScreen(ILI9341_BLACK);
   tft.setRotation(1);
   logoDisplay();
@@ -30,19 +32,32 @@ void setup() {
 
 void loop(void) {
   Nunchuk.getState(0x52);
-  Serial.println(Nunchuk.state.joy_y_axis);
-  if (Nunchuk.state.z_button == 1 && started == 0){
+   if (Nunchuk.state.z_button == 1 && started == 0){
     start();
-    selectPlay();
+    select();
+    i = 1;
   }
   if(started == 1){
     if(Nunchuk.state.joy_y_axis > 148){
-       selectPlay();
+         i++;
+         delay(200);
+         if(i > 3){
+          i = 3;
+         }
+         select();
+         Serial.println(i);
     }
-    if(Nunchuk.state.joy_y_axis > 148){
-       selectPlay();
+    if(Nunchuk.state.joy_y_axis < 108){
+       i--;
+       delay(200);
+       if(i < 1){
+        i = 1;
+       }
+       select();
+       Serial.println(i);
+ 
     }
-
+  }
 }
 
 void logoDisplay(){
@@ -70,28 +85,25 @@ void start(){
 }
 
 
-void selectPlay(){
-  tft.setCursor(110,50);
-  tft.setTextColor(ILI9341_YELLOW);
-  tft.setTextSize(5); 
-  tft.println("PLAY");
-  tft.setCursor(10,150);
+void select(){
+  //screen rolling clear
+  tft.fillScreen(ILI9341_BLACK);
+  
+  //Set text style
   tft.setTextColor(ILI9341_WHITE);
   tft.setTextSize(5); 
-  tft.println("HIGHSCORES");
+  x = 110;
+  y = 50;
+  for(int j = 0; j<items; j++){
+    tft.setCursor(x,y);
+    if(items[j] == i){
+      tft.setTextColor(ILI9341_YELLOW);    
+    }
+    tft.println(items[j]);
+    tft.setTextColor(ILI9341_WHITE);
+    y = y +50;   
+  }
 }
-
-void selectHigh(){
-  tft.setCursor(10,150);
-  tft.setTextColor(ILI9341_YELLOW);
-  tft.setTextSize(5); 
-  tft.println("HIGHSCORES");
-  tft.setCursor(110,50);
-  tft.setTextColor(ILI9341_WHITE);
-  tft.setTextSize(5); 
-  tft.println("PLAY");
-}
-
 
 
 
