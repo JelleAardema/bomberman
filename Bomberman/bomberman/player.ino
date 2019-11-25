@@ -7,6 +7,8 @@ uint8_t stepper(enum AIM direction,uint8_t world[9][9],struct PLAYER *p1,struct 
   // decides new coordinates based on previous x and y position
     switch(direction)
   { 
+    case NEUTRAL:
+      break;
     case UP:
       X--;
       break;
