@@ -4,6 +4,9 @@
 #include <Wire.h>
 #include "nunchuk.h"
 
+int getDirection();
+
+
 void setup() {
   init();
 
@@ -18,21 +21,37 @@ void setup() {
 }
 
 void loop() {
-  Nunchuk.getState(NUNCHUK_ADDRESS);
-    Serial.print("Joy X: ");
-    Serial.print(Nunchuk.state.joy_x_axis, HEX);
-    Serial.print(" Joy Y: ");
-    Serial.println(Nunchuk.state.joy_y_axis, HEX);
-    Serial.print("Accel X: ");
-    Serial.print(Nunchuk.state.accel_x_axis, HEX);
-    Serial.print(" Accel Y: ");
-    Serial.print(Nunchuk.state.accel_y_axis, HEX);
-    Serial.print(" Accel Z: ");
-    Serial.println(Nunchuk.state.accel_z_axis, HEX);
+  Nunchuk.getState(0x52);
+    Serial.print("direction: ");
+    Serial.println(getDirection());
+
     Serial.print("Button C: ");
-    Serial.print(Nunchuk.state.c_button, HEX);
+    Serial.print(Nunchuk.state.c_button);
     Serial.print(" Button Z: ");
-    Serial.println(Nunchuk.state.z_button, HEX);
+    Serial.println(Nunchuk.state.z_button);
 
     _delay_ms(500);
+}
+
+int getDirection() {
+
+  if(Nunchuk.state.joy_y_axis > 148) {
+     return 1;
+  }
+  
+  else if(Nunchuk.state.joy_x_axis > 148) {
+    return 2;
+  }
+
+  else if (Nunchuk.state.joy_y_axis < 108) {
+    return 3;
+  }
+
+  else if(Nunchuk.state.joy_x_axis < 108) {
+    return 4;
+  }
+
+  else {
+    return 0;
+  }
 }
