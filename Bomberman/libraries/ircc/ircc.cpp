@@ -5,9 +5,11 @@
 
 volatile uint16_t sendData = 0;
 volatile int sendDataFlag = 0;
+volatile int amountOfBits = 0;
 
 volatile int buf = 0;     			// buffer for recording the time between interrupts
 volatile int receiveDataFlag = 0; 		// mark if there the data is complete
+volatile int receiveStartFlag = 0;
 volatile uint16_t receiveData = 0; 		// the complete set of of bits recieved
 volatile int x = 0;						// steps to left when writing bit
 
@@ -29,7 +31,7 @@ ISR(INT0_vect){
 
 ISR(TIMER1_OVF_vect){ 		// disable timer when it overflows
 	clearTimer1();
-	buf = timeBreak + 1;
+	buf = timeStop + 1;
 }
 
 ISR(TIMER0_COMPA_vect) {      //interrupt on TCNT0 = OCR0A
@@ -41,6 +43,7 @@ ISR(TIMER0_COMPA_vect) {      //interrupt on TCNT0 = OCR0A
 void sendIRCC(uint16_t data){
 	if(!sendDataFlag) { 
 		sendDataFlag = 1;
+		amountOfBits = 0;
 		sendData = data;
 		TCCR0B |= (1 << CS01) | (1 << CS00);  	//enable timer0
 		sendStartBit();
@@ -49,12 +52,12 @@ void sendIRCC(uint16_t data){
 
 void sendStartBit(){
 	TCCR2A ^= (1 << COM2B1);
-	OCR0A = 240;
+	OCR0A = timeStart;
 }
-	
 	
 void sendBit(){
   TCCR2A ^= (1 << COM2B1);    					//toggle output
+  amountOfBits++;
   if(sendData){       							//check if there is data
     if(sendData & 1){   						//if the last bit of the data = 1
       OCR0A = timeHigh;
@@ -62,11 +65,11 @@ void sendBit(){
       OCR0A = timeLow;  
     }
   }else{
-    if(OCR0A == timeBreak){   					//after a breaktime disable timer0
+    if((OCR0A == timeStop) && amountOfBits % 2 == 1){	//after a Stoptime disable timer0
       TCCR0B &= ~((1 << CS02) | (1 << CS01) | (1 << CS00));
       sendDataFlag = 0;
     }else{        								//if no more data
-      OCR0A = timeBreak;
+      OCR0A = timeStop;
     }
   }
   sendData = (sendData >> 1);   				//shift data to right
@@ -86,16 +89,23 @@ uint16_t receiveIRCC(){
 }
 
 void receiveBit(){	
-    if(difference(buf, timeBreak,variation)){
-		receiveDataFlag = 1;
+    if(difference(buf, timeStart, variation)){
+		receiveStartFlag = 1;
+		receiveData = 0;
     }
-    if(difference(buf, timeHigh, variation)){
-		receiveData |= (1<<x);
-		x++;
-    }
-    if(difference(buf, timeLow, variation)){
-		x++;
-    }
+	if(receiveStartFlag){
+		if(difference(buf, timeStop, variation)){
+			receiveDataFlag = 1;
+			receiveStartFlag = 0;
+		}
+		if(difference(buf, timeHigh, variation)){
+			receiveData |= (1<<x);
+			x++;
+		}
+		if(difference(buf, timeLow, variation)){
+			x++;
+		}
+	}
 }
 
 int difference(int x, int bound, int var){
@@ -147,7 +157,7 @@ void timer0Init() {
   TCCR0A |= (1 << WGM01);       //WGM = 010 = Clear to Compare, top OCRA
   //TCCR0B |= (1 << CS02) | (1 << CS00);    //CS = 101 = prescaler 1024
   TIMSK0 |= (1<<OCIE0A);        //enable interrupts on compare OCRA
-  //OCR0A = timeBreak;        //make OCR2A the defined top
+  //OCR0A = timeStop;        //make OCR2A the defined top
   TCNT0 = 0;          //set timer to 0;
 }
 

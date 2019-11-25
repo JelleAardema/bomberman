@@ -29,7 +29,8 @@ int b2 = 0;
 int main() {
 	//setup
 	Serial.begin(9600);     //temp; to start serial monitor
-	transmitDataSetup(host);  
+	transmitDataSetup(host);
+  Serial.println("Loaded");
   
 	while(1) {
     if (Serial.available() > 0) {
@@ -47,16 +48,16 @@ int main() {
 			decodeMovement(&x2,&y2,&l2,&b2);
 			
 			Serial.print("x2:  ");
-			Serial.print(x2,BIN);
+			Serial.print(x2,DEC);
 			Serial.print("   ");
 			Serial.print("y2:  ");
-			Serial.print(y2,BIN);
+			Serial.print(y2,DEC);
 			Serial.print("   ");
 			Serial.print("l2:  ");
-			Serial.print(l2,BIN);
+			Serial.print(l2,DEC);
 			Serial.print("   ");
 			Serial.print("b2:  ");
-			Serial.println(b2,BIN);
+			Serial.println(b2,DEC);
 		}
 	}
   return 0;
