@@ -100,5 +100,9 @@ void setWall(uint8_t world[GRID_X][GRID_Y],int x, int y, int rot,int size)
                         default:
                                 y++;
                 }
+
+                // stop drawing wall if found a wall
+                if((rot==0) && (world[x+1][y] == wall)) break;
+                if((rot<=1) && (world[x][y+1] == wall)) break;
         }
 }
