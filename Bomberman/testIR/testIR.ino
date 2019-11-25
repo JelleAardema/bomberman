@@ -24,20 +24,21 @@ int b2 = 0;
 
 //wit = 1 = 38kHz
 //black = 0 = 56kHz
-#define host 1
+#define host 0
 
 int main() {
 	//setup
 	Serial.begin(9600);     //temp; to start serial monitor
 	transmitDataSetup(host);
-	Serial.println("Loaded");
+  Serial.println("Loaded");
   
 	while(1) {
-		if (Serial.available() > 0) {
-			incomingByte = Serial.read();
-			sendIRCC(encodeMovement(x1,y1,l1,b1));
-		}
-		receiveByte = receiveIRCC();	
+    if (Serial.available() > 0) {
+      incomingByte = Serial.read();
+      sendIRCC(encodeMovement(x1,y1,l1,b1));
+    }
+		receiveByte = receiveIRCC();
+		
 		if(receiveByte){
 			type = decodeMessageType(receiveByte);
 			

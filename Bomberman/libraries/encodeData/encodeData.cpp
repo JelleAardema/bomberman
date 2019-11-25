@@ -21,7 +21,7 @@ uint16_t encodeMovement(int x, int y, int lifes, int bombPlaced) {
 	data += x & 0b1111;
 	
 	data = data << 3;
-	data += 0b000;
+	data += 0b001;
 	
 	return data;
 }
@@ -32,14 +32,14 @@ uint16_t encodeLevel(int seed) {
     data += seed & 0b11111111;
     
     data = data << 3;
-    data += 0b001;
+    data += 0b010;
       
     return data;
 }
 
 uint16_t encodeStart() {
 	uint16_t data = 0;
-	data = 0b010;
+	data = 0b011;
 	
 	return data;
 }
@@ -50,7 +50,7 @@ uint16_t encodeConnection(int host) {
 	data += host & 0b1;
 	
 	data = data << 3;
-	data += 0b011;
+	data += 0b100;
 	
 	return data;
 }
