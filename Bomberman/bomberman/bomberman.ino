@@ -59,6 +59,18 @@ void redrawBlock(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t grid[GRID
 
 uint8_t stepper(enum AIM direction,uint8_t world[9][9],struct PLAYER p1,struct DIMENSION scren); 
 void drawPlayer(struct PLAYER p1, Adafruit_ILI9341 *pen,struct DIMENSION screen);
+// random level functions
+enum BLOCK_T
+{
+        ear,
+        wall,
+        destruct
+};
+
+void genWorld(uint8_t world[GRID_X][GRID_Y],int seed);
+void setWall(uint8_t world[GRID_X][GRID_Y],int x, int y, int roti, int size);
+int findBlock(uint8_t world[GRID_X][GRID_Y],uint8_t block, int x, int y);
+
 // types
 
 
