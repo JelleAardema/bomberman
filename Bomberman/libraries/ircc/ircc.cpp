@@ -6,7 +6,7 @@
 volatile uint16_t sendData = 0;
 volatile int sendDataFlag = 0;
 
-volatile uint16_t buf = 0;     			// buffer for recording the time between interrupts
+volatile int buf = 0;     			// buffer for recording the time between interrupts
 volatile int receiveDataFlag = 0; 		// mark if there the data is complete
 volatile uint16_t receiveData = 0; 		// the complete set of of bits recieved
 volatile int x = 0;						// steps to left when writing bit
@@ -86,26 +86,26 @@ uint16_t receiveIRCC(){
 }
 
 void receiveBit(){	
-    if(difference(buf,timeBreak) > variation){
+    if(difference(buf, timeBreak,variation)){
 		receiveDataFlag = 1;
     }
-    if(difference(buf,timeHigh) > variation){
+    if(difference(buf, timeHigh, variation)){
 		receiveData |= (1<<x);
 		x++;
     }
-    if(difference(buf,timeLow) > variation){
+    if(difference(buf, timeLow, variation)){
 		x++;
     }
 }
 
-int difference(int a, int b){
-  if(a>b){
-    return a - b;
-  }
-  if(b>a){
-    return b - a;
-  }
-  return 0;
+int difference(int x, int bound, int var){
+	int highBound = bound + var;
+	int lowBound = bound - var;
+		
+	if(lowBound < x && x < highBound){
+		return 1;
+	}
+	return 0;
 }
 
 // setup
