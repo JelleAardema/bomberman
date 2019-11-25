@@ -22,6 +22,7 @@ uint8_t stepper(enum AIM direction,uint8_t world[9][9],struct PLAYER *p1,struct 
   }
   if(direction == BOMB){
     changeBlock(&screen,dimension,wrld,p1->x,p1->y,4);
+    
   }
   // check if move is posible
   if( ((X>=0)&&(X<=GRID_X)) && ((Y>=0)&&(Y<=GRID_Y)) && (!world[X][Y]) )
