@@ -3,15 +3,33 @@
 #include <Adafruit_ILI9341.h>
 #include <connection.h>
 
-int started,pos,i,xCoord,yCoord,currentDirection,numMenuItems;
-//int items[2]  {1,2};
+int started,pos,i,xCoord,yCoord,currentDirection;
+
+int numMenuItemsMain = 2;
+int numMenuItemsPlay = 2;
+int numMenuItemsHighscore = 2;
+int currentPage = numMenuItemsMain;
 int getDirection();
 
-char items[2][10] = {
+char itemsMain[2][10] = {
                          "play",
                          "highscore"
                      };
 
+char itemsPlay[3][10] = {
+                         "Level",
+                         "Start",
+                         "test"
+                     };
+
+char itemsHighscore[2][10] = {
+                         "highscore",
+                         "test"
+                     };
+
+
+//char allMenuItems [3] {itemsMain,itemsPlay,itemsHighscore};
+                  
 // For the Adafruit shield, these are the default.
 #define TFT_DC 9
 #define TFT_CS 10
@@ -29,13 +47,6 @@ void setup() {
   Wire.begin();
   Nunchuk.begin(0x52); 
   tft.begin();
-
-  //IR setup
-
-  
-
-  //Init variables
-  numMenuItems = 2;
  
   //Setting up start screen
   tft.fillScreen(ILI9341_BLACK);
@@ -43,16 +54,14 @@ void setup() {
   // Setup loop hier voor 
   logoDisplay();
 
+
 }
 
 void loop(void) {
   Nunchuk.getState(0x52);
    if (Nunchuk.state.z_button == 1 && started == 0){
     //start();
-
-
-  
-    startConnection(host);
+    //startConnection(host);
 
 
     started = 1;
@@ -65,8 +74,8 @@ void loop(void) {
     if(getDirection() == 3 && currentDirection != 3){
          i++;
          currentDirection = getDirection();
-         if(i > numMenuItems -1){
-          i = numMenuItems -1;
+         if(i > currentPage -1){
+          i = currentPage -1;
          }
          highlight();
     }
@@ -110,29 +119,30 @@ void highlight(){
   tft.setTextSize(5); 
   xCoord = 25;
   yCoord = 25;
-  for(int j = 0; j < numMenuItems; j++){
+  for(int j = 0; j < currentPage; j++){
     tft.setCursor(xCoord,yCoord);
     if(j == i){
       tft.setTextColor(ILI9341_YELLOW);    
     }
-    tft.println(items[j]);
+    tft.println(currentItems[j]);
     tft.setTextColor(ILI9341_WHITE);
     yCoord = yCoord +75;   
   }
 }
 
-
 void select(){ 
     switch (i) { 
 
       case 0 :
-          //play();
+
           Serial.println("Play");
+          currentPage = numMenuItemsPlay;
           break;
 
       case 1 : 
           //highscore();
           Serial.println("highscore");
+          currentPage = numMenuItemsHighscore;
           break;
 
       case 2 : 
