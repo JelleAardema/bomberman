@@ -1,5 +1,5 @@
 // move a player and draw the changes
-uint8_t stepper(enum AIM direction,uint8_t world[9][9],struct PLAYER *p1,struct DIMENSION dimension,Adafruit_ILI9341 *pen,struct BOMB *b1)
+uint8_t stepper(enum AIM direction,uint8_t world[9][9],struct PLAYER *p1,struct DIMENSION dimension,Adafruit_ILI9341 *pen,struct BOMB *b1, int bomb)
 { 
   uint16_t X = p1->x;
   uint16_t Y = p1->y;
@@ -22,7 +22,7 @@ uint8_t stepper(enum AIM direction,uint8_t world[9][9],struct PLAYER *p1,struct 
       Y++;
       break;
   }
-  if(direction == BOMB){
+  if(bomb){
     changeBlock(&screen,dimension,wrld,p1->x,p1->y,bomb);
     
   }
@@ -31,7 +31,7 @@ uint8_t stepper(enum AIM direction,uint8_t world[9][9],struct PLAYER *p1,struct 
   {
     struct DIMENSION block;
     calcBlock(dimension,&block,p1->x,p1->y);
-    drawBlock(pen,block,air);
+    drawBlock(pen,block,wrld[p1->x][p1->y]);
     // change player cordinate to new cordinate
     p1->y = Y;
     p1->x = X;

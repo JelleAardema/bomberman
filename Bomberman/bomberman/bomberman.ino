@@ -110,7 +110,7 @@ void setup() {
   Nunchuk.begin(0x52);
   // zet cordinate system
     screen.setRotation(1);
-Serial.begin(9600);
+
   // draw start screen
   screen.fillScreen(0x0000);
   drawGrid(&screen,dimension,wrld);
@@ -120,10 +120,13 @@ Serial.begin(9600);
 
 void loop() {
   // change test
-    delay(200);
+    
     Nunchuk.getState(0x52);
-    stepper((AIM)getDirection(),wrld,&player1,dimension,&screen,&bomb1);
-    drawPlayer(player1,&screen,dimension);
+    if(stepper((AIM)getDirection(),wrld,&player1,dimension,&screen,&bomb1,Nunchuk.state.z_button)){
+      drawPlayer(player1,&screen,dimension);
+      delay(200);
+    }
+    
    // stepper(random(-1,5),wrld,&player2,dimension,&screen);
     //drawPlayer(player2,&screen,dimension);
 
