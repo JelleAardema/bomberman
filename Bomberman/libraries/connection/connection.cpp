@@ -36,8 +36,8 @@ void startConnection(int host){
 	//connected
 }
 
-void sendLevel(int seed, int type){
-	sendIRCC(encodeLevel(seed,type);
+void sendLevel(int seed,  int type){
+	sendIRCC(encodeLevel(seed,type));
 }
 
 void receiveLevel(int *seed, int *type){

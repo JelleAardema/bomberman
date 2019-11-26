@@ -1,8 +1,7 @@
 #include <Wire.h>
 #include <Nunchuk.h>
 #include <Adafruit_ILI9341.h>
-#include <ircc.h>
-
+#include <connection.h>
 
 int started,pos,i,xCoord,yCoord,currentDirection,numMenuItems;
 //int items[2]  {1,2};
@@ -18,7 +17,7 @@ char items[2][10] = {
 #define TFT_CS 10
 
 
-
+#define host 1
 // Use hardware SPI (on Uno, #13, #12, #11) and the above for CS/DC
 Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC);
 // If using the breakout, change pins as desired
@@ -32,9 +31,7 @@ void setup() {
   tft.begin();
 
   //IR setup
-  transmitDataSetup(1);
 
-  TCCR2A |= (1<<COM2B1);
   
 
   //Init variables
@@ -52,6 +49,12 @@ void loop(void) {
   Nunchuk.getState(0x52);
    if (Nunchuk.state.z_button == 1 && started == 0){
     //start();
+
+
+  
+    startConnection(host);
+
+
     started = 1;
     tft.fillScreen(ILI9341_BLACK);
     // client side variant die connectie zoekt maken
