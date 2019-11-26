@@ -36,7 +36,9 @@ void setup() {
   //Setting up start screen
   tft.fillScreen(ILI9341_BLACK);
   tft.setRotation(1);
+  // Setup loop hier voor 
   logoDisplay();
+
 }
 
 void loop(void) {
@@ -45,6 +47,7 @@ void loop(void) {
     //start();
     started = 1;
     tft.fillScreen(ILI9341_BLACK);
+    // client side variant die connectie zoekt maken
     highlight();
   }
 
