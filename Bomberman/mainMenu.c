@@ -2,10 +2,17 @@
 #include <Nunchuk.h>
 #include <Adafruit_ILI9341.h>
 
-int started,pos,i,x,y;
-int items[]  {1,2,3};
-int getDirection();
 
+int started,pos,i,x,y,currentDirection,numMenuItems;
+int items[2]  {1,2};
+int getDirection();
+/*
+
+char items[2][10] = {
+                         "play",
+                         "highscores"
+                     };
+*/
 // For the Adafruit shield, these are the default.
 #define TFT_DC 9
 #define TFT_CS 10
@@ -23,7 +30,9 @@ void setup() {
   Wire.begin();
   Nunchuk.begin(0x52); 
   tft.begin();
-  
+
+  //Init variables
+  numMenuItems = 2;
 
   //Setting up start screen
   tft.fillScreen(ILI9341_BLACK);
@@ -34,30 +43,40 @@ void setup() {
 void loop(void) {
   Nunchuk.getState(0x52);
    if (Nunchuk.state.z_button == 1 && started == 0){
-    start();
+    //start();
+    started = 1;
+    tft.fillScreen(ILI9341_BLACK);
     select();
     i = 1;
   }
   if(started == 1){
-    if(getDirection() == 3){
+    if(getDirection() == 3 && currentDirection != 3){
          i++;
-         delay(200);
-         if(i > 3){
-          i = 3;
+         currentDirection = getDirection();
+         _delay_ms(50);
+         if(i > numMenuItems){
+          i = numMenuItems;
          }
-         select();
-         Serial.println(i);
+         highlight();
     }
-    if(getDirection() == 1){
+
+
+    if(getDirection() == 1 && currentDirection != 1){
        i--;
-       delay(200);
-       if(i < 1){
-        i = 1;
+        currentDirection = getDirection();
+       _delay_ms(50);
+      if(i < numMenuItems){
+          i = 1;
        }
-       select();
-       Serial.println(i);
- 
+       highlight();
     }
+  }
+  if(Nunchuk.state.z_button == 1){
+    select();
+  }
+
+  if(Nunchuk.state.joy_y_axis == 128){
+    currentDirection = 0;
   }
 }
 
@@ -72,6 +91,7 @@ void logoDisplay(){
   tft.println("press Z to start");
 }
 
+/*
 void start(){
   tft.fillScreen(ILI9341_BLACK);
   tft.setCursor(110,50);
@@ -84,27 +104,38 @@ void start(){
   tft.println("HIGHSCORES");
   started = 1; 
 }
+*/
 
-
-void select(){
-  //screen rolling clear
-  tft.fillScreen(ILI9341_BLACK);
-  
+void highlight(){  
   //Set text style
   tft.setTextColor(ILI9341_WHITE);
   tft.setTextSize(5); 
-  x = 110;
-  y = 50;
-  for(int j = 0; j<items; j++){
+  x = 50;
+  y = 25;
+  for(int j = 0; j < numMenuItems; j++){
     tft.setCursor(x,y);
     if(items[j] == i){
       tft.setTextColor(ILI9341_YELLOW);    
     }
     tft.println(items[j]);
     tft.setTextColor(ILI9341_WHITE);
-    y = y +50;   
+    y = y +75;   
   }
 }
 
+void select(){ 
+    switch (i) { 
 
+      case 1 :
+          //play();
+          Serial.println("Play");
+          break;
 
+      case 2 : 
+          //highscore();
+          Serial.println("highscore");
+          break;    
+    }
+    //bind behavior on i pos
+
+  }
