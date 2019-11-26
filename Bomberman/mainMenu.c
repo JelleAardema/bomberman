@@ -9,7 +9,7 @@ int getDirection();
 
 char items[2][10] = {
                          "play",
-                         "highscores"
+                         "highscore"
                      };
 
 // For the Adafruit shield, these are the default.
@@ -52,9 +52,8 @@ void loop(void) {
     if(getDirection() == 3 && currentDirection != 3){
          i++;
          currentDirection = getDirection();
-         _delay_ms(50);
-         if(i > numMenuItems){
-          i = numMenuItems;
+         if(i > numMenuItems -1){
+          i = numMenuItems -1;
          }
          highlight();
     }
@@ -63,8 +62,7 @@ void loop(void) {
     if(getDirection() == 1 && currentDirection != 1){
        i--;
         currentDirection = getDirection();
-       _delay_ms(50);
-      if(i < numMenuItems - 1){
+      if(i < 0){
           i = 0;
        }
        highlight();
@@ -122,6 +120,11 @@ void select(){
       case 1 : 
           //highscore();
           Serial.println("highscore");
+          break;
+
+      case 2 : 
+          //highscore();
+          Serial.println("lytse penor");
           break;    
     }
 }
