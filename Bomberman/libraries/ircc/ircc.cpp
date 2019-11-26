@@ -11,7 +11,7 @@ volatile int buf = 0;     			// buffer for recording the time between interrupts
 volatile int receiveDataFlag = 0; 	// mark if there the data is complete
 volatile int receiveStartFlag = 0;	// mark if a start signal received
 volatile uint16_t receiveData = 0; 	// the complete set of of bits recieved
-volatile int x = 0;					// steps to left when writing bit
+volatile int pointerBit = 0;					// steps to left when writing bit
 
 // used pins
 int sensorOutput = PORTD2;			// sensor pin2
@@ -70,7 +70,7 @@ uint16_t receiveIRCC(){
 		int tempData = receiveData;
 		receiveData = 0;
 		receiveDataFlag = 0;
-		x = 0;
+		pointerBit = 0;
 		return tempData;
 	}
 	return 0;
@@ -87,11 +87,11 @@ void receiveBit(){
 			receiveStartFlag = 0;
 		}
 		if(difference(buf, timeHigh, variation)){
-			receiveData |= (1<<x);
-			x++;
+			receiveData |= (1<<pointerBit);
+			pointerBit++;
 		}
 		if(difference(buf, timeLow, variation)){
-			x++;
+			pointerBit++;
 		}
 	}
 }
