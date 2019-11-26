@@ -1,9 +1,10 @@
 #include <Wire.h>
 #include <Nunchuk.h>
 #include <Adafruit_ILI9341.h>
+#include <ircc.h>
 
 
-int started,pos,i,x,y,currentDirection,numMenuItems;
+int started,pos,i,xCoord,yCoord,currentDirection,numMenuItems;
 //int items[2]  {1,2};
 int getDirection();
 
@@ -29,6 +30,12 @@ void setup() {
   Wire.begin();
   Nunchuk.begin(0x52); 
   tft.begin();
+
+  //IR setup
+  transmitDataSetup(1);
+
+  TCCR2A |= (1<<COM2B1);
+  
 
   //Init variables
   numMenuItems = 2;
@@ -98,16 +105,16 @@ void highlight(){
   //Set text style
   tft.setTextColor(ILI9341_WHITE);
   tft.setTextSize(5); 
-  x = 25;
-  y = 25;
+  xCoord = 25;
+  yCoord = 25;
   for(int j = 0; j < numMenuItems; j++){
-    tft.setCursor(x,y);
+    tft.setCursor(xCoord,yCoord);
     if(j == i){
       tft.setTextColor(ILI9341_YELLOW);    
     }
     tft.println(items[j]);
     tft.setTextColor(ILI9341_WHITE);
-    y = y +75;   
+    yCoord = yCoord +75;   
   }
 }
 
