@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include <avr/io.h>
 #include <Wire.h>
-#include "nunchuk.h"
+#include "Nunchuk.h"
 
 // screen conections spi
 #define TFT_DC 9
