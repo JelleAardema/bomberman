@@ -4,15 +4,14 @@
 
 
 int started,pos,i,x,y,currentDirection,numMenuItems;
-int items[2]  {1,2};
+//int items[2]  {1,2};
 int getDirection();
-/*
 
 char items[2][10] = {
                          "play",
                          "highscores"
                      };
-*/
+
 // For the Adafruit shield, these are the default.
 #define TFT_DC 9
 #define TFT_CS 10
@@ -33,7 +32,7 @@ void setup() {
 
   //Init variables
   numMenuItems = 2;
-
+ 
   //Setting up start screen
   tft.fillScreen(ILI9341_BLACK);
   tft.setRotation(1);
@@ -46,9 +45,9 @@ void loop(void) {
     //start();
     started = 1;
     tft.fillScreen(ILI9341_BLACK);
-    select();
-    i = 1;
+    highlight();
   }
+
   if(started == 1){
     if(getDirection() == 3 && currentDirection != 3){
          i++;
@@ -65,8 +64,8 @@ void loop(void) {
        i--;
         currentDirection = getDirection();
        _delay_ms(50);
-      if(i < numMenuItems){
-          i = 1;
+      if(i < numMenuItems - 1){
+          i = 0;
        }
        highlight();
     }
@@ -91,30 +90,18 @@ void logoDisplay(){
   tft.println("press Z to start");
 }
 
-/*
-void start(){
-  tft.fillScreen(ILI9341_BLACK);
-  tft.setCursor(110,50);
-  tft.setTextColor(ILI9341_WHITE);
-  tft.setTextSize(5); 
-  tft.println("PLAY");
-  tft.setCursor(10,150);
-  tft.setTextColor(ILI9341_WHITE);
-  tft.setTextSize(5); 
-  tft.println("HIGHSCORES");
-  started = 1; 
-}
-*/
 
+
+//Drawing the menu items and highlighting the selected items
 void highlight(){  
   //Set text style
   tft.setTextColor(ILI9341_WHITE);
   tft.setTextSize(5); 
-  x = 50;
+  x = 25;
   y = 25;
   for(int j = 0; j < numMenuItems; j++){
     tft.setCursor(x,y);
-    if(items[j] == i){
+    if(j == i){
       tft.setTextColor(ILI9341_YELLOW);    
     }
     tft.println(items[j]);
@@ -123,19 +110,18 @@ void highlight(){
   }
 }
 
+
 void select(){ 
     switch (i) { 
 
-      case 1 :
+      case 0 :
           //play();
           Serial.println("Play");
           break;
 
-      case 2 : 
+      case 1 : 
           //highscore();
           Serial.println("highscore");
           break;    
     }
-    //bind behavior on i pos
-
-  }
+}
