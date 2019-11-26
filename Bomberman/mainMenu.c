@@ -11,6 +11,7 @@ int numMenuItemsHighscore = 2;
 int currentPage = numMenuItemsMain;
 int getDirection();
 
+
 char itemsMain[2][10] = {
                          "play",
                          "highscore"
@@ -27,9 +28,11 @@ char itemsHighscore[2][10] = {
                          "test"
                      };
 
+// Pointer initialization
+char (*ptr)[2][10];
 
-//char allMenuItems [3] {itemsMain,itemsPlay,itemsHighscore};
-                  
+
+                 
 // For the Adafruit shield, these are the default.
 #define TFT_DC 9
 #define TFT_CS 10
@@ -47,23 +50,23 @@ void setup() {
   Wire.begin();
   Nunchuk.begin(0x52); 
   tft.begin();
- 
+
+  // Experimental pointer option
+  ptr = &itemsMain; 
+  
   //Setting up start screen
   tft.fillScreen(ILI9341_BLACK);
   tft.setRotation(1);
   // Setup loop hier voor 
   logoDisplay();
-
-
 }
+
 
 void loop(void) {
   Nunchuk.getState(0x52);
    if (Nunchuk.state.z_button == 1 && started == 0){
     //start();
     //startConnection(host);
-
-
     started = 1;
     tft.fillScreen(ILI9341_BLACK);
     // client side variant die connectie zoekt maken
@@ -82,7 +85,7 @@ void loop(void) {
 
 
     if(getDirection() == 1 && currentDirection != 1){
-       i--;
+        i--;
         currentDirection = getDirection();
       if(i < 0){
           i = 0;
@@ -90,6 +93,7 @@ void loop(void) {
        highlight();
     }
   }
+
   if(Nunchuk.state.z_button == 1){
     select();
   }
@@ -124,7 +128,7 @@ void highlight(){
     if(j == i){
       tft.setTextColor(ILI9341_YELLOW);    
     }
-    tft.println(currentItems[j]);
+    tft.println(itemsMain[j]);
     tft.setTextColor(ILI9341_WHITE);
     yCoord = yCoord +75;   
   }
