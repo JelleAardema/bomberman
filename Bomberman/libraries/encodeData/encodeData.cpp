@@ -26,10 +26,12 @@ uint16_t encodeMovement(int x, int y, int lifes, int bombPlaced) {
 	return data;
 }
 
-uint16_t encodeLevel(int seed) {
+uint16_t encodeLevel(int seed, int type) {
     uint16_t data = 0;
-
-    data += seed & 0b11111111;
+	data += seed & 0b11111111;
+	
+	data = data << 1;
+	data += type & 0b1;
     
     data = data << 3;
     data += 0b010;
@@ -59,26 +61,29 @@ uint16_t encodeConnection(int host) {
 // decode
 // -----------------------------------------------------------------------------------------------------------------------
 int decodeMessageType(uint16_t fullMessage){
-	message = fullMessage >> 3;
+	message = fullMessage >> 3;		//remove data type bits
 	return fullMessage & 0b111;
 }
 
 
 void decodeMovement(int *x, int *y, int *lifes, int *bombPlaced){
-	*x = message &      		0b1111;
-	
+	*x = message & 0b1111;	
     message = message >> 4;    		//remove x bits
-    *y = message &      		0b1111;
 	
-    message = message >> 4;			//remove y bits
-    *lifes = message &  		0b1111;
+    *y = message & 0b1111;
+	message = message >> 4;			//remove y bits
 	
+    *lifes = message & 0b1111;	
     message = message >> 4;			//remove life bits
-    *bombPlaced = message &		0b1;
+	
+    *bombPlaced = message &	0b1;
 }
 
-void decodeLevel(int *seed){
-    *seed = message &    0b1111111111111;
+void decodeLevel(int *seed, int *type){
+	*type = message & 0b1;
+	message = message >> 1;			//remove type bits
+	
+    *seed = message & 0b11111111;
 }
 
 void decodeStart(){
