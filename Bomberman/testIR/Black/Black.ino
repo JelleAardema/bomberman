@@ -32,20 +32,40 @@ int main() {
 	//setup
 	Serial.begin(9600);     //temp; to start serial monitor
   Serial.println("Loaded");
+  
   // SEARCHING FOR OTHER ARDUINO
-  //startConnection(host);
-  //Serial.println("connected"); 
+  startConnection(host);
+  Serial.println("Connected"); 
 
   // SEARCHING LEVEL
-  //while(!receiveLevel(&seed, &type){
-  //}
+  receiveLevel(&seed, &type);
+  Serial.print("Level:"); 
+  Serial.print(seed);  
+  Serial.print("  Type:"); 
+  Serial.println(type);
+
+  // LOADING LEVEL
+  _delay_ms(30000);  //slave is slow
+  confirmLoad(host);
+  Serial.println("Level Loaded"); 
+  
 
   // SEARCHING PLAYER STATUS
-  // if(receivePlayerStatus(&x2, &y2, &l2, &b2){
-  // //update player
-  // }
   while(1){
-    
+      sendPlayerStatus(x1, y1, l1, b1);
+      Serial.println("Send status"); 
+      _delay_ms(500);
+      receivePlayerStatus(&x2, &y2, &l2, &b2);
+      Serial.print("x2:"); 
+      Serial.print(x2);
+      Serial.print("  y2:"); 
+      Serial.print(y2);
+      Serial.print("  l2:"); 
+      Serial.print(l2);
+      Serial.print("  b2:"); 
+      Serial.println(b2);
+      _delay_ms(500);
   }
+
   return 0;
 }

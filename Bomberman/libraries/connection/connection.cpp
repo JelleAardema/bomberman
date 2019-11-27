@@ -49,11 +49,14 @@ void sendLevel(int seed, int type){
 }
 
 void receiveLevel(int *seed, int *type){
-	
-	int receiveByte = receiveIRCC(); 
-	if(receiveByte){
-		if(decodeMessageType(receiveByte) == 2){
-			decodeLevel(seed,type);
+	int level = 0;
+	while(!level){
+		int receiveByte = receiveIRCC(); 
+		if(receiveByte){
+			if(decodeMessageType(receiveByte) == 2){
+				decodeLevel(seed,type);
+				level = 1;
+			}
 		}
 	}
 }
@@ -61,7 +64,7 @@ void receiveLevel(int *seed, int *type){
 // -----------------------------------------------------------------------------------------------------------------------
 // confirm level loaded		type = 3
 // -----------------------------------------------------------------------------------------------------------------------
-void confirmLoad(){
+void confirmLoad(int host){
 	int loaded = 0;
 	while(!loaded){
 		if(host){										// if your host send and search for loaded
@@ -85,14 +88,14 @@ void confirmLoad(){
 // player status			type = 1
 // -----------------------------------------------------------------------------------------------------------------------
 void sendPlayerStatus(int xPos, int yPos, int lives, int bombPlaced){
-	sendIRCC(encodeStatus(xPos, yPos, lives, bombPlaced);
+	sendIRCC(encodeStatus(xPos, yPos, lives, bombPlaced));
 }
 
 void receivePlayerStatus(int *xPos, int *yPos, int *lives, int *bombPlaced){
 	int receiveByte = receiveIRCC(); 
 	if(receiveByte){
 		if(decodeMessageType(receiveByte) == 1){
-			decodeStatus(int xPos, int yPos, int lives, int bombPlaced)
+			decodeStatus(xPos, yPos, lives, bombPlaced);
 		}
 	}
 }
