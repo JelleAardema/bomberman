@@ -5,10 +5,7 @@
 
 int started,pos,i,xCoord,yCoord,currentDirection;
 
-int numMenuItemsMain = 2;
-int numMenuItemsPlay = 2;
-int numMenuItemsHighscore = 2;
-int currentPage = numMenuItemsMain;
+int currentPage = sizeof(ptrArray);
 int z_buttonState;
 int getDirection();
 
@@ -55,7 +52,8 @@ void setup() {
 
   // Experimental pointer option
   ptrArray = itemsMain;
-  prevPtrArray = itemsMain;
+  
+  
   //Setting up start screen
   tft.fillScreen(ILI9341_BLACK);
   tft.setRotation(1);
