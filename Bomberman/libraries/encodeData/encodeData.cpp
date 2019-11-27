@@ -7,7 +7,7 @@ uint16_t message = 0;
 // -----------------------------------------------------------------------------------------------------------------------
 // encode
 // -----------------------------------------------------------------------------------------------------------------------
-uint16_t encodeStatus(int x, int y, int lifes, int bombPlaced) {
+uint16_t encodeMovement(int x, int y, int lifes, int bombPlaced) {
 	uint16_t data = 0;
 	data += bombPlaced & 0b1;
 	
@@ -66,7 +66,7 @@ int decodeMessageType(uint16_t fullMessage){
 }
 
 
-void decodeStatus(int *x, int *y, int *lifes, int *bombPlaced){
+void decodeMovement(int *x, int *y, int *lifes, int *bombPlaced){
 	*x = message & 0b1111;	
     message = message >> 4;    		//remove x bits
 	

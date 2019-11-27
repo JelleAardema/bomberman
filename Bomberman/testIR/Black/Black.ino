@@ -8,6 +8,7 @@
 
 
 volatile uint16_t incomingByte = 0;// for serial port 
+int type = 0;
 
 int x1 = 3;
 int y1 = 4;
