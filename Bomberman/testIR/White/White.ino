@@ -2,10 +2,8 @@
 
 #include <avr/io.h>
 #include <stdint.h>
-#include <avr/interrupt.h>
+#include <util/delay.h>
 
-#include <encodeData.h>
-#include <ircc.h>
 #include <connection.h>
 
 
@@ -27,13 +25,22 @@ int b2 = 0;
 #define host 1
 
 int main() {
-	//setup
-	Serial.begin(9600);     //temp; to start serial monitor
-	Serial.println("Loaded");
+  //setup
+  Serial.begin(9600);     //temp; to start serial monitor
+  Serial.println("Loaded");
   // SEARCHING FOR OTHER ARDUINO
+
   startConnection(host);
-  Serial.println("connected");
-  
+  Serial.println("connected"); 
+
+  // SEARCHING LEVEL
+  //while(!receiveLevel(&seed, &type){
+  //}
+
+  // SEARCHING PLAYER STATUS
+  // if(receivePlayerStatus(&x2, &y2, &l2, &b2){
+  // //update player
+  // }
   while(1){
     
   }
