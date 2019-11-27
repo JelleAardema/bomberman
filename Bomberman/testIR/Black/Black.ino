@@ -21,9 +21,6 @@ int y2 = 0;
 int l2 = 0;
 int b2 = 0;
 
-int seed;
-int type;
-
 //wit = 1 = 38kHz
 //black = 0 = 56kHz
 #define host 0
@@ -33,17 +30,9 @@ int main() {
 	Serial.begin(9600);     //temp; to start serial monitor
   Serial.println("Loaded");
   // SEARCHING FOR OTHER ARDUINO
-  //startConnection(host);
-  //Serial.println("connected"); 
+  startConnection(host);
+  Serial.println("connected"); 
 
-  // SEARCHING LEVEL
-  //while(!receiveLevel(&seed, &type){
-  //}
-
-  // SEARCHING PLAYER STATUS
-  // if(receivePlayerStatus(&x2, &y2, &l2, &b2){
-  // //update player
-  // }
   while(1){
     
   }
