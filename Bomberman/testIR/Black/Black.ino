@@ -2,8 +2,10 @@
 
 #include <avr/io.h>
 #include <stdint.h>
-#include <util/delay.h>
+#include <avr/interrupt.h>
 
+#include <encodeData.h>
+#include <ircc.h>
 #include <connection.h>
 
 
@@ -31,8 +33,8 @@ int main() {
 	Serial.begin(9600);     //temp; to start serial monitor
   Serial.println("Loaded");
   // SEARCHING FOR OTHER ARDUINO
-  startConnection(host);
-  Serial.println("connected"); 
+  //startConnection(host);
+  //Serial.println("connected"); 
 
   // SEARCHING LEVEL
   //while(!receiveLevel(&seed, &type){
