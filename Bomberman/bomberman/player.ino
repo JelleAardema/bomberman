@@ -23,7 +23,20 @@ uint8_t stepper(enum AIM direction,uint8_t world[9][9],struct PLAYER *p1,struct 
       break;
   }
   if(bomb){
-    changeBlock(&screen,dimension,wrld,p1->x,p1->y,bomb);
+    int i;
+
+    for(i=0; i<MAXBOMBS; i++)
+    {
+     if(!b1[i].placed)
+     {
+       b1[i].x = p1->x;
+       b1[i].y = p1->y;
+       b1[i].placed = 1;
+       b1[i].fuse = 0;
+       i=MAXBOMBS;
+     }
+    }
+    
     
   }
   // check if move is posible
