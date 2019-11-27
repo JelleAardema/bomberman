@@ -30,8 +30,8 @@ int main() {
 	Serial.begin(9600);     //temp; to start serial monitor
   Serial.println("Loaded");
   // SEARCHING FOR OTHER ARDUINO
-  //startConnection(host);
-  //Serial.println("connected"); 
+  startConnection(host);
+  Serial.println("connected"); 
 
   while(1){
     
