@@ -9,6 +9,7 @@ int numMenuItemsMain = 2;
 int numMenuItemsPlay = 2;
 int numMenuItemsHighscore = 2;
 int currentPage = numMenuItemsMain;
+int z_buttonState;
 int getDirection();
 
 
@@ -28,10 +29,11 @@ char itemsHighscore[2][10] = {
                          "test"
                      };
 
+
 // Pointer initialization
-char (*ptr)[2][10];
 
-
+char (*ptrArray)[10];
+char (*prevPtrArray)[10];
                  
 // For the Adafruit shield, these are the default.
 #define TFT_DC 9
@@ -52,26 +54,27 @@ void setup() {
   tft.begin();
 
   // Experimental pointer option
-  ptr = &itemsMain; 
-  
+  ptrArray = itemsMain;
+  prevPtrArray = itemsMain;
   //Setting up start screen
   tft.fillScreen(ILI9341_BLACK);
   tft.setRotation(1);
-  // Setup loop hier voor 
+  // Setup loop here 
   logoDisplay();
 }
 
 
 void loop(void) {
   Nunchuk.getState(0x52);
-   if (Nunchuk.state.z_button == 1 && started == 0){
+   if (Nunchuk.state.z_button == 1 && started == 0 && z_buttonState != 1){
+    z_buttonState = 1;
+    started = 1;
     //start();
     //startConnection(host);
-    started = 1;
     tft.fillScreen(ILI9341_BLACK);
-    // client side variant die connectie zoekt maken
-    highlight();
-  }
+    highlight();     
+    // client side variant that display connection status
+   }
 
   if(started == 1){
     if(getDirection() == 3 && currentDirection != 3){
@@ -94,12 +97,22 @@ void loop(void) {
     }
   }
 
-  if(Nunchuk.state.z_button == 1){
+  if(Nunchuk.state.z_button == 1 && z_buttonState != 1){
     select();
+  }
+
+  if(Nunchuk.state.c_button == 1){
+    ptrArray = prevPtrArray;
+    Serial.println("c button down");
+    highlight();
   }
 
   if(Nunchuk.state.joy_y_axis == 128){
     currentDirection = 0;
+  }
+
+  if(Nunchuk.state.z_button == 0){
+    z_buttonState = 0;
   }
 }
 
@@ -125,33 +138,45 @@ void highlight(){
   yCoord = 25;
   for(int j = 0; j < currentPage; j++){
     tft.setCursor(xCoord,yCoord);
-    if(j == i){
-      tft.setTextColor(ILI9341_YELLOW);    
+    for(int k = 0; k < 10; k++){
+      if(j == i){
+        tft.setTextColor(ILI9341_YELLOW);    
+      }
+      tft.setCursor(xCoord,yCoord);
+      tft.println(ptrArray[j][k]);
+      xCoord = xCoord + 30;  
     }
-    tft.println(itemsMain[j]);
-    tft.setTextColor(ILI9341_WHITE);
-    yCoord = yCoord +75;   
+    tft.setTextColor(ILI9341_WHITE); 
+    xCoord = 25;
+    yCoord += 75;   
   }
+}
+
+void menuSetter(){
+    tft.fillScreen(ILI9341_BLACK);
+    if(ptrArray == itemsMain){
+      prevPtrArray = ptrArray;
+      ptrArray = itemsPlay;  
+    }
+    else if(ptrArray == itemsPlay){
+      prevPtrArray = ptrArray;
+      ptrArray = itemsPlay;
+    }
+    else if(ptrArray == itemsHighscore){
+      prevPtrArray = ptrArray;
+      ptrArray = itemsHighscore;
+    }
+    highlight();
+    currentPage = sizeof(ptrArray);
 }
 
 void select(){ 
     switch (i) { 
-
+   
       case 0 :
+        menuSetter();      
 
-          Serial.println("Play");
-          currentPage = numMenuItemsPlay;
-          break;
-
-      case 1 : 
-          //highscore();
-          Serial.println("highscore");
-          currentPage = numMenuItemsHighscore;
-          break;
-
-      case 2 : 
-          //highscore();
-          Serial.println("lytse penor");
-          break;    
+      case 1 :
+        menuSetter();
     }
-}
+  }
