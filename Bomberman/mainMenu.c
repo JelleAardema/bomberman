@@ -105,6 +105,7 @@ void loop(void) {
   if(Nunchuk.state.c_button == 1){
     ptrArray = prevPtrArray;
     Serial.println("c button down");
+    tft.fillScreen(ILI9341_BLACK);
     highlight();
   }
 
@@ -158,16 +159,37 @@ void menuSetter(int currentHighlight){
     if(ptrArray == itemsMain && currentHighlight == 0){
       prevPtrArray = ptrArray;
       ptrArray = itemsPlay;  
+      Serial.println("play");
     }
     else if(ptrArray == itemsMain && currentHighlight == 1){
       prevPtrArray = ptrArray;
       ptrArray = itemsHighscore;
+      Serial.println("highscore");
     }
     
     if(ptrArray == itemsPlay && currentHighlight == 0){
       prevPtrArray = ptrArray;
-      ptrArray = itemsMain;
+      ptrArray = itemsPlay;
+      Serial.println("Level");
     }
+    else if(ptrArray == itemsPlay && currentHighlight == 1){
+     prevPtrArray = ptrArray;
+      ptrArray = itemsPlay;
+      Serial.println("test"); 
+    }
+
+    if(ptrArray == itemsHighscore && currentHighlight == 0){
+      prevPtrArray = ptrArray;
+      ptrArray = itemsHighscore;
+      Serial.println("highscore");
+    }
+    else if(ptrArray == itemsHighscore && currentHighlight == 1){
+     prevPtrArray = ptrArray;
+      ptrArray = itemsHighscore;
+      Serial.println("test"); 
+    }
+
+
     highlight();
     currentPage = sizeof(ptrArray);
 }
