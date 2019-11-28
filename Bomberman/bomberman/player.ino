@@ -1,4 +1,6 @@
 // move a player and draw the changes
+//stepper((AIM)getDirection(),wrld,&player1,//dimension//,&screen,bomb1,Nunchuk.state.z_button
+//changeBlock(&screen,dimension,wrld,p1->x,p1->y,4);
 uint8_t stepper(enum AIM direction,uint8_t world[9][9],struct PLAYER *p1,struct DIMENSION dimension,Adafruit_ILI9341 *pen,struct BOMB *b1, int bomb)
 { 
   uint16_t X = p1->x;
@@ -44,7 +46,7 @@ uint8_t stepper(enum AIM direction,uint8_t world[9][9],struct PLAYER *p1,struct 
   {
     struct DIMENSION block;
     calcBlock(dimension,&block,p1->x,p1->y);
-    drawBlock(pen,block,wrld[p1->x][p1->y]);
+    drawBlock(pen,block,world[p1->x][p1->y]);
     // change player cordinate to new cordinate
     p1->y = Y;
     p1->x = X;
