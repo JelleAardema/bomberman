@@ -1,25 +1,28 @@
-void bombs(struct BOMB *bomb,Adafruit_ILI9341 *pen,struct DIMENSION screen){
+void bombs(struct BOMB *b1,Adafruit_ILI9341 *pen,struct DIMENSION dimension){
   int i;
   for(i=0;i<MAXBOMBS;i++)
   {
-   if(bomb[i].placed == 1)
+   if(b1[i].placed == 1)
    {
   uint16_t j = 25;
-  bomb[i].fuse++;
-    if(bomb[i].fuse > j){  
-        bomb[i].placed = 2;
+  b1[i].fuse++;
+    if(b1[i].fuse > j){  
+        b1[i].placed = 2;
     }
      struct DIMENSION block;
-       calcBlock(screen,&block,bomb[i].x,bomb[i].y);
-        drawBlock(pen,block,4);
-        //changeBlock(&screen,dimension,wrld,1,1,4);
+       calcBlock(dimension,&block,b1[i].x,b1[i].y);
+        drawBlock(pen,block,bomb);
+
+        changeBlock(&screen,dimension,wrld,b1[i].x,b1[i].y,bomb);
+     
     
    }
-   if(bomb[i].placed ==2){
+   if(b1[i].placed ==2){
      struct DIMENSION block;
-       calcBlock(screen,&block,bomb[i].x,bomb[i].y);
+       calcBlock(dimension,&block,b1[i].x,b1[i].y);
         drawBlock(pen,block,air);
-        bomb[i].placed = 0;
+        b1[i].placed = 0;
+        changeBlock(&screen,dimension,wrld,b1[i].x,b1[i].y,air);
         
    }
    
