@@ -5,7 +5,7 @@
 
 int started,pos,i,xCoord,yCoord,currentDirection;
 
-int currentPage = sizeof(ptrArray);
+int currentPage;
 int z_buttonState;
 int getDirection();
 
@@ -31,7 +31,8 @@ char itemsHighscore[2][10] = {
 
 char (*ptrArray)[10];
 char (*prevPtrArray)[10];
-                 
+                
+
 // For the Adafruit shield, these are the default.
 #define TFT_DC 9
 #define TFT_CS 10
@@ -50,10 +51,12 @@ void setup() {
   Nunchuk.begin(0x52); 
   tft.begin();
 
+
   // Experimental pointer option
   ptrArray = itemsMain;
-  
-  
+
+  currentPage = sizeof(ptrArray);         
+
   //Setting up start screen
   tft.fillScreen(ILI9341_BLACK);
   tft.setRotation(1);
@@ -96,7 +99,7 @@ void loop(void) {
   }
 
   if(Nunchuk.state.z_button == 1 && z_buttonState != 1){
-    select();
+    menuSetter(i);
   }
 
   if(Nunchuk.state.c_button == 1){
@@ -123,7 +126,7 @@ void logoDisplay(){
   tft.setTextColor(ILI9341_WHITE);
   tft.setTextSize(2);
   tft.println("press Z to start");
-}
+} 
 
 
 
@@ -150,31 +153,22 @@ void highlight(){
   }
 }
 
-void menuSetter(){
+void menuSetter(int currentHighlight){
     tft.fillScreen(ILI9341_BLACK);
-    if(ptrArray == itemsMain){
+    if(ptrArray == itemsMain && currentHighlight == 0){
       prevPtrArray = ptrArray;
       ptrArray = itemsPlay;  
     }
-    else if(ptrArray == itemsPlay){
-      prevPtrArray = ptrArray;
-      ptrArray = itemsPlay;
-    }
-    else if(ptrArray == itemsHighscore){
+    else if(ptrArray == itemsMain && currentHighlight == 1){
       prevPtrArray = ptrArray;
       ptrArray = itemsHighscore;
+    }
+    
+    if(ptrArray == itemsPlay && currentHighlight == 0){
+      prevPtrArray = ptrArray;
+      ptrArray = itemsMain;
     }
     highlight();
     currentPage = sizeof(ptrArray);
 }
 
-void select(){ 
-    switch (i) { 
-   
-      case 0 :
-        menuSetter();      
-
-      case 1 :
-        menuSetter();
-    }
-  }
