@@ -78,22 +78,15 @@ void genWorld(uint8_t world[GRID_X][GRID_Y],int seed);
 void setWall(uint8_t world[GRID_X][GRID_Y],int x, int y, int roti, int size);
 int findBlock(uint8_t world[GRID_X][GRID_Y],uint8_t block, int x, int y);
 
+void loadWorld(uint8_t world[GRID_X][GRID_Y],int level);
+void copyWorld(uint8_t out[GRID_X][GRID_Y],uint8_t in[GRID_X][GRID_Y]);
 // types
 
 
 
 Adafruit_ILI9341 screen = Adafruit_ILI9341(TFT_CS, TFT_DC);
 // test data
-  uint8_t wrld[GRID_X][GRID_Y]={
-      {1,1,1,1,1,1,1,1,1},
-      {1,0,0,0,0,0,0,0,1},
-      {1,0,1,0,1,0,1,0,1},
-      {1,0,0,0,0,0,0,0,1},
-      {1,0,1,0,1,0,1,0,1},
-      {1,0,0,0,0,0,0,0,1},
-      {1,0,1,0,1,0,1,0,1},
-      {1,0,0,0,0,0,0,0,1},
-      {1,1,1,1,1,1,1,1,1}};
+  uint8_t wrld[GRID_X][GRID_Y];
 
 
   struct DIMENSION dimension = {10,10,220,220};
@@ -112,8 +105,8 @@ void setup() {
 
   // draw start screen
   screen.fillScreen(0x0000);
-  genWorld(wrld,1);
-
+  //genWorld(wrld,1);
+  loadWorld(wrld,3);
   drawGrid(&screen,dimension,wrld);
   
 
@@ -134,7 +127,6 @@ void loop() {
     Nunchuk.getState(0x52);
     if(stepper((AIM)getDirection(),wrld,&player1,dimension,&screen,bomb1,Nunchuk.state.z_button)){
       drawPlayer(player1,&screen,dimension);
-      
     }
     bombs(bomb1,&screen,dimension);
    // stepper(random(-1,5),wrld,&player2,dimension,&screen);
