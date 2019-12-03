@@ -5,7 +5,7 @@
 
 //wit = 1 = 38kHz
 //black = 0 = 56kHz
-#define host 1
+#define host 0
 uint32_t loops = 0;
 
 int main() {
@@ -21,8 +21,9 @@ int main() {
       loops++;
 			Serial.println(loops);
 		}
-   _delay_ms(3);
+    _delay_ms(1);
 	}
+
  
   return 0;
 }

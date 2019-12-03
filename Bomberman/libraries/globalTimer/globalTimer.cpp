@@ -27,10 +27,10 @@ int gameUpdate(){
 void timer2InterruptInit(int host) {
 	if(host) {				//0 = 36 = 56kHz = toWhite; 1 = 52 = 38kHz = toBlack
 		//timer2Top = 52;
-		maxMicroTick = 171;		//9*52 = 468
+		maxMicroTick = 173;		//9*52 = 468
 	}else{
 		//timer2Top = 36;
-		maxMicroTick = 247; 	//13*36 = 468
+		maxMicroTick = 248; 	//13*36 = 468
 	}  
 
 	//TCCR2A |= (1 << WGM21) | (1 << WGM20);		//WGM = 111 = fast PWM, top OCRA
