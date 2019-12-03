@@ -8,22 +8,32 @@ int started,pos,i,xCoord,yCoord,currentDirection;
 int currentPage;
 int z_buttonState;
 int getDirection();
-
+int size = 5;
+int offsetY = 75;
 
 char itemsMain[2][10] = {
                          "play",
                          "highscore"
                      };
 
-char itemsPlay[3][10] = {
+char itemsPlay[2][10] = {
                          "Level",
-                         "Start",
-                         "test"
+                         "Start"
                      };
 
-char itemsHighscore[2][10] = {
+char itemsLevel[6][10] = {
+                         "level - 1",
+                         "level - 2",
+                         "level - 3",
+                         "level - 4",
+                         "level - 5",
+                         "Generate"
+                     };                     
+
+char itemsHighscore[3][10] = {
                          "highscore",
-                         "test"
+                         "test",
+                         "godver"
                      };
 
 
@@ -54,7 +64,6 @@ void setup() {
 
   // Experimental pointer option
   ptrArray = itemsMain;
-
   currentPage = sizeof(ptrArray);         
 
   //Setting up start screen
@@ -73,7 +82,7 @@ void loop(void) {
     //start();
     //startConnection(host);
     tft.fillScreen(ILI9341_BLACK);
-    highlight();     
+    highlight(size,offsetY);     
     // client side variant that display connection status
    }
 
@@ -84,7 +93,7 @@ void loop(void) {
          if(i > currentPage -1){
           i = currentPage -1;
          }
-         highlight();
+         highlight(size,offsetY);
     }
 
 
@@ -94,7 +103,7 @@ void loop(void) {
       if(i < 0){
           i = 0;
        }
-       highlight();
+       highlight(size,offsetY);
     }
   }
 
@@ -103,10 +112,10 @@ void loop(void) {
   }
 
   if(Nunchuk.state.c_button == 1){
-    ptrArray = prevPtrArray;
+    ptrArray = itemsMain;
     Serial.println("c button down");
     tft.fillScreen(ILI9341_BLACK);
-    highlight();
+    highlight(size,offsetY);
   }
 
   if(Nunchuk.state.joy_y_axis == 128){
@@ -132,13 +141,14 @@ void logoDisplay(){
 
 
 //Drawing the menu items and highlighting the selected items
-void highlight(){  
+void highlight(int size, int offsetY){  
   //Set text style
   tft.setTextColor(ILI9341_WHITE);
-  tft.setTextSize(5); 
+  tft.setTextSize(size); 
   xCoord = 25;
   yCoord = 25;
   for(int j = 0; j < currentPage; j++){
+    //Serial.println(currentPage);
     tft.setCursor(xCoord,yCoord);
     for(int k = 0; k < 10; k++){
       if(j == i){
@@ -150,47 +160,93 @@ void highlight(){
     }
     tft.setTextColor(ILI9341_WHITE); 
     xCoord = 25;
-    yCoord += 75;   
+    yCoord += offsetY;   
   }
 }
 
 void menuSetter(int currentHighlight){
     tft.fillScreen(ILI9341_BLACK);
-    if(ptrArray == itemsMain && currentHighlight == 0){
-      prevPtrArray = ptrArray;
-      ptrArray = itemsPlay;  
-      Serial.println("play");
-    }
-    else if(ptrArray == itemsMain && currentHighlight == 1){
-      prevPtrArray = ptrArray;
-      ptrArray = itemsHighscore;
-      Serial.println("highscore");
+    
+    //Main menu 
+    if(ptrArray == itemsMain){
+      size = 5;
+      offsetY = 75;
+      switch (currentHighlight){
+        case 0 : 
+          ptrArray = itemsPlay;  
+          Serial.println("play");
+          break;
+        case 1 :
+          ptrArray = itemsHighscore;  
+          Serial.println("highscore");
+          break;
+        }    
     }
     
-    if(ptrArray == itemsPlay && currentHighlight == 0){
-      prevPtrArray = ptrArray;
-      ptrArray = itemsPlay;
-      Serial.println("Level");
-    }
-    else if(ptrArray == itemsPlay && currentHighlight == 1){
-     prevPtrArray = ptrArray;
-      ptrArray = itemsPlay;
-      Serial.println("test"); 
-    }
-
-    if(ptrArray == itemsHighscore && currentHighlight == 0){
-      prevPtrArray = ptrArray;
-      ptrArray = itemsHighscore;
-      Serial.println("highscore");
-    }
-    else if(ptrArray == itemsHighscore && currentHighlight == 1){
-     prevPtrArray = ptrArray;
-      ptrArray = itemsHighscore;
-      Serial.println("test"); 
+    //Play menu
+    if(ptrArray == itemsPlay){
+      size = 5;
+      offsetY = 75;
+      switch (currentHighlight){
+        case 0 : 
+          ptrArray =  itemsLevel;  
+          Serial.println("level");
+          break;
+        case 1 :
+          ptrArray = itemsHighscore;  
+          Serial.println("test");
+          break;
+        }    
     }
 
+    //Level select
+    if(ptrArray == itemsLevel){
+      size = 2;
+      offsetY = 30;
+      switch (currentHighlight){
+        case 0 :   
+          Serial.println("level - 1");
+          break;
+        case 1 :  
+          Serial.println("Level - 2");
+          break;
+        case 2 :  
+          Serial.println("Level - 3");
+          break;
+        case 3 :  
+          Serial.println("Level - 4");
+          break;
+        case 4 :  
+          Serial.println("Level - 5");
+          break;
+        case 5 :  
+          Serial.println("Generate random");
+          break;
+        }    
+    }
 
-    highlight();
+    //Highscore menu
+    if(ptrArray == itemsHighscore){
+      size = 5;
+      offsetY = 75;
+      switch (currentHighlight){
+        case 0 : 
+          ptrArray = itemsPlay;  
+          Serial.println("highscore");
+          break;
+        case 1 :
+          ptrArray = itemsHighscore;  
+          Serial.println("test");
+          break;
+        case 2 :
+          ptrArray = itemsHighscore;  
+          Serial.println("godver");
+          break;
+        }    
+    }
+
+    prevPtrArray = ptrArray;
     currentPage = sizeof(ptrArray);
+    highlight(size, offsetY);
 }
 
