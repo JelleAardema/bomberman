@@ -64,7 +64,7 @@ void setup() {
 
   // Experimental pointer option
   ptrArray = itemsMain;
-  currentPage = sizeof(ptrArray);         
+  currentPage = sizeof(ptrArray[0])/sizeof(ptrArray[0][0]);         
 
   //Setting up start screen
   tft.fillScreen(ILI9341_BLACK);
@@ -147,7 +147,7 @@ void highlight(int size, int offsetY){
   tft.setTextSize(size); 
   xCoord = 25;
   yCoord = 25;
-  for(int j = 0; j < currentPage; j++){
+  for(int j = 0; j < currentPage j++){
     //Serial.println(currentPage);
     tft.setCursor(xCoord,yCoord);
     for(int k = 0; k < 10; k++){
@@ -246,7 +246,7 @@ void menuSetter(int currentHighlight){
     }
 
     prevPtrArray = ptrArray;
-    currentPage = sizeof(ptrArray);
+    currentPage = sizeof(ptrArray[0])/sizeof(ptrArray[0][0]);
     highlight(size, offsetY);
 }
 
