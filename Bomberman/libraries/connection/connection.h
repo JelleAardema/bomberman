@@ -2,6 +2,9 @@
 #ifndef CONNECTION_h
 #define CONNECTION_h
 
+// Setup
+void irccBegin(int host);
+
 // player status			type = 1
 void sendPlayerStatus(int xPos, int yPos, int lives, int bombPlaced);
 void receivePlayerStatus(int *xPos, int *yPos, int *lives, int *bombPlaced);
