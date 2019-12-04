@@ -11,14 +11,13 @@ volatile int buf = 0;     			// buffer for recording the time between interrupts
 volatile int receiveDataFlag = 0; 	// mark if there the data is complete
 volatile int receiveStartFlag = 0;	// mark if a start signal received
 volatile uint16_t receiveData = 0; 	// the complete set of of bits recieved
-volatile int x = 0;					// steps to left when writing bit
+volatile int pointerBit = 0;					// steps to left when writing bit
 
 // used pins
 int sensorOutput = PORTD2;			// sensor pin2
 int led = PORTD3;					// IR led pin3
 
 int timer2Top = 52;     		    //36 = 56kHz; 52 = 38kHz. default 38kHz
-
 
 // -----------------------------------------------------------------------------------------------------------------------
 // sendData
@@ -70,7 +69,7 @@ uint16_t receiveIRCC(){
 		int tempData = receiveData;
 		receiveData = 0;
 		receiveDataFlag = 0;
-		x = 0;
+		pointerBit = 0;
 		return tempData;
 	}
 	return 0;
@@ -87,11 +86,11 @@ void receiveBit(){
 			receiveStartFlag = 0;
 		}
 		if(difference(buf, timeHigh, variation)){
-			receiveData |= (1<<x);
-			x++;
+			receiveData |= (1<<pointerBit);
+			pointerBit++;
 		}
 		if(difference(buf, timeLow, variation)){
-			x++;
+			pointerBit++;
 		}
 	}
 }
@@ -114,11 +113,9 @@ ISR(INT0_vect){
 	}
 }
 
-
 // -----------------------------------------------------------------------------------------------------------------------
 // setup
 // -----------------------------------------------------------------------------------------------------------------------
-
 void transmitDataSetup(int host){    	//mode = 36 = 56kHz; mode = 52 = 38kHz.
 	if(host) {
 		timer2Top = 52;
@@ -143,11 +140,9 @@ void pinInit(){
 	TIMSK1 |= (1<<TOIE1);
 }
 
-
 // -----------------------------------------------------------------------------------------------------------------------
 // all timer initializes and commands
 // -----------------------------------------------------------------------------------------------------------------------
-
 void timer0Init() {
 	TCCR0A = 0;           	  	//set entire TCCR0A register to 0
 	TCCR0B = 0;             	//set entire TCCR0B register to 0
