@@ -24,26 +24,26 @@ uint8_t stepper(enum AIM direction,uint8_t world[9][9],struct PLAYER *p1,struct 
       Y++;
       break;
   }
-  if(bomb){
+  if(bomb)
+  {
     int i;
-
     for(i=0; i<MAXBOMBS; i++)
-    {
-
+    {    
      // ((b1[i].placed) && (b1[i].x && p1->x)&&(b1[i].y && p1->y))
-     if(!b1[i].placed )
-     {
-      
-       b1[i].x = p1->x;
-       b1[i].y = p1->y;
-       b1[i].placed = 1;
-       b1[i].fuse = 0;
-       i=MAXBOMBS;
-     
-     }
-    }
-    
-    
+      if(world[b1[i].x][b1[i].y]==air)
+      {
+        if(!b1[i].placed )
+        {
+        
+        b1[i].x = p1->x;
+        b1[i].y = p1->y;
+        b1[i].placed = 1;
+        b1[i].fuse = 0;
+        i=MAXBOMBS;
+        
+        }
+      }
+    }    
   }
   // check if move is posible
   if( ((X>=0)&&(X<=GRID_X)) && ((Y>=0)&&(Y<=GRID_Y)) && (world[X][Y]==air) )

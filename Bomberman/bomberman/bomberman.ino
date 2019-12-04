@@ -106,7 +106,7 @@ void setup() {
   // draw start screen
   screen.fillScreen(0x0000);
   //genWorld(wrld,1);
-  loadWorld(wrld,3);
+  genWorld(wrld,random(1,200));
   drawGrid(&screen,dimension,wrld);
   
 
