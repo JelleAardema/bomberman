@@ -60,11 +60,13 @@ void setup() {
   Wire.begin();
   Nunchuk.begin(0x52); 
   tft.begin();
+  irccBegin();
 
 
   // Experimental pointer option
   ptrArray = itemsMain;
-  currentPage = sizeof(ptrArray[0])/sizeof(ptrArray[0][0]);         
+  currentPage = 2;
+  //currentPage = sizeof(ptrArray[0])/sizeof(ptrArray[0][0]);         
 
   //Setting up start screen
   tft.fillScreen(ILI9341_BLACK);
@@ -79,8 +81,10 @@ void loop(void) {
    if (Nunchuk.state.z_button == 1 && started == 0 && z_buttonState != 1){
     z_buttonState = 1;
     started = 1;
-    //start();
+  
+    //START DE CONNECTIE MET ANDERE ARDUINO
     //startConnection(host);
+    
     tft.fillScreen(ILI9341_BLACK);
     highlight(size,offsetY);     
     // client side variant that display connection status
@@ -108,6 +112,7 @@ void loop(void) {
   }
 
   if(Nunchuk.state.z_button == 1 && z_buttonState != 1){
+    z_buttonState = 1;
     menuSetter(i);
   }
 
@@ -115,6 +120,9 @@ void loop(void) {
     ptrArray = itemsMain;
     Serial.println("c button down");
     tft.fillScreen(ILI9341_BLACK);
+    currentPage = 2;
+    size = 5;
+    offsetY = 75;
     highlight(size,offsetY);
   }
 
@@ -147,7 +155,7 @@ void highlight(int size, int offsetY){
   tft.setTextSize(size); 
   xCoord = 25;
   yCoord = 25;
-  for(int j = 0; j < currentPage j++){
+  for(int j = 0; j < currentPage; j++){
     //Serial.println(currentPage);
     tft.setCursor(xCoord,yCoord);
     for(int k = 0; k < 10; k++){
@@ -169,6 +177,7 @@ void menuSetter(int currentHighlight){
     
     //Main menu 
     if(ptrArray == itemsMain){
+      currentPage = 2;
       size = 5;
       offsetY = 75;
       switch (currentHighlight){
@@ -184,7 +193,8 @@ void menuSetter(int currentHighlight){
     }
     
     //Play menu
-    if(ptrArray == itemsPlay){
+    else if(ptrArray == itemsPlay){
+      currentPage = 2;
       size = 5;
       offsetY = 75;
       switch (currentHighlight){
@@ -200,38 +210,46 @@ void menuSetter(int currentHighlight){
     }
 
     //Level select
-    if(ptrArray == itemsLevel){
+    else if(ptrArray == itemsLevel){
+      currentPage = 6;
       size = 2;
       offsetY = 30;
       switch (currentHighlight){
         case 0 :   
           Serial.println("level - 1");
+          sendLevel(1,1);
           break;
         case 1 :  
           Serial.println("Level - 2");
+          sendLevel(2,1);
           break;
         case 2 :  
           Serial.println("Level - 3");
+          sendLevel(3,1);
           break;
         case 3 :  
           Serial.println("Level - 4");
+          sendLevel(4,1);
           break;
         case 4 :  
           Serial.println("Level - 5");
+          sendLevel(5,1);
           break;
         case 5 :  
           Serial.println("Generate random");
+          sendLevel(0,0);
           break;
         }    
     }
 
     //Highscore menu
-    if(ptrArray == itemsHighscore){
+    else if(ptrArray == itemsHighscore){
+      currentPage = 3;
       size = 5;
       offsetY = 75;
       switch (currentHighlight){
         case 0 : 
-          ptrArray = itemsPlay;  
+          ptrArray = itemsPlay; 
           Serial.println("highscore");
           break;
         case 1 :
@@ -239,14 +257,12 @@ void menuSetter(int currentHighlight){
           Serial.println("test");
           break;
         case 2 :
-          ptrArray = itemsHighscore;  
+          ptrArray = itemsHighscore;
           Serial.println("godver");
           break;
         }    
     }
-
     prevPtrArray = ptrArray;
-    currentPage = sizeof(ptrArray[0])/sizeof(ptrArray[0][0]);
     highlight(size, offsetY);
 }
 
