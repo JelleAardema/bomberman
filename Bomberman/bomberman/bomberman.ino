@@ -4,6 +4,7 @@
 #include <avr/io.h>
 #include <Wire.h>
 #include "nunchuk.h"
+#include <connection.h>
 
 // screen conections spi
 #define TFT_DC 9
@@ -94,6 +95,9 @@ Adafruit_ILI9341 screen = Adafruit_ILI9341(TFT_CS, TFT_DC);
   struct PLAYER player2 = {7,7,3};
   struct BOMB bomb1[MAXBOMBS];
   struct BOMB bomb2;
+
+  int l, b;
+  
 void setup() {
     // setup
     init();
@@ -118,18 +122,21 @@ void setup() {
     bomb1[a].fuse = 0;
     bomb1[a].placed = 0;
   }
+  irccBegin(1);
 
 }
 
 void loop() {
   // change test
-    delay(100);
+    _delay_ms(100);
     Nunchuk.getState(0x52);
     if(stepper((AIM)getDirection(),wrld,&player1,dimension,&screen,bomb1,Nunchuk.state.z_button)){
       drawPlayer(player1,&screen,dimension);
     }
     bombs(bomb1,&screen,dimension);
+    receivePlayerStatus(&player2.x, &player2.y, &l, &b);
+    sendPlayerStatus(player1.x, player1.y, 1, 1);
    // stepper(random(-1,5),wrld,&player2,dimension,&screen);
-    //drawPlayer(player2,&screen,dimension);
+    drawPlayer(player2,&screen,dimension);
 
 }
