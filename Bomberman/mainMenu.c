@@ -16,8 +16,7 @@ char itemsMain[2][10] = {
                          "highscore"
                      };
 
-char itemsPlay[2][10] = {
-                         "Level",
+char itemsPlay[1][10] = {
                          "Start"
                      };
 
@@ -30,7 +29,7 @@ char itemsLevel[6][10] = {
                          "Generate"
                      };                     
 
-char itemsHighscore[2][10] = {
+char itemsHighscore[5][10] = {
                          "highscore",
                          "test"
                          
@@ -59,11 +58,14 @@ void setup() {
   Wire.begin();
   Nunchuk.begin(0x52); 
   tft.begin();
-  irccBegin();
+  irccBegin(1);
 
 
   // Experimental pointer option
   ptrArray = itemsMain;
+  //Setting text size and array item count
+  size = 5;
+  offsetY = 75;
   currentPage = 2;
   //currentPage = sizeof(ptrArray[0])/sizeof(ptrArray[0][0]);         
 
@@ -176,43 +178,39 @@ void menuSetter(int currentHighlight){
     
     //Main menu 
     if(ptrArray == itemsMain){
-      currentPage = 2;
-      size = 5;
-      offsetY = 75;
       switch (currentHighlight){
         case 0 : 
           ptrArray = itemsPlay;  
           Serial.println("play");
+          currentPage = 1;
+          size = 5;
+          offsetY = 75;
           break;
         case 1 :
           ptrArray = itemsHighscore;  
           Serial.println("highscore");
+          currentPage = 5;
+          size = 2;
+          offsetY = 30;
           break;
         }    
     }
     
-    //Play menu
+    //Play menu 
     else if(ptrArray == itemsPlay){
-      currentPage = 2;
       switch (currentHighlight){
         case 0 : 
           ptrArray =  itemsLevel;  
-          Serial.println("level");
+          Serial.println("Start");
+          currentPage = 6;
           size = 2;
           offsetY = 30;
-          break;
-        case 1 :
-          ptrArray = itemsHighscore;  
-          Serial.println("test");
-          size = 5;
-          offsetY = 75;
           break;
         }    
     }
 
     //Level select
     else if(ptrArray == itemsLevel){
-      currentPage = 6;
       switch (currentHighlight){
         case 0 :   
           Serial.println("level - 1");
@@ -243,32 +241,9 @@ void menuSetter(int currentHighlight){
 
     //Highscore menu
     else if(ptrArray == itemsHighscore){
-<<<<<<< HEAD
-      currentPage = 3;
-=======
-      currentPage = 2;
-      size = 5;
-      offsetY = 75;
->>>>>>> e48343d88d7a98761a31c2a0ca08cbbe49b40654
       switch (currentHighlight){
         case 0 : 
-          ptrArray = itemsPlay; 
-          Serial.println("highscore");
-          size = 5;
-          offsetY = 75;
-          break;
-        case 1 :
-          ptrArray = itemsHighscore;  
-          Serial.println("test");
-          size = 5;
-          offsetY = 75;
-          break;
-        case 2 :
-          ptrArray = itemsHighscore;
-          Serial.println("godver");
-          size = 5;
-          offsetY = 75;
-          break;
+
         }    
     }
     prevPtrArray = ptrArray;
