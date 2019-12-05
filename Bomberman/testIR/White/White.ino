@@ -4,9 +4,8 @@
 #include <stdint.h>
 #include <avr/interrupt.h>
 
-#include <encodeData.h>
-#include <ircc.h>
 #include <connection.h>
+#include <globalTimer.h>
 
 
 volatile uint16_t incomingByte = 0;// for serial port
@@ -50,19 +49,12 @@ int main() {
   
   // SEARCHING PLAYER STATUS
   while(1){
-      sendPlayerStatus(x1, y1, l1, b1);
-      Serial.println("Send status"); 
-      _delay_ms(500);
-      receivePlayerStatus(&x2, &y2, &l2, &b2);
-      Serial.print("x2:"); 
-      Serial.print(x2);
-      Serial.print("  y2:"); 
-      Serial.print(y2);
-      Serial.print("  l2:"); 
-      Serial.print(l2);
-      Serial.print("  b2:"); 
-      Serial.println(b2);
-      _delay_ms(500);
+      if(gameUpdate()){
+        sendPlayerStatus(x1, y1, l1, b1);
+        Serial.println("Send status");
+        receivePlayerStatus(&x2, &y2, &l2, &b2);
+        Serial.print("x2:");    Serial.print(x2);   Serial.print("  y2:");    Serial.print(y2);   Serial.print("  l2:");    Serial.print(l2);   Serial.print("  b2:");    Serial.println(b2);
+      }
   }
   return 0;
 }
