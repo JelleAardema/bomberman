@@ -2,14 +2,22 @@
 #include <Nunchuk.h>
 #include <Adafruit_ILI9341.h>
 #include <connection.h>
+#include "mainMenu.h"
 
-int started,pos,i,xCoord,yCoord,currentDirection;
+int started,
+    pos,
+    i,
+    xCoord,
+    yCoord,
+    currentDirection,
+    currentPage,
+    z_buttonState,
+    size,
+    offsetY,
+    host,
+    startGameFlag;
 
-int currentPage;
-int z_buttonState;
 int getDirection();
-int size = 5;
-int offsetY = 75;
 
 char itemsMain[2][10] = {
                          "play",
@@ -40,36 +48,28 @@ char itemsHighscore[5][10] = {
 char (*ptrArray)[10];
 char (*prevPtrArray)[10];
                 
-
-// For the Adafruit shield, these are the default.
-#define TFT_DC 9
-#define TFT_CS 10
-
-
-#define host 1
 // Use hardware SPI (on Uno, #13, #12, #11) and the above for CS/DC
 Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC);
 // If using the breakout, change pins as desired
 //Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC, TFT_MOSI, TFT_CLK, TFT_RST, TFT_MISO);
 
 
-void setup() {
-  Serial.begin(9600);
+void init(int h) {
+  host = h;
   Wire.begin();
   Nunchuk.begin(0x52); 
   tft.begin();
   irccBegin(host);
 
-
-  // Experimental pointer option
+  //Setting pointer on first menu page
   ptrArray = itemsMain;
+
   //Setting text size and array item count
   size = 5;
   offsetY = 75;
   currentPage = 2;
-  //currentPage = sizeof(ptrArray[0])/sizeof(ptrArray[0][0]);         
-
-  //Setting up start screen
+ 
+  //Setting up display orientation and clearing
   tft.fillScreen(ILI9341_BLACK);
   tft.setRotation(1);
   // Setup loop here 
@@ -77,20 +77,25 @@ void setup() {
 }
 
 
-void loop(void) {
+void menu(void) {
+  while(!startGameFlag){
+  //Showing the start screen and setting up the initial connection over IR
   Nunchuk.getState(0x52);
    if (Nunchuk.state.z_button == 1 && started == 0 && z_buttonState != 1){
     z_buttonState = 1;
     started = 1;
   
-    //START DE CONNECTIE MET ANDERE ARDUINO
+    //Starting connection with other arduino
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    connecting();
     startConnection(host);
-    
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
     tft.fillScreen(ILI9341_BLACK);
     highlight(size,offsetY);     
-    // client side variant that display connection status
    }
 
+   //Main navigation loop
   if(started == 1){
     if(getDirection() == 3 && currentDirection != 3){
          i++;
@@ -119,7 +124,6 @@ void loop(void) {
 
   if(Nunchuk.state.c_button == 1){
     ptrArray = itemsMain;
-    Serial.println("c button down");
     tft.fillScreen(ILI9341_BLACK);
     currentPage = 2;
     size = 5;
@@ -134,8 +138,13 @@ void loop(void) {
   if(Nunchuk.state.z_button == 0){
     z_buttonState = 0;
   }
+ }
+  loading();
 }
 
+
+
+//Function to display bomberman logo
 void logoDisplay(){
   tft.setCursor(25,50);
   tft.setTextColor(ILI9341_WHITE);
@@ -173,6 +182,8 @@ void highlight(int size, int offsetY){
   }
 }
 
+
+//Fucntion to select the coresponding menu page and binding behavior on menu items
 void menuSetter(int currentHighlight){
     tft.fillScreen(ILI9341_BLACK);
     
@@ -181,14 +192,12 @@ void menuSetter(int currentHighlight){
       switch (currentHighlight){
         case 0 : 
           ptrArray = itemsPlay;  
-          Serial.println("play");
           currentPage = 1;
           size = 5;
           offsetY = 75;
           break;
         case 1 :
           ptrArray = itemsHighscore;  
-          Serial.println("highscore");
           currentPage = 5;
           size = 2;
           offsetY = 30;
@@ -201,7 +210,6 @@ void menuSetter(int currentHighlight){
       switch (currentHighlight){
         case 0 : 
           ptrArray =  itemsLevel;  
-          Serial.println("Start");
           currentPage = 6;
           size = 2;
           offsetY = 30;
@@ -213,28 +221,28 @@ void menuSetter(int currentHighlight){
     else if(ptrArray == itemsLevel){
       switch (currentHighlight){
         case 0 :   
-          Serial.println("level - 1");
           sendLevel(1,1);
+          startGameFlag = 1;
           break;
         case 1 :  
-          Serial.println("Level - 2");
           sendLevel(2,1);
+          startGameFlag = 1;
           break;
         case 2 :  
-          Serial.println("Level - 3");
           sendLevel(3,1);
+          startGameFlag = 1;
           break;
         case 3 :  
-          Serial.println("Level - 4");
           sendLevel(4,1);
+          startGameFlag = 1;
           break;
         case 4 :  
-          Serial.println("Level - 5");
           sendLevel(5,1);
+          startGameFlag = 1;
           break;
         case 5 :  
-          Serial.println("Generate random");
           sendLevel(0,0);
+          startGameFlag = 1;
           break;
         }    
     }
@@ -250,3 +258,18 @@ void menuSetter(int currentHighlight){
     highlight(size, offsetY);
 }
 
+void loading(){
+  tft.fillScreen(ILI9341_BLACK);
+  tft.setCursor(25,100);
+  tft.setTextColor(ILI9341_WHITE);
+  tft.setTextSize(4); 
+  tft.println("LOADING");
+}
+
+void connecting(){
+  tft.fillScreen(ILI9341_BLACK);
+  tft.setCursor(25,50);
+  tft.setTextColor(ILI9341_WHITE);
+  tft.setTextSize(4); 
+  tft.println("CONNECTING");
+}
