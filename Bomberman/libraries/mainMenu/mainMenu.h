@@ -17,7 +17,10 @@ void highlight(int size, int offsetY);
 
 void menuSetter(int currentHighlight);
 
+//void highscore();
+
 void loading();
 
 void connecting();
+
 #endif

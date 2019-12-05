@@ -2,7 +2,9 @@
 #include <Nunchuk.h>
 #include <Adafruit_ILI9341.h>
 #include <connection.h>
+#include <highscore.h>
 #include "mainMenu.h"
+
 
 int started,
     pos,
@@ -38,11 +40,12 @@ char itemsLevel[6][10] = {
                      };                     
 
 char itemsHighscore[5][10] = {
-                         "highscore",
-                         "test"
-                         
+                         1,
+                         2,
+                         3,
+                         4,
+                         5
                      };
-
 
 // Pointer initialization
 char (*ptrArray)[10];
@@ -56,6 +59,7 @@ Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC);
 
 void init(int h) {
   host = h;
+  Serial.begin(9600);
   Wire.begin();
   Nunchuk.begin(0x52); 
   tft.begin();
@@ -88,7 +92,7 @@ void menu(void) {
     //Starting connection with other arduino
     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     connecting();
-    startConnection(host);
+    //startConnection(host);
     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     tft.fillScreen(ILI9341_BLACK);
@@ -197,10 +201,16 @@ void menuSetter(int currentHighlight){
           offsetY = 75;
           break;
         case 1 :
+          updateHighscoreList();
+          Serial.println(highscores[0]);
+          Serial.println(highscores[1]);
+          Serial.println(highscores[2]);
+          Serial.println(highscores[3]);
+          Serial.println(highscores[4]);
           ptrArray = itemsHighscore;  
           currentPage = 5;
-          size = 2;
-          offsetY = 30;
+          size = 3;
+          offsetY = 75;
           break;
         }    
     }
@@ -246,17 +256,21 @@ void menuSetter(int currentHighlight){
           break;
         }    
     }
-
-    //Highscore menu
-    else if(ptrArray == itemsHighscore){
-      switch (currentHighlight){
-        case 0 : 
-          break;
-        }    
-    }
     prevPtrArray = ptrArray;
     highlight(size, offsetY);
 }
+
+/*
+void highscore(){
+  int yMan = 50;
+  tft.setTextColor(ILI9341_WHITE);  
+  for(int j = 0; j < 5; j++){
+    tft.setCursor(25,yMan);
+      tft.println(highscores[j]); 
+    }
+    yMan += 50;   
+}
+*/
 
 void loading(){
   tft.fillScreen(ILI9341_BLACK);

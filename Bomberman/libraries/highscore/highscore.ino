@@ -4,11 +4,11 @@ void setup() {
   Serial.begin(9600);
 
   // Place 5 scores in the EEPROM
-  placeHighscore(1);
-  placeHighscore(5);
+  placeHighscore(56);
+  placeHighscore(34);
   placeHighscore(4);
-  placeHighscore(2);
   placeHighscore(3);
+  placeHighscore(70);
 
   // Print highscores
   for(int i = 0; i < 5; i++) {
