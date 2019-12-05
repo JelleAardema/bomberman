@@ -4,7 +4,7 @@
 
 #include "globalTimer.h"
 
-int gameUpdateFlag = 0;
+int volatile gameUpdateFlag = 0;
 int microTick = 0;
 int maxMicroTick = 0;
 int subTick = 0;
@@ -15,7 +15,7 @@ int subTick = 0;
 // timer2interrupts
 // -----------------------------------------------------------------------------------------------------------------------
 
-int gameUpdate(){
+int gameUpdate(){					//returns 1 if timer2 overflowed x many times
 	if(gameUpdateFlag){
 		gameUpdateFlag = 0;
 		return 1;
@@ -49,8 +49,8 @@ ISR(TIMER2_COMPA_vect) {      						//interrupt on TCNT2 = OCR2A
 		microTick = 0;
     subTick++;
 	}
-  if(subTick > maxSubTick){
-    subTick = 0;
-    gameUpdateFlag = 1;
-  }
+	if(subTick > maxSubTick){
+		subTick = 0;
+		gameUpdateFlag = 1;
+	}
 }
