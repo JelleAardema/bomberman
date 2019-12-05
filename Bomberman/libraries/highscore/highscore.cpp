@@ -1,8 +1,5 @@
 #include <EEPROM.h>
 
-void placeHighscore(uint16_t newScore);
-void getHighscores();
-
 uint16_t addr;
 int highscores[5];
 
