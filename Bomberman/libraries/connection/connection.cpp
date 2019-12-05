@@ -7,16 +7,24 @@
 
 #include "connection.h"
 
-int connection = 0;
-uint16_t receiveByte;
 
-void startConnection(int host){
+// -----------------------------------------------------------------------------------------------------------------------
+// setup
+// -----------------------------------------------------------------------------------------------------------------------
+void irccBegin(int host){
 	transmitDataSetup(host);
+}
+
+// -----------------------------------------------------------------------------------------------------------------------
+// handshake				type = 4			always first, also has initilize
+// -----------------------------------------------------------------------------------------------------------------------
+void startConnection(int host){
+	int connection = 0;
 	while(!connection){
 		if(host){										// if your host send and search for other
 			sendIRCC(encodeConnection(host));
 		}
-		receiveByte = receiveIRCC(); 
+		int receiveByte = receiveIRCC(); 
 		if(receiveByte){
 			if(decodeMessageType(receiveByte) == 4){
 				int otherHost;
@@ -36,15 +44,65 @@ void startConnection(int host){
 	//connected
 }
 
-void sendLevel(int seed,  int type){
-	sendIRCC(encodeLevel(seed,type));
+// -----------------------------------------------------------------------------------------------------------------------
+// level					type = 2
+// -----------------------------------------------------------------------------------------------------------------------
+void sendLevel(int seed, int type){
+	if(type){
+		sendIRCC(encodeLevel(seed,type));	
+	}else{
+		sendIRCC(encodeLevel(TCNT2, type));
+	}
 }
 
 void receiveLevel(int *seed, int *type){
-	receiveByte = receiveIRCC(); 
+	int level = 0;
+	while(!level){
+		int receiveByte = receiveIRCC(); 
+		if(receiveByte){
+			if(decodeMessageType(receiveByte) == 2){
+				decodeLevel(seed,type);
+				level = 1;
+			}
+		}
+	}
+}
+
+// -----------------------------------------------------------------------------------------------------------------------
+// confirm level loaded		type = 3
+// -----------------------------------------------------------------------------------------------------------------------
+void confirmLoad(int host){
+	int loaded = 0;
+	while(!loaded){
+		if(host){										// if your host send and search for loaded
+			sendIRCC(encodeStart());
+		}
+		int receiveByte = receiveIRCC(); 
+		if(receiveByte){
+			if(decodeMessageType(receiveByte) == 3){
+				loaded = 1;
+			}
+		}
+		_delay_ms(1);									// if removed it breaks
+	}
+	
+	if(!host){		// if your not host send conformation
+		sendIRCC(encodeStart());
+	}
+}
+
+// -----------------------------------------------------------------------------------------------------------------------
+// player status			type = 1
+// -----------------------------------------------------------------------------------------------------------------------
+void sendPlayerStatus(int xPos, int yPos, int lives, int bombPlaced){
+	sendIRCC(encodeStatus(xPos, yPos, lives, bombPlaced));
+}
+
+void receivePlayerStatus(int *xPos, int *yPos, int *lives, int *bombPlaced){
+	int receiveByte = receiveIRCC(); 
 	if(receiveByte){
-		if(decodeMessageType(receiveByte) == 2){
-			decodeLevel(seed,type);
+		if(decodeMessageType(receiveByte) == 1){
+			decodeStatus(xPos, yPos, lives, bombPlaced);
 		}
 	}
 }

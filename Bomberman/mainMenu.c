@@ -30,15 +30,14 @@ char itemsLevel[6][10] = {
                          "Generate"
                      };                     
 
-char itemsHighscore[3][10] = {
+char itemsHighscore[2][10] = {
                          "highscore",
-                         "test",
-                         "godver"
+                         "test"
+                         
                      };
 
 
 // Pointer initialization
-
 char (*ptrArray)[10];
 char (*prevPtrArray)[10];
                 
@@ -244,7 +243,13 @@ void menuSetter(int currentHighlight){
 
     //Highscore menu
     else if(ptrArray == itemsHighscore){
+<<<<<<< HEAD
       currentPage = 3;
+=======
+      currentPage = 2;
+      size = 5;
+      offsetY = 75;
+>>>>>>> e48343d88d7a98761a31c2a0ca08cbbe49b40654
       switch (currentHighlight){
         case 0 : 
           ptrArray = itemsPlay; 
