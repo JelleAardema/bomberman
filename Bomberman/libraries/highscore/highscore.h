@@ -4,6 +4,6 @@
 int highscores[5];
 
 void placeHighscore(uint16_t newScore);
-void getHighscores();
+void updateHighscoreList();
 
 #endif

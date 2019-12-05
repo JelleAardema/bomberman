@@ -2,23 +2,13 @@
 
 void setup() {
   Serial.begin(9600);
-  
-  uint16_t score = 4;
-  placeHighscore(score);
-  
-  score = 2;
-  placeHighscore(score);
 
-  score = 1;
-  placeHighscore(score);
-  
-  score = 3;
-  placeHighscore(score);
-
-  score = 5;
-  placeHighscore(score);
-
-  getHighscores();
+  // Test code
+  placeHighscore(1);
+  placeHighscore(5);
+  placeHighscore(4);
+  placeHighscore(2);
+  placeHighscore(3);
 
   for(int i = 0; i < 5; i++) {
     Serial.println(highscores[i]);

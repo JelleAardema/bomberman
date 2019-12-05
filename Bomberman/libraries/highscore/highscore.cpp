@@ -3,6 +3,20 @@
 uint16_t addr;
 extern int highscores[5];
 
+// Places highscores in highscores array
+void updateHighscoreList() {
+
+  addr = 256;
+  uint16_t score;
+
+  // Get highscores from EEPROM and put it in the array
+  for(int i = 0; i < 5; i++) {
+    EEPROM.get(addr, score);
+    highscores[i] = score;
+    addr += 16;
+  }
+}
+
 void placeHighscore(uint16_t newScore) {
 
   addr = 256;
@@ -33,18 +47,6 @@ void placeHighscore(uint16_t newScore) {
     // Move 16 steps down the address
     addr += 16;
   }
-}
-
-// Places highscores in highscores array
-void getHighscores() {
-
-  addr = 256;
-  uint16_t score;
-
-  // Get highscores from EEPROM and put it in the array
-  for(int i = 0; i < 5; i++) {
-    EEPROM.get(addr, score);
-    highscores[i] = score;
-    addr += 16;
-  }
+  
+  updateHighscoreList();
 }
