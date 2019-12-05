@@ -1,7 +1,7 @@
 #include <EEPROM.h>
 
 uint16_t addr;
-int highscores[5];
+extern int highscores[5];
 
 void placeHighscore(uint16_t newScore) {
 
@@ -45,7 +45,6 @@ void getHighscores() {
   for(int i = 0; i < 5; i++) {
     EEPROM.get(addr, score);
     highscores[i] = score;
-    Serial.println(highscores[i]);
     addr += 16;
   }
 }
