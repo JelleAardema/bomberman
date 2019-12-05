@@ -58,7 +58,7 @@ void setup() {
   Wire.begin();
   Nunchuk.begin(0x52); 
   tft.begin();
-  irccBegin(1);
+  irccBegin(host);
 
 
   // Experimental pointer option
@@ -84,7 +84,7 @@ void loop(void) {
     started = 1;
   
     //START DE CONNECTIE MET ANDERE ARDUINO
-    //startConnection(host);
+    startConnection(host);
     
     tft.fillScreen(ILI9341_BLACK);
     highlight(size,offsetY);     
@@ -243,7 +243,7 @@ void menuSetter(int currentHighlight){
     else if(ptrArray == itemsHighscore){
       switch (currentHighlight){
         case 0 : 
-
+          break;
         }    
     }
     prevPtrArray = ptrArray;
