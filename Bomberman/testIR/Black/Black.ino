@@ -30,6 +30,8 @@ int type;
 
 int main() {
 	//setup
+  irccBegin(host);
+  
 	Serial.begin(9600);     //temp; to start serial monitor
   Serial.println("Loaded");
   
@@ -45,7 +47,7 @@ int main() {
   Serial.println(type);
 
   // LOADING LEVEL
-  _delay_ms(30000);  //slave is slow
+  _delay_ms(4000);  //slave is slow
   confirmLoad(host);
   Serial.println("Level Loaded"); 
   

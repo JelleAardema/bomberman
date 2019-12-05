@@ -30,13 +30,15 @@ int type = 1;
 
 int main() {
 	//setup
+  irccBegin(host);
+ 
 	Serial.begin(9600);     //temp; to start serial monitor
 	Serial.println("Loaded");
  
   // SEARCHING FOR OTHER ARDUINO
   startConnection(host);
   Serial.println("Connected");
-  _delay_ms(1000);
+  _delay_ms(1000);    // input time of the user
   
   // SEND SEED
   sendLevel(seed, type);

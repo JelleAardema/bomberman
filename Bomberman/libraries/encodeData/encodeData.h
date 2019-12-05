@@ -3,10 +3,10 @@
 #define ENCODEDATA_h
 
 /*
-Status		= 000
-Level		= 001
-Start		= 010
-Connection	= 011
+Status		= 001
+Level		= 010
+Start		= 011
+Connection	= 100
 */
 
 // function encode
