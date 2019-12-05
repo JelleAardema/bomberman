@@ -4,37 +4,37 @@
 
 #include <encodeData.h>
 #include <ircc.h>
+#include <globalTimer.h>
 
 #include "connection.h"
 
 
-// -----------------------------------------------------------------------------------------------------------------------
-// setup
-// -----------------------------------------------------------------------------------------------------------------------
-void irccBegin(int host){
-	transmitDataSetup(host);
+void irccBegin(int host){			//0 = 36 = 56kHz = toWhite; 1 = 52 = 38kHz = toBlack
+	transmitDataSetup(host);	
+	timer2InterruptInit(host);
 }
 
 // -----------------------------------------------------------------------------------------------------------------------
 // handshake				type = 4			always first, also has initilize
 // -----------------------------------------------------------------------------------------------------------------------
 void startConnection(int host){
-	int connection = 0;
+	int volatile connection = 0;
 	while(!connection){
-		if(host){										// if your host send and search for other
-			sendIRCC(encodeConnection(host));
-		}
-		int receiveByte = receiveIRCC(); 
-		if(receiveByte){
-			if(decodeMessageType(receiveByte) == 4){
-				int otherHost;
-				decodeConnection(&otherHost);
-				if(otherHost != host){
-					connection = 1;
+		if(gameUpdate()){
+			if(host){										// if your host send and search for other
+				sendIRCC(encodeConnection(host));
+			}
+			int receiveByte = receiveIRCC(); 
+			if(receiveByte){
+				if(decodeMessageType(receiveByte) == 4){
+					int otherHost;
+					decodeConnection(&otherHost);
+					if(otherHost != host){
+						connection = 1;
+					}
 				}
 			}
 		}
-		_delay_ms(1);									// if removed it breaks
 	}
 	
 	if(!host){		// if your not host send conformation
@@ -74,16 +74,17 @@ void receiveLevel(int *seed, int *type){
 void confirmLoad(int host){
 	int loaded = 0;
 	while(!loaded){
-		if(host){										// if your host send and search for loaded
-			sendIRCC(encodeStart());
-		}
-		int receiveByte = receiveIRCC(); 
-		if(receiveByte){
-			if(decodeMessageType(receiveByte) == 3){
-				loaded = 1;
+		if(gameUpdate()){
+			if(host){										// if your host send and search for loaded
+				sendIRCC(encodeStart());
+			}
+			int receiveByte = receiveIRCC(); 
+			if(receiveByte){
+				if(decodeMessageType(receiveByte) == 3){
+					loaded = 1;
+				}
 			}
 		}
-		_delay_ms(1);									// if removed it breaks
 	}
 	
 	if(!host){		// if your not host send conformation
