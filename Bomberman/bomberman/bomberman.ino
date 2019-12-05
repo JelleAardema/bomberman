@@ -14,7 +14,7 @@
 #define GRID_Y 9
 
 //game behavior rules
-//#define FUSETIME 300     // Fuse time in ms
+#define FUSETIME 300     // Fuse time in ms
 #define WALKSPEED 100     // time before next step can be taken
 #define MAXBOMBS 3        // maximum amount of bombs per player
 // colors
@@ -47,10 +47,9 @@ struct PLAYER
 
 struct BOMB
 {
-  uint8_t x[MAXBOMBS];
-  uint8_t y[MAXBOMBS];
-  uint8_t fuse[MAXBOMBS];
-  uint8_t range;
+  uint8_t x;
+  uint8_t y;
+  uint16_t fuse;
   uint8_t placed;
 };
 // functions
@@ -79,28 +78,21 @@ void genWorld(uint8_t world[GRID_X][GRID_Y],int seed);
 void setWall(uint8_t world[GRID_X][GRID_Y],int x, int y, int roti, int size);
 int findBlock(uint8_t world[GRID_X][GRID_Y],uint8_t block, int x, int y);
 
+void loadWorld(uint8_t world[GRID_X][GRID_Y],int level);
+void copyWorld(uint8_t out[GRID_X][GRID_Y],uint8_t in[GRID_X][GRID_Y]);
 // types
 
 
 
 Adafruit_ILI9341 screen = Adafruit_ILI9341(TFT_CS, TFT_DC);
 // test data
-  uint8_t wrld[GRID_X][GRID_Y]={
-      {1,1,1,1,1,1,1,1,1},
-      {1,0,0,0,0,0,0,0,1},
-      {1,0,1,0,1,0,1,0,1},
-      {1,0,0,0,0,0,0,0,1},
-      {1,0,1,0,1,0,1,0,1},
-      {1,0,0,0,0,0,0,0,1},
-      {1,0,1,0,1,0,1,0,1},
-      {1,0,0,0,0,0,0,0,1},
-      {1,1,1,1,1,1,1,1,1}};
+  uint8_t wrld[GRID_X][GRID_Y];
 
 
   struct DIMENSION dimension = {10,10,220,220};
-  struct PLAYER player1 = {1,1,2};
+  struct PLAYER player1 = {1,1,4};
   struct PLAYER player2 = {7,7,3};
-  struct BOMB bomb1;
+  struct BOMB bomb1[MAXBOMBS];
   struct BOMB bomb2;
 void setup() {
     // setup
@@ -110,20 +102,33 @@ void setup() {
   Nunchuk.begin(0x52);
   // zet cordinate system
     screen.setRotation(1);
-Serial.begin(9600);
+
   // draw start screen
   screen.fillScreen(0x0000);
+  //genWorld(wrld,1);
+  loadWorld(wrld,3);
   drawGrid(&screen,dimension,wrld);
+  
 
+  int a,b;
+  for(a=0;a<MAXBOMBS;a++)
+  {
+    bomb1[a].x = 0;
+    bomb1[a].y = 0;
+    bomb1[a].fuse = 0;
+    bomb1[a].placed = 0;
+  }
 
 }
 
 void loop() {
   // change test
-    delay(200);
+    delay(100);
     Nunchuk.getState(0x52);
-    stepper((AIM)getDirection(),wrld,&player1,dimension,&screen,&bomb1);
-    drawPlayer(player1,&screen,dimension);
+    if(stepper((AIM)getDirection(),wrld,&player1,dimension,&screen,bomb1,Nunchuk.state.z_button)){
+      drawPlayer(player1,&screen,dimension);
+    }
+    bombs(bomb1,&screen,dimension);
    // stepper(random(-1,5),wrld,&player2,dimension,&screen);
     //drawPlayer(player2,&screen,dimension);
 
