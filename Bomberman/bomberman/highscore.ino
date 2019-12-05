@@ -1,15 +1,7 @@
 #include <EEPROM.h>
 
 uint16_t addr;
-
-void setup() {
-  Serial.begin(9600);
-  
-  uint16_t score = 7;
-
-  placeHighscore(score);
-  getHighscores();
-}
+int highscores[5];
 
 void placeHighscore(uint16_t newScore) {
 
@@ -18,39 +10,42 @@ void placeHighscore(uint16_t newScore) {
   // Loop through the 5 old highscores
   for(int i = 0; i < 5; i++) {
 
-    uint16_t oldScore, lowerScore;
+    uint16_t oldScore, previousScore, tempScore;
     EEPROM.get(addr, oldScore);
 
     if(newScore > oldScore) {
       // Loop through the scores that would be below the new high score
-      for(int j = 0; j < 5 - i; j++) {
-
-        // Move all the highscores 1 place down
-        EEPROM.get(addr + 16 * j, lowerScore);
-        EEPROM.put(addr + 16 + 16 * j, lowerScore);  
+      
+      for(int j = 0; j < 6 - i; j++) {
+        // Move all the highscores 1 place down and remember the old score
+        EEPROM.get(addr + 16 + 16 * j, tempScore);
+        EEPROM.put(addr + 16 + 16 * j, oldScore);
+        oldScore = tempScore;  
       }
 
       // Place the new highscore
       EEPROM.put(addr, newScore);
+
+      // Stop for loop so it doesn't overwrite
       break;
     }
 
+    // Move 16 steps down the address
     addr += 16;
   }
 }
 
+// Places highscores in highscores array
 void getHighscores() {
 
   addr = 256;
   uint16_t score;
-  
+
+  // Get highscores from EEPROM and put it in the array
   for(int i = 0; i < 5; i++) {
     EEPROM.get(addr, score);
-    Serial.println(score);
+    highscores[i] = score;
+    Serial.println(highscores[i]);
     addr += 16;
   }
-}
-
-void loop() { 
-  
 }
