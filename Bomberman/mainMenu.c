@@ -195,16 +195,18 @@ void menuSetter(int currentHighlight){
     //Play menu
     else if(ptrArray == itemsPlay){
       currentPage = 2;
-      size = 5;
-      offsetY = 75;
       switch (currentHighlight){
         case 0 : 
           ptrArray =  itemsLevel;  
           Serial.println("level");
+          size = 2;
+          offsetY = 30;
           break;
         case 1 :
           ptrArray = itemsHighscore;  
           Serial.println("test");
+          size = 5;
+          offsetY = 75;
           break;
         }    
     }
@@ -212,8 +214,6 @@ void menuSetter(int currentHighlight){
     //Level select
     else if(ptrArray == itemsLevel){
       currentPage = 6;
-      size = 2;
-      offsetY = 30;
       switch (currentHighlight){
         case 0 :   
           Serial.println("level - 1");
@@ -245,20 +245,24 @@ void menuSetter(int currentHighlight){
     //Highscore menu
     else if(ptrArray == itemsHighscore){
       currentPage = 3;
-      size = 5;
-      offsetY = 75;
       switch (currentHighlight){
         case 0 : 
           ptrArray = itemsPlay; 
           Serial.println("highscore");
+          size = 5;
+          offsetY = 75;
           break;
         case 1 :
           ptrArray = itemsHighscore;  
           Serial.println("test");
+          size = 5;
+          offsetY = 75;
           break;
         case 2 :
           ptrArray = itemsHighscore;
           Serial.println("godver");
+          size = 5;
+          offsetY = 75;
           break;
         }    
     }
