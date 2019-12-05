@@ -1,3 +1,11 @@
+#include <Adafruit_ILI9341.h>
+#include <Adafruit_GFX.h>
+#include "grid.h"
+#include <stdint.h>
+#include <avr/io.h>
+#include <arduino.h>
+
+
 // Draw whole grid
 void drawGrid(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t world[GRID_X][GRID_Y])
 {
@@ -15,13 +23,13 @@ void drawGrid(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t world[GRID_X
       drawBlock(pen,block,world[x][y]);
     }
   }
-} 
+}
 
 // Draw a block
 void drawBlock(Adafruit_ILI9341 *pen,struct DIMENSION block,uint8_t type)
 {
   uint16_t color;
-    // Decide wich collor is uded
+    // Decide wich color is used
   switch(type)
   {
     case 0:
@@ -41,7 +49,7 @@ void drawBlock(Adafruit_ILI9341 *pen,struct DIMENSION block,uint8_t type)
       break;
     default:
       color=BLACK;
-  } 
+  }
 
     // Draw block
   pen->fillRect(block.x,block.y,block.width,block.height,color);
@@ -52,13 +60,13 @@ void changeBlock(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t grid[GRID
 {
   // change type of block
   grid[x][y] = newtype;
-  
+
   // calculate the position and size of block on screen
   struct DIMENSION block;
   calcBlock(screen,&block,x,y);
 
   // Redraw block
-  drawBlock(pen,block,grid[x][y]);  
+  drawBlock(pen,block,grid[x][y]);
 }
 
 // redraw a block from grid
@@ -69,12 +77,12 @@ void redrawBlock(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t grid[GRID
   calcBlock(screen,&block,x,y);
 
   // Redraw block
-  drawBlock(pen,block,grid[x][y]);  
+  drawBlock(pen,block,grid[x][y]);
 }
 
 // calculate block
 void calcBlock(struct DIMENSION screen,struct DIMENSION *block,uint16_t x,uint16_t y)
-{ 
+{
   // calculate the position and size of block on screen
   block->width = screen.width/GRID_X;
   block->height = screen.height/GRID_Y;
