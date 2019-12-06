@@ -57,7 +57,6 @@ Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC);
 
 void init(int h) {
   host = h;
-  Serial.begin(9600);
   Wire.begin();
   Nunchuk.begin(0x52); 
   tft.begin();
@@ -74,30 +73,29 @@ void init(int h) {
   //Setting up display orientation and clearing
   tft.fillScreen(ILI9341_BLACK);
   tft.setRotation(1);
-  // Setup loop here 
+ 
+  //Display logo and wait for user input
   logoDisplay();
 }
 
 
 void menu(void) {
   while(!startGameFlag){
-  //Showing the start screen and setting up the initial connection over IR
+  //Waiting for user input to setup initial connection over IR
   Nunchuk.getState(0x52);
    if (Nunchuk.state.z_button == 1 && started == 0 && z_buttonState != 1){
     z_buttonState = 1;
     started = 1;
-  
-    //Starting connection with other arduino
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    connecting();
-    //startConnection(host);
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+    connecting();
+    startConnection(host);
+
+    //Clearing screen and drawing the menu items
     tft.fillScreen(ILI9341_BLACK);
     highlight(size,offsetY);     
    }
 
-   //Main navigation loop
+   //Loop for navigation
   if(started == 1){
     if(getDirection() == 3 && currentDirection != 3){
          i++;
@@ -141,6 +139,7 @@ void menu(void) {
     z_buttonState = 0;
   }
  }
+  //Displaying loading screen and awaiting game start instructions
   loading();
 }
 
@@ -162,7 +161,6 @@ void logoDisplay(){
 
 //Drawing the menu items and highlighting the selected items
 void highlight(int size, int offsetY){  
-  //Set text style
   if(ptrArray != itemsHighscore){
   tft.setTextColor(ILI9341_WHITE);
   tft.setTextSize(size); 
@@ -254,6 +252,8 @@ void menuSetter(int currentHighlight){
     highlight(size, offsetY);
 }
 
+
+//Updating the highscores and displaying them 
 void highscore(int size, int offsetY){
   updateHighscoreList();
   xCoord = 50;
@@ -273,6 +273,7 @@ void highscore(int size, int offsetY){
   }
 }
 
+//Loading screen
 void loading(){
   tft.fillScreen(ILI9341_BLACK);
   tft.setCursor(25,100);
@@ -281,6 +282,7 @@ void loading(){
   tft.println("LOADING");
 }
 
+//Connection screen
 void connecting(){
   tft.fillScreen(ILI9341_BLACK);
   tft.setCursor(25,50);
