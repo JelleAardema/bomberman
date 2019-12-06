@@ -21,6 +21,7 @@ int started,
 
 int getDirection();
 
+
 char itemsMain[2][10] = {
                          "play",
                          "highscore"
@@ -39,12 +40,9 @@ char itemsLevel[6][10] = {
                          "Generate"
                      };                     
 
-char itemsHighscore[5][10] = {
-                         1,
-                         2,
-                         3,
-                         4,
-                         5
+
+char itemsHighscore[1][10] = {
+                      ""
                      };
 
 // Pointer initialization
@@ -72,7 +70,7 @@ void init(int h) {
   size = 5;
   offsetY = 75;
   currentPage = 2;
- 
+
   //Setting up display orientation and clearing
   tft.fillScreen(ILI9341_BLACK);
   tft.setRotation(1);
@@ -165,12 +163,12 @@ void logoDisplay(){
 //Drawing the menu items and highlighting the selected items
 void highlight(int size, int offsetY){  
   //Set text style
+  if(ptrArray != itemsHighscore){
   tft.setTextColor(ILI9341_WHITE);
   tft.setTextSize(size); 
   xCoord = 25;
   yCoord = 25;
   for(int j = 0; j < currentPage; j++){
-    //Serial.println(currentPage);
     tft.setCursor(xCoord,yCoord);
     for(int k = 0; k < 10; k++){
       if(j == i){
@@ -183,6 +181,7 @@ void highlight(int size, int offsetY){
     tft.setTextColor(ILI9341_WHITE); 
     xCoord = 25;
     yCoord += offsetY;   
+    }
   }
 }
 
@@ -201,19 +200,14 @@ void menuSetter(int currentHighlight){
           offsetY = 75;
           break;
         case 1 :
-          updateHighscoreList();
-          Serial.println(highscores[0]);
-          Serial.println(highscores[1]);
-          Serial.println(highscores[2]);
-          Serial.println(highscores[3]);
-          Serial.println(highscores[4]);
-          ptrArray = itemsHighscore;  
+          ptrArray = itemsHighscore;
           currentPage = 5;
           size = 3;
-          offsetY = 75;
+          offsetY = 35;
+          highscore(size,offsetY);
           break;
         }    
-    }
+    }  
     
     //Play menu 
     else if(ptrArray == itemsPlay){
@@ -256,21 +250,28 @@ void menuSetter(int currentHighlight){
           break;
         }    
     }
-    prevPtrArray = ptrArray;
+
     highlight(size, offsetY);
 }
 
-/*
-void highscore(){
-  int yMan = 50;
-  tft.setTextColor(ILI9341_WHITE);  
-  for(int j = 0; j < 5; j++){
-    tft.setCursor(25,yMan);
-      tft.println(highscores[j]); 
-    }
-    yMan += 50;   
+void highscore(int size, int offsetY){
+  updateHighscoreList();
+  xCoord = 50;
+  yCoord = 25;
+  tft.setTextColor(ILI9341_WHITE);
+  tft.setTextSize(size);
+  for(int j = 0; j < currentPage; j++){
+    tft.setCursor(xCoord,yCoord);
+    tft.setTextColor(ILI9341_YELLOW);
+    tft.println(j + 1);
+    tft.setCursor(xCoord + 20,yCoord);
+    tft.println(".");
+    tft.setTextColor(ILI9341_WHITE);
+    tft.setCursor(xCoord + 40,yCoord);
+    tft.println(highscores[j]);
+    yCoord += offsetY;  
+  }
 }
-*/
 
 void loading(){
   tft.fillScreen(ILI9341_BLACK);
