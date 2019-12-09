@@ -8,6 +8,8 @@
 #include <bomb.h>
 #include <grid.h>
 #include <level.h>
+#include <connection.h>
+#include <globalTimer.h>
 
 int getDirection();
 #define host 1
