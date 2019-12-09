@@ -15,6 +15,7 @@ void bombWorld(uint8_t world[GRID_X][GRID_Y],int x, int y, int power)
           world[calcX][calcY] = air;
         }  
     }
+  }
 }
 
 // calc next block to destroy and check if the block is within the world
