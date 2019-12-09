@@ -1,10 +1,14 @@
+#include "grid.h"
+#include <stdint.h>
+#include "level.h"
+
 // generate world
 void genWorld(uint8_t world[GRID_X][GRID_Y],int seed)
 {
   int x,y,count;
   // init rand
   srand(seed);
-    
+
   // fill world with air
   for(x=0; x<GRID_X; x++)
   {
@@ -22,7 +26,7 @@ void genWorld(uint8_t world[GRID_X][GRID_Y],int seed)
       if( (rand()%100) < 35)
         world[x][y] = destruct;
     }
-  } 
+  }
 
   // place random walls
   count = 0;
@@ -33,7 +37,7 @@ void genWorld(uint8_t world[GRID_X][GRID_Y],int seed)
       if( !findBlock(world,wall,x,y))
         setWall(world,x,y,rand()%2,rand()%5);
     }
-  } 
+  }
 
   // place spawn points
   for(x=0; x<2; x++)
@@ -64,7 +68,7 @@ int findBlock(uint8_t world[GRID_X][GRID_Y],uint8_t block, int x, int y)
   p1y=y;
   p2y=y;
 
-  // calculate area 
+  // calculate area
     if( (x>0)) p1x--;
   if( (y>0)) p1y--;
   if( (x < (GRID_X-1)) ) p2x++;
@@ -88,11 +92,11 @@ void setWall(uint8_t world[GRID_X][GRID_Y],int x, int y, int rot,int size)
 {
   int i;
     for(i=0; (i<size) && (x<GRID_X) && (y<GRID_Y); i++)
-  {   
+  {
     // set wall
     world[x][y] = wall;
 
-    // go right or down 
+    // go right or down
     switch(rot)
     {
       case 0:
