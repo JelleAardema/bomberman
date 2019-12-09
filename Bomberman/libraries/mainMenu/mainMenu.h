@@ -7,7 +7,7 @@
 #define TFT_CS 10
 
 //Functions used by mainMenu
-void init(int h);
+void initMainMenu(int h);
 
 void logoDisplay();
 

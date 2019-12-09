@@ -55,7 +55,7 @@ Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC);
 //Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC, TFT_MOSI, TFT_CLK, TFT_RST, TFT_MISO);
 
 
-void init(int h) {
+void initMainMenu(int h) {
   host = h;
   Wire.begin();
   Nunchuk.begin(0x52); 
