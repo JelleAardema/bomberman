@@ -32,10 +32,11 @@ uint8_t stepper(enum AIM direction,uint8_t world[9][9],struct PLAYER *p1,struct 
   if(bomb)
   {
     int i;
+
     for(i=0; i<MAXBOMBS; i++)
     {
      // ((b1[i].placed) && (b1[i].x && p1->x)&&(b1[i].y && p1->y))
-      if(world[b1[i].x][b1[i].y]==air)
+      if(world[p1->x][p1->y]==air)
       {
         if(!b1[i].placed )
         {

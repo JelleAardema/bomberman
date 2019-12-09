@@ -54,6 +54,7 @@ void setup() {
 void loop() {
   // change test
   if(gameUpdate()){
+    Serial.println("1");
     Nunchuk.getState(0x52);
     if(stepper((AIM)getDirection(),wrld,&player1,dimension,&screen,bomb1,Nunchuk.state.z_button)){
       drawPlayer(player1,&screen,dimension);
