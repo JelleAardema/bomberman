@@ -17,7 +17,7 @@ void bombWorld(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t world[GRID_
           // draw destruction wave
           struct DIMENSION block;
           calcBlock(screen,&block,calcX,calcY);
-          drawBlock(pen,block,world[calcX][calcY]);
+          drawBlock(pen,block,5);
         }
         else break; 
     }
@@ -44,7 +44,6 @@ void clearWave(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t world[GRID_
     }
   }
 }
-
 
 // calc next block to destroy and check if the block is within the world
 int bombNext(int i, int q,int x, int y, int *calcX, int *calcY,uint8_t world[GRID_X][GRID_Y])
