@@ -76,10 +76,9 @@ void setWall(uint8_t world[GRID_X][GRID_Y],int x, int y, int roti, int size);
 int findBlock(uint8_t world[GRID_X][GRID_Y],uint8_t block, int x, int y);
 void loadWorld(uint8_t world[GRID_X][GRID_Y],int level);
 void copyWorld(uint8_t out[GRID_X][GRID_Y],uint8_t in[GRID_X][GRID_Y]);
-void bombWorld(uint8_t world[GRID_X][GRID_Y],int x, int y, int power);
-int bombNext(int i, int q,int x, int y, int *calcX, int *calcY);
-//void drawWave(Adafruit_ILI9341 *,struct DIMENSION,int x, int y, int power);
-//void clearWave(Adafruit_ILI9341 *,struct DIMENSION,int x, int y, int power);
+void bombWorld(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t world[GRID_X][GRID_Y],int x, int y, int power);
+int bombNext(int i, int q,int x, int y, int *calcX, int *calcY,uint8_t world[GRID_X][GRID_Y]);
+void clearWave(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t world[GRID_X][GRID_Y],int x, int y, int power);
 
 Adafruit_ILI9341 screen = Adafruit_ILI9341(TFT_CS, TFT_DC);
 // test data

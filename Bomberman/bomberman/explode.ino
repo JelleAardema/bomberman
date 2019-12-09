@@ -1,5 +1,5 @@
 // destructing wave
-void bombWorld(uint8_t world[GRID_X][GRID_Y],int x, int y, int power)
+void bombWorld(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t world[GRID_X][GRID_Y],int x, int y, int power)
 {
   int i,q,calcX,calcY;
     // go trough all directions (left,right,up,down) of explosion
@@ -13,10 +13,38 @@ void bombWorld(uint8_t world[GRID_X][GRID_Y],int x, int y, int power)
         {
           // destroy the block
           world[calcX][calcY] = air;
-        }  
+
+          // draw destruction wave
+          struct DIMENSION block;
+          calcBlock(screen,&block,calcX,calcY);
+          drawBlock(pen,block,world[calcX][calcY]);
+        }
+        else break; 
     }
   }
 }
+
+// clear exploding cloud
+void clearWave(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t world[GRID_X][GRID_Y],int x, int y, int power)
+{
+  int i,q,calcX,calcY;
+    // go trough all directions (left,right,up,down) of explosion
+    for(q=0; q < 4; q++)
+    {
+      // go trough the blocks that are in explosion range
+      for(i=1; i<power; i++)
+      {
+        // calculate which block is next and check of it can be destroyed
+        if(bombNext(i,q,x,y,&calcX, &calcY,world))
+        {
+          // redraw block
+          redrawBlock(pen,screen,world,calcX,calcY);
+        }
+        else break; 
+    }
+  }
+}
+
 
 // calc next block to destroy and check if the block is within the world
 int bombNext(int i, int q,int x, int y, int *calcX, int *calcY,uint8_t world[GRID_X][GRID_Y])
