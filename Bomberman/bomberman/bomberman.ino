@@ -9,36 +9,26 @@
 #include <grid.h>
 #include <level.h>
 
-
-//game behavior rules
-
-
 int getDirection();
+#define host 1
 
-// random level functions
-
-
-
-
-
-Adafruit_ILI9341 screen = Adafruit_ILI9341(TFT_CS, TFT_DC);
 // test data
+  Adafruit_ILI9341 screen = Adafruit_ILI9341(TFT_CS, TFT_DC);
   uint8_t wrld[GRID_X][GRID_Y];
-
-
   struct DIMENSION dimension = {10,10,220,220};
   struct PLAYER player1 = {1,1,4};
   struct PLAYER player2 = {7,7,3};
   struct BOMB bomb1[MAXBOMBS];
   struct BOMB bomb2;
+
 void setup() {
-    // setup
-    init();
-    Wire.begin();
+  // setup
+  init();
+  Wire.begin();
   screen.begin();
   Nunchuk.begin(0x52);
   // zet cordinate system
-    screen.setRotation(1);
+  screen.setRotation(1);
 
   // draw start screen
   screen.fillScreen(0x0000);
@@ -55,18 +45,19 @@ void setup() {
     bomb1[a].fuse = 0;
     bomb1[a].placed = 0;
   }
-
+  
+  irccBegin(host);
 }
 
 void loop() {
   // change test
-    delay(100);
+  if(gameUpdate()){
     Nunchuk.getState(0x52);
     if(stepper((AIM)getDirection(),wrld,&player1,dimension,&screen,bomb1,Nunchuk.state.z_button)){
       drawPlayer(player1,&screen,dimension);
     }
     bombs(bomb1,&screen,dimension,wrld);
-   // stepper(random(-1,5),wrld,&player2,dimension,&screen);
+    // stepper(random(-1,5),wrld,&player2,dimension,&screen);
     //drawPlayer(player2,&screen,dimension);
-
+  }
 }
