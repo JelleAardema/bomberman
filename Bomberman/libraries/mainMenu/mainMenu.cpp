@@ -17,7 +17,9 @@ int started,
     size,
     offsetY,
     host,
-    startGameFlag;
+    startGameFlag,
+    levelSeed,
+    levelType;
 
 int getDirection();
 
@@ -47,7 +49,6 @@ char itemsHighscore[1][10] = {
 
 // Pointer initialization
 char (*ptrArray)[10];
-char (*prevPtrArray)[10];
                 
 // Use hardware SPI (on Uno, #13, #12, #11) and the above for CS/DC
 Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC);
@@ -222,31 +223,29 @@ void menuSetter(int currentHighlight){
     //Level select
     else if(ptrArray == itemsLevel){
       switch (currentHighlight){
+        levelType = 1;
         case 0 :   
-          sendLevel(1,1);
-          startGameFlag = 1;
+          levelSeed = 1;
           break;
         case 1 :  
-          sendLevel(2,1);
-          startGameFlag = 1;
+          levelSeed = 2;
           break;
         case 2 :  
-          sendLevel(3,1);
-          startGameFlag = 1;
+          levelSeed = 3;          
           break;
         case 3 :  
-          sendLevel(4,1);
-          startGameFlag = 1;
+          levelSeed = 4;
           break;
         case 4 :  
-          sendLevel(5,1);
-          startGameFlag = 1;
+          levelSeed = 5;
           break;
         case 5 :  
-          sendLevel(0,0);
-          startGameFlag = 1;
+          levelType = 0;
+          levelSeed = 0;
           break;
-        }    
+      }
+      startGameFlag = 1;
+      sendLevel(levelSeed,levelType);    
     }
 
     highlight(size, offsetY);
@@ -289,4 +288,9 @@ void connecting(){
   tft.setTextColor(ILI9341_WHITE);
   tft.setTextSize(4); 
   tft.println("CONNECTING");
+}
+
+void getLevel(int* seed,int* type){
+  seed = levelSeed;
+  type = levelType;   
 }
