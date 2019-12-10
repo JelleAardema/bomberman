@@ -63,7 +63,7 @@ int bombNext(int i, int q,int x, int y, int *calcX, int *calcY,uint8_t world[GRI
   // if previous time, a block expode stop wave
   if(explode==1)
   {
-	  expode=0;
+	  explode=0;
 	  return 0;
   }
   
