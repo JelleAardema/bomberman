@@ -74,7 +74,6 @@ int main() {
 	confirmLoad(host);
 	Serial.println("Level Loaded"); 
   
-
 	// game loop
 	while(1){
 		if(gameUpdate()){

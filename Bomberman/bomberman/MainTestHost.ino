@@ -46,12 +46,12 @@ int main() {
 	irccBegin(host);
 	Serial.begin(9600);
 	Serial.println("Loaded");
-  
-	menu();		// mainmenu loop
+	
+	// mainmenu loop
+	menu();
 
 	// load level
 	screen.fillScreen(0x0000);
-	// receiveLevel(&levelSeed, &levelType);
 	if(levelType){
 		genWorld(wrld,levelSeed);		// select random level
 	}else{
@@ -69,9 +69,8 @@ int main() {
 	// make sure that both players have the game loaded
 	confirmLoad(host);
 	Serial.println("Level Loaded"); 
-  
 
-	// SEARCHING PLAYER STATUS
+	// mainloop
 	while(1){
 		if(gameUpdate()){
 			Serial.println("1");
