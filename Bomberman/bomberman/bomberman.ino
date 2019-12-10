@@ -56,10 +56,10 @@ void loop() {
   if(gameUpdate()){
     Serial.println("1");
     Nunchuk.getState(0x52);
-    if(stepper((AIM)getDirection(),wrld,&player1,dimension,&screen,bomb1,Nunchuk.state.z_button)){
-      drawPlayer(player1,&screen,dimension);
+    if(stepper(&screen,dimension,wrld,(AIM)getDirection(),&player1,bomb1,Nunchuk.state.z_button)){
+      drawPlayer(&screen,dimension,player1);
     }
-    bombs(bomb1,&screen,dimension,wrld);
+    bombs(&screen,dimension,wrld,bomb1);
     // stepper(random(-1,5),wrld,&player2,dimension,&screen);
     //drawPlayer(player2,&screen,dimension);
   }

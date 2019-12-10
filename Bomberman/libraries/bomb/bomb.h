@@ -16,6 +16,6 @@ struct BOMB
   uint16_t fuse;
   uint8_t placed;
 };
-void bombs(struct BOMB *b1,Adafruit_ILI9341 *pen,struct DIMENSION dimension,uint8_t world[9][9]);
+void bombs(Adafruit_ILI9341 *pen,struct DIMENSION dimension,uint8_t world[9][9],struct BOMB *b1);
 
 #endif

@@ -6,7 +6,7 @@
 #include "grid.h"
 #include <stdint.h>
 #include <avr/io.h>
-uint8_t stepper(enum AIM direction,uint8_t world[9][9],struct PLAYER *p1,struct DIMENSION dimension,Adafruit_ILI9341 *pen,struct BOMB *b1, int bomb)
+uint8_t stepper(Adafruit_ILI9341 *pen, struct DIMENSION dimension, uint8_t world[9][9], enum AIM direction, struct PLAYER *p1, struct BOMB *b1, int bomb)
 {
   uint16_t X = p1->x;
   uint16_t Y = p1->y;
@@ -69,7 +69,7 @@ uint8_t stepper(enum AIM direction,uint8_t world[9][9],struct PLAYER *p1,struct 
 }
 
 // draw the player
-void drawPlayer(struct PLAYER p1, Adafruit_ILI9341 *pen,struct DIMENSION screen)
+void drawPlayer(Adafruit_ILI9341 *pen,struct DIMENSION screen,struct PLAYER p1)
 {
   struct DIMENSION block;
   calcBlock(screen,&block,p1.x,p1.y);
