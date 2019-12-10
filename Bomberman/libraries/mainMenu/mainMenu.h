@@ -7,7 +7,7 @@
 #define TFT_CS 10
 
 //Functions used by mainMenu
-void init(int h);
+void initMainMenu(int h);
 
 void logoDisplay();
 
@@ -22,5 +22,7 @@ void highscore(int size, int offsetY);
 void loading();
 
 void connecting();
+
+void getLevel(int* seed, int* type);
 
 #endif
