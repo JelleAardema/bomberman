@@ -29,24 +29,20 @@ int getDirection();
 Adafruit_ILI9341 screen = Adafruit_ILI9341(TFT_CS, TFT_DC);
 uint8_t wrld[GRID_X][GRID_Y];
 struct DIMENSION dimension = {10,10,220,220};
-struct PLAYER player1 = {1,1,4};
-struct PLAYER player2 = {7,7,3};
+struct PLAYER player1 = {1,1,3,0,4};
+struct PLAYER player2 = {7,7,3,0,3};
 struct BOMB bomb1[MAXBOMBS];
 struct BOMB bomb2;
 
-int levelSeed;
-int levelType;
+volatile uint8_t levelSeed;
+volatile uint8_t levelType;
 
 int main() {
 	// setup
-	screen.begin();
+  Serial.begin(9600);
 	init();
-	Wire.begin();
-	Nunchuk.begin(0x52);
-	irccBegin(host);
-	Serial.begin(9600);
-	Serial.println("Loaded");
-	
+
+	Serial.println("loaded");
 	// mainmenu loop
 	menu();
 

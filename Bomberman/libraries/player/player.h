@@ -25,7 +25,7 @@ void drawPlayer(struct PLAYER p1, Adafruit_ILI9341 *pen,struct DIMENSION screen)
 
 struct PLAYER
 {
-  uint16_t x,y,color;
+  uint8_t x,y,l,b,color;
 };
 
 

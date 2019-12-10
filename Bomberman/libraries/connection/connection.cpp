@@ -95,11 +95,11 @@ void confirmLoad(int host){
 // -----------------------------------------------------------------------------------------------------------------------
 // player status			type = 1
 // -----------------------------------------------------------------------------------------------------------------------
-void sendPlayerStatus(int xPos, int yPos, int lives, int bombPlaced){
+void sendPlayerStatus(uint8_t xPos, uint8_t yPos, uint8_t lives, uint8_t bombPlaced){
 	sendIRCC(encodeStatus(xPos, yPos, lives, bombPlaced));
 }
 
-void receivePlayerStatus(int *xPos, int *yPos, int *lives, int *bombPlaced){
+void receivePlayerStatus(uint8_t *xPos, uint8_t *yPos, uint8_t *lives, uint8_t *bombPlaced){
 	int receiveByte = receiveIRCC(); 
 	if(receiveByte){
 		if(decodeMessageType(receiveByte) == 1){

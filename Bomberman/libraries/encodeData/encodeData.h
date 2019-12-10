@@ -17,7 +17,7 @@ uint16_t encodeConnection(int host);
 
 // function decode
 int decodeMessageType(uint16_t message);
-void decodeStatus(int *x, int *y, int *lifes, int *bombPlaced);
+void decodeStatus(uint8_t *x, uint8_t *y, uint8_t *lifes, uint8_t *bombPlaced);
 void decodeLevel(int *seed, int *type);
 void decodeStart();
 void decodeConnection(int *otherHost);
