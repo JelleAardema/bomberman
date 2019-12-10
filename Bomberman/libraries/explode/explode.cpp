@@ -59,6 +59,14 @@ void clearWave(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t world[GRID_
 // calc next block to destroy and check if the block is within the world
 int bombNext(int i, int q,int x, int y, int *calcX, int *calcY,uint8_t world[GRID_X][GRID_Y])
 {
+ static int explode=0;
+  // if previous time, a block expode stop wave
+  if(explode==1)
+  {
+	  expode=0;
+	  return 0;
+  }
+  
   // calculate which block is next
   *calcX = x + ((q==0)?i:0) - ((q==1)?i:0);
   *calcY = y + ((q==2)?i:0) - ((q==3)?i:0);
@@ -70,6 +78,12 @@ int bombNext(int i, int q,int x, int y, int *calcX, int *calcY,uint8_t world[GRI
   // check of block is destuctable, if not return false
   if(world[*calcX][*calcY] == wall)
     return 0;
+
+  // check of block is air
+  if(world[*calcX][*calcY] == air)
+    explode = 0;
+  else
+	explode = 1;
 
   // if this point is reached, the block is destructuble and is in fire wave
   return 1;
