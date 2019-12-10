@@ -2,9 +2,10 @@
 #include <Adafruit_GFX.h>
 #include "grid.h"
 #include "explode.h"
+#include "bomb.h"
 
 // destructing wave
-void bombWorld(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t world[GRID_X][GRID_Y],int x, int y, int power)
+void bombWorld(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t world[GRID_X][GRID_Y],int x, int y, int power,struct PLAYER *p1)
 {
   int i,q,calcX,calcY;
     // go trough all directions (left,right,up,down) of explosion
@@ -23,8 +24,13 @@ void bombWorld(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t world[GRID_
           struct DIMENSION block;
           calcBlock(screen,&block,calcX,calcY);
           drawBlock(pen,block,5);
+/*
+          if((p1->y == calcY)&&(p1->x == calcX))
+          {
+            p1->life = p1->life - 1;
+          } */
         }
-        else break; 
+        else break;
     }
   }
 }
@@ -45,7 +51,7 @@ void clearWave(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t world[GRID_
           // redraw block
           redrawBlock(pen,screen,world,calcX,calcY);
         }
-        else break; 
+        else break;
     }
   }
 }
@@ -56,7 +62,7 @@ int bombNext(int i, int q,int x, int y, int *calcX, int *calcY,uint8_t world[GRI
   // calculate which block is next
   *calcX = x + ((q==0)?i:0) - ((q==1)?i:0);
   *calcY = y + ((q==2)?i:0) - ((q==3)?i:0);
-  
+
   // check if next block is in world, if not return false
   if(!((*calcX >= 0) && (*calcX < GRID_X) && (*calcY >= 0) && (*calcY < GRID_Y)))
     return 0;

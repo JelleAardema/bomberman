@@ -8,10 +8,10 @@
 #include <avr/io.h>
 
 
-#define FUSETIME 300     // Fuse time in ms
+#define FUSETIME 300      // Fuse time in ms
 #define WALKSPEED 100     // time before next step can be taken
 #define MAXBOMBS 3        // maximum amount of bombs per player
-
+#define MAXLIFE 3         // maximum life (hearts) per player
 
 enum AIM
 {
@@ -25,7 +25,7 @@ void drawPlayer(Adafruit_ILI9341 *pen,struct DIMENSION screen,struct PLAYER p1);
 
 struct PLAYER
 {
-  uint16_t x,y,color;
+  uint16_t x,y,color,life;
 };
 
 
