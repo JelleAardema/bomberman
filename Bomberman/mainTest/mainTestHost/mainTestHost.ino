@@ -38,23 +38,25 @@ int mainLevelSeed = 0;
 int mainLevelType = 0;
 
 void setup(){
-	// setup
+	// setup  
   Serial.begin(9600);
 	initMainMenu(host);
+  Serial.println("Loaded");
 
-	Serial.println("loaded");
 	// mainmenu loop
 	menu();
   getLevel(&mainLevelSeed, &mainLevelType);
   Serial.println(mainLevelSeed);
   Serial.println(mainLevelType);
   
+  screen.begin();
+  Wire.begin();
+  Nunchuk.begin(0x52);
+  irccBegin(host);
+  
 	// load level
-	if(!mainLevelType){
-		genWorld(wrld,mainLevelSeed);		// select random level
-	}else{
-		loadWorld(wrld,mainLevelSeed);		// select standard level
-	}
+  screen.fillScreen(0x0000);
+	genWorld(wrld,1);		// select random level
 	drawGrid(&screen,dimension,wrld);
 	// load bombs
 	for(int a=0;a<MAXBOMBS;a++)
