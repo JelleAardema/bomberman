@@ -3,6 +3,8 @@
 uint16_t addr;
 uint16_t currentScore = 0;
 extern int highscores[5];
+
+// Values used to calculate the score
 int killPlayer = 200;
 int destroyTile = 10;
 
@@ -33,6 +35,7 @@ void updateHighscoreList() {
   }
 }
 
+// places a new highscore
 void placeHighscore(uint16_t newScore) {
 
   addr = 256;
@@ -63,6 +66,6 @@ void placeHighscore(uint16_t newScore) {
     // Move 16 steps down the address
     addr += 16;
   }
-  
+  // Refresh list
   updateHighscoreList();
 }
