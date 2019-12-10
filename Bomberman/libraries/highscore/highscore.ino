@@ -3,12 +3,12 @@
 void setup() {
   Serial.begin(9600);
 
-  // Place 5 scores in the EEPROM
-  placeHighscore(56);
-  placeHighscore(34);
-  placeHighscore(4);
-  placeHighscore(3);
-  placeHighscore(70);
+  tileDestroyed();
+  tileDestroyed();
+  tileDestroyed();
+  uint16_t score = getCurrentScore();
+
+  placeHighscore(score);
 
   // Print highscores
   for(int i = 0; i < 5; i++) {
