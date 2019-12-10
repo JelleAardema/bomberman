@@ -34,24 +34,26 @@ struct PLAYER player2 = {7,7,3,0,3};
 struct BOMB bomb1[MAXBOMBS];
 struct BOMB bomb2;
 
-volatile uint8_t levelSeed;
-volatile uint8_t levelType;
+int mainLevelSeed = 0;
+int mainLevelType = 0;
 
-int main() {
+void setup(){
 	// setup
   Serial.begin(9600);
-	init();
+	initMainMenu(host);
 
 	Serial.println("loaded");
 	// mainmenu loop
 	menu();
-
+  getLevel(&mainLevelSeed, &mainLevelType);
+  Serial.println(mainLevelSeed);
+  Serial.println(mainLevelType);
+  
 	// load level
-	screen.fillScreen(0x0000);
-	if(levelType){
-		genWorld(wrld,levelSeed);		// select random level
+	if(!mainLevelType){
+		genWorld(wrld,mainLevelSeed);		// select random level
 	}else{
-		loadWorld(wrld,levelSeed);		// select standard level
+		loadWorld(wrld,mainLevelSeed);		// select standard level
 	}
 	drawGrid(&screen,dimension,wrld);
 	// load bombs
@@ -61,24 +63,25 @@ int main() {
 		bomb1[a].y = 0;
 		bomb1[a].fuse = 0;
 		bomb1[a].placed = 0;
+    Serial.println("bomb");
 	}
 	// make sure that both players have the game loaded
-	confirmLoad(host);
+	
+  //!!!!!!!!!!!!!!!!!!!!!!!!
+	//confirmLoad(host);
+	//!!!!!!!!!!!!!!!!!!!!!!!!
 	Serial.println("Level Loaded"); 
-
-	// mainloop
-	while(1){
-		if(gameUpdate()){
-			Serial.println("1");
-			Nunchuk.getState(0x52);
-			if(stepper((AIM)getDirection(),wrld,&player1,dimension,&screen,bomb1,Nunchuk.state.z_button)){
-				drawPlayer(player1,&screen,dimension);
-			}
-			sendPlayerStatus(player1.x, player1.y, player1.l, player1.b);
-			bombs(bomb1,&screen,dimension,wrld);
-			receivePlayerStatus(&player2.x, &player2.y, &player2.l, &player2.b);
-			drawPlayer(player2,&screen,dimension);
+}
+void loop(){
+	if(gameUpdate()){
+		Serial.println("1");
+		Nunchuk.getState(0x52);
+		if(stepper((AIM)getDirection(),wrld,&player1,dimension,&screen,bomb1,Nunchuk.state.z_button)){
+			drawPlayer(player1,&screen,dimension);
 		}
+		sendPlayerStatus(player1.x, player1.y, player1.l, player1.b);
+		bombs(bomb1,&screen,dimension,wrld);
+		receivePlayerStatus(&player2.x, &player2.y, &player2.l, &player2.b);
+		drawPlayer(player2,&screen,dimension);
 	}
-	return 0;
 }
