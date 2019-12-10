@@ -37,7 +37,7 @@ void setup() {
   //genWorld(wrld,1);
   genWorld(wrld,random(1,200));
   drawGrid(&screen,dimension,wrld);
-  
+
 
   int a;
   for(a=0;a<MAXBOMBS;a++)
@@ -47,7 +47,7 @@ void setup() {
     bomb1[a].fuse = 0;
     bomb1[a].placed = 0;
   }
-  
+
   irccBegin(host);
 }
 
