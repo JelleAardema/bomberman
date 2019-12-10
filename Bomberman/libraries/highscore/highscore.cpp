@@ -1,7 +1,22 @@
 #include <EEPROM.h>
 
 uint16_t addr;
+extern uint16_t currentScore = 0;
 extern int highscores[5];
+int killPlayer = 200;
+int destroyTile = 10;
+
+uint16_t getCurrentScore() {
+	return currentScore;
+}
+
+void tileDestroyed() {
+	currentScore += destroyTile;
+}
+
+void playerKilled() {
+	currentScore += killPlayer;
+}
 
 // Places highscores in highscores array
 void updateHighscoreList() {
