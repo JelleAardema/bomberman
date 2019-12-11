@@ -13,7 +13,7 @@ uint16_t calculateScore(int lifes, int amountDestroyed) {
   currentScore += lifes * lifeLeft;
   currentScore += destroyTile * amountDestroyed;
 
-  return currentScore();
+  return currentScore;
 }
 
 // Places highscores in highscores array

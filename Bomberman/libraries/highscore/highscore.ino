@@ -3,7 +3,7 @@
 void setup() {
   Serial.begin(9600);
   
-  uint16_t score = calculateScore(2, 21);
+  uint16_t score = calculateScore(2, 20);
 
   placeHighscore(score);
 
