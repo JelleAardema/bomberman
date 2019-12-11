@@ -2,12 +2,8 @@
 
 void setup() {
   Serial.begin(9600);
-
-  tileDestroyed();
-  tileDestroyed();
-  lifesLeft(3);
   
-  uint16_t score = getCurrentScore();
+  uint16_t score = calculateScore(2, 21);
 
   placeHighscore(score);
 

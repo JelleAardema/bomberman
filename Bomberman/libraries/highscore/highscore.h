@@ -3,9 +3,7 @@
 
 int highscores[5];
 
-uint16_t getCurrentScore();
-void tileDestroyed();
-void lifesLeft(int lifes);
+uint16_t calculateScore(int lifes, int amountDestroyed);
 void placeHighscore(uint16_t newScore);
 void updateHighscoreList();
 

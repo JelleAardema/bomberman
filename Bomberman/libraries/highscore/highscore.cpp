@@ -8,19 +8,13 @@ extern int highscores[5];
 #define destroyTile 10
 #define lifeLeft 200
 
-uint16_t getCurrentScore() {
-	return currentScore;
-}
-
-// Adds score for every tile you destroyed
-void tileDestroyed() {
-	currentScore += destroyTile;
-}
-
-// Adds score for every life that you have left at the end of the game
-void lifesLeft(int lifes) {
+// Adds score for every life left and tile that is destroyed
+uint16_t calculateScore(int lifes, int amountDestroyed) {
   currentScore += lifes * lifeLeft;
-} 
+  currentScore += destroyTile * amountDestroyed;
+
+  return currentScore();
+}
 
 // Places highscores in highscores array
 void updateHighscoreList() {
