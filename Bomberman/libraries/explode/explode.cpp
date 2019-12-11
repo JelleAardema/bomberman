@@ -3,6 +3,7 @@
 #include "grid.h"
 #include "explode.h"
 #include "bomb.h"
+#include "player.h"
 
 // destructing wave
 void bombWorld(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t world[GRID_X][GRID_Y],int x, int y, int power,struct PLAYER *p1)
@@ -24,11 +25,10 @@ void bombWorld(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t world[GRID_
           struct DIMENSION block;
           calcBlock(screen,&block,calcX,calcY);
           drawBlock(pen,block,5);
-/*
+
+          //subtract life from player when in field
           if((p1->y == calcY)&&(p1->x == calcX))
-          {
             p1->life = p1->life - 1;
-          } */
         }
         else break;
     }
@@ -66,7 +66,7 @@ int bombNext(int i, int q,int x, int y, int *calcX, int *calcY,uint8_t world[GRI
 	  explode=0;
 	  return 0;
   }
-  
+
   // calculate which block is next
   *calcX = x + ((q==0)?i:0) - ((q==1)?i:0);
   *calcY = y + ((q==2)?i:0) - ((q==3)?i:0);

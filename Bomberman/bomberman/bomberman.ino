@@ -12,6 +12,7 @@
 #include <globalTimer.h>
 #include <explode.h>
 
+
 int getDirection();
 #define host 1
 
