@@ -5,7 +5,8 @@ void setup() {
 
   tileDestroyed();
   tileDestroyed();
-  tileDestroyed();
+  lifesLeft(3);
+  
   uint16_t score = getCurrentScore();
 
   placeHighscore(score);
