@@ -38,35 +38,29 @@ int mainLevelSeed = 0;
 int mainLevelType = 0;
 
 void setup(){
-	// setup  
-  Serial.begin(9600);
-	initMainMenu(host);
-  Serial.println("Loaded");
-
-	// mainmenu loop
-	menu();
-  getLevel(&mainLevelSeed, &mainLevelType);
-  Serial.println(mainLevelSeed);
-  Serial.println(mainLevelType);
-  
-  screen.begin();
+  init();
   Wire.begin();
+  screen.begin();
   Nunchuk.begin(0x52);
-  irccBegin(host);
-  
-	// load level
+  // zet cordinate system
+  screen.setRotation(1);
+
+  // draw start screen
   screen.fillScreen(0x0000);
-	genWorld(wrld,1);		// select random level
-	drawGrid(&screen,dimension,wrld);
-	// load bombs
-	for(int a=0;a<MAXBOMBS;a++)
-	{
-		bomb1[a].x = 0;
-		bomb1[a].y = 0;
-		bomb1[a].fuse = 0;
-		bomb1[a].placed = 0;
-    Serial.println("bomb");
-	}
+  //genWorld(wrld,1);
+  genWorld(wrld,random(1,200));
+  drawGrid(&screen,dimension,wrld);
+  
+
+  for(int a=0; a<MAXBOMBS; a++)
+  {
+    bomb1[a].x = 0;
+    bomb1[a].y = 0;
+    bomb1[a].fuse = 0;
+    bomb1[a].placed = 0;
+  }
+  
+  irccBegin(host);
 	// make sure that both players have the game loaded
 	
   //!!!!!!!!!!!!!!!!!!!!!!!!
@@ -76,7 +70,6 @@ void setup(){
 }
 void loop(){
 	if(gameUpdate()){
-		Serial.println("1");
 		Nunchuk.getState(0x52);
 		if(stepper((AIM)getDirection(),wrld,&player1,dimension,&screen,bomb1,Nunchuk.state.z_button)){
 			drawPlayer(player1,&screen,dimension);

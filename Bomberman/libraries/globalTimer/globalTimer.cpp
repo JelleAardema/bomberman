@@ -9,7 +9,7 @@ int microTick = 0;
 int maxMicroTick = 0;
 int subTick = 0;
 
-#define maxSubTick 255
+#define maxSubTick 50
 
 // -----------------------------------------------------------------------------------------------------------------------
 // timer2interrupts

@@ -58,10 +58,10 @@ Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC);
 
 void initMainMenu(int h) {
   host = h;
-  Wire.begin();
-  Nunchuk.begin(0x52); 
-  tft.begin();
-  irccBegin(host);
+//  Wire.begin();
+//  Nunchuk.begin(0x52); 
+//  tft.begin();
+//  irccBegin(host);
 
   //Setting pointer on first menu page
   ptrArray = itemsMain;
@@ -72,11 +72,11 @@ void initMainMenu(int h) {
   currentPage = 2;
 
   //Setting up display orientation and clearing
-  tft.fillScreen(ILI9341_BLACK);
-  tft.setRotation(1);
+//  tft.fillScreen(ILI9341_BLACK);
+//  tft.setRotation(1);
  
   //Display logo and wait for user input
-  logoDisplay();
+//  logoDisplay();
 }
 
 
@@ -89,7 +89,9 @@ void menu(void) {
     started = 1;
 
     connecting();
-    startConnection(host);
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	//startConnection(host);
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     //Clearing screen and drawing the menu items
     tft.fillScreen(ILI9341_BLACK);
@@ -222,8 +224,8 @@ void menuSetter(int currentHighlight){
 
     //Level select
     else if(ptrArray == itemsLevel){
+      levelType = 1;
       switch (currentHighlight){
-        levelType = 1;
         case 0 :   
           levelSeed = 1;
           break;
@@ -291,6 +293,6 @@ void connecting(){
 }
 
 void getLevel(int* seed,int* type){
-  seed = levelSeed;
-  type = levelType;   
+  seed = &levelSeed;
+  type = &levelType;   
 }
