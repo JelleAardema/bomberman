@@ -5,15 +5,22 @@ uint16_t currentScore = 0;
 extern int highscores[5];
 
 // Values used to calculate the score
-#define destroyTile 10
+#define destroyTile 5
 #define lifeLeft 200
 
+void destroyTileScore() {
+	currentScore += 10;
+}
+
 // Adds score for every life left and tile that is destroyed
-uint16_t calculateScore(int lifes, int amountDestroyed) {
+uint16_t calculateScore(int lifes) {
   currentScore += lifes * lifeLeft;
-  currentScore += destroyTile * amountDestroyed;
 
   return currentScore;
+}
+
+uint16_t getCurrentScore() {
+	return currentScore;
 }
 
 // Places highscores in highscores array
