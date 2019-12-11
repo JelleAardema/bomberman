@@ -37,46 +37,65 @@ struct BOMB bomb2;
 int mainLevelSeed = 0;
 int mainLevelType = 0;
 
+int enableMenu = 0;
+int enableBomberman = 0;
 void setup(){
-  init();
-  Wire.begin();
-  screen.begin();
-  Nunchuk.begin(0x52);
-  // zet cordinate system
-  screen.setRotation(1);
+  Serial.begin(9600);
+  Serial.println("Start");
 
-  // draw start screen
-  screen.fillScreen(0x0000);
-  //genWorld(wrld,1);
-  genWorld(wrld,random(1,200));
-  drawGrid(&screen,dimension,wrld);
-  
-
-  for(int a=0; a<MAXBOMBS; a++)
-  {
-    bomb1[a].x = 0;
-    bomb1[a].y = 0;
-    bomb1[a].fuse = 0;
-    bomb1[a].placed = 0;
+  // MAINMENU START
+  if(enableMenu){
+    initMainMenu(host);
+    Serial.println("Mainmenu setup");
+    // mainmenu loop  
+    menu();
   }
+
+  // BOMBERMAN START
+  if(enableBomberman){
+    init();
+    screen.begin();
+    irccBegin(host);
+    Wire.begin();
+    Nunchuk.begin(0x52); 
+    // set rotation of screen
+    screen.setRotation(1);
   
-  irccBegin(host);
-	// make sure that both players have the game loaded
-	
-  //!!!!!!!!!!!!!!!!!!!!!!!!
-	//confirmLoad(host);
-	//!!!!!!!!!!!!!!!!!!!!!!!!
-	Serial.println("Level Loaded"); 
+    // draw start screen
+    screen.fillScreen(0x0000);
+    //genWorld(wrld,1);
+    genWorld(wrld,random(1,200));
+    drawGrid(&screen,dimension,wrld);
+    
+    // set all bombs to 0
+    for(int a=0; a<MAXBOMBS; a++)
+    {
+      bomb1[a].x = 0;
+      bomb1[a].y = 0;
+      bomb1[a].fuse = 0;
+      bomb1[a].placed = 0;
+    }
+    
+    //!!!!!!!!!!!!!!!!!!!!!!!!
+    //confirmLoad(host);
+    //!!!!!!!!!!!!!!!!!!!!!!!!
+    Serial.println("Level Loaded"); 
+  	// make sure that both players have the game loaded
+  }
 }
 void loop(){
-	if(gameUpdate()){
-		Nunchuk.getState(0x52);
-		if(stepper((AIM)getDirection(),wrld,&player1,dimension,&screen,bomb1,Nunchuk.state.z_button)){
-			drawPlayer(player1,&screen,dimension);
-		}
-		sendPlayerStatus(player1.x, player1.y, player1.l, player1.b);
-		bombs(bomb1,&screen,dimension,wrld);
-		receivePlayerStatus(&player2.x, &player2.y, &player2.l, &player2.b);
-		drawPlayer(player2,&screen,dimension);
-	}
+  if(enableBomberman){
+  	if(gameUpdate()){
+  		Nunchuk.getState(0x52);
+  		if(stepper((AIM)getDirection(),wrld,&player1,dimension,&screen,bomb1,Nunchuk.state.z_button)){
+  			drawPlayer(player1,&screen,dimension);
+  		}
+  		sendPlayerStatus(player1.x, player1.y, player1.l, player1.b);
+  		bombs(bomb1,&screen,dimension,wrld);
+  		receivePlayerStatus(&player2.x, &player2.y, &player2.l, &player2.b);
+  		drawPlayer(player2,&screen,dimension);
+  	}
+  }else{
+    Serial.println("Haha goeie");
+  }
 }

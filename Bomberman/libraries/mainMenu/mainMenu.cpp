@@ -58,10 +58,10 @@ Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC);
 
 void initMainMenu(int h) {
   host = h;
-//  Wire.begin();
-//  Nunchuk.begin(0x52); 
-//  tft.begin();
-//  irccBegin(host);
+  Wire.begin();
+  Nunchuk.begin(0x52); 
+  tft.begin();
+  irccBegin(host);
 
   //Setting pointer on first menu page
   ptrArray = itemsMain;
@@ -72,11 +72,11 @@ void initMainMenu(int h) {
   currentPage = 2;
 
   //Setting up display orientation and clearing
-//  tft.fillScreen(ILI9341_BLACK);
-//  tft.setRotation(1);
+  tft.fillScreen(ILI9341_BLACK);
+  tft.setRotation(1);
  
   //Display logo and wait for user input
-//  logoDisplay();
+  logoDisplay();
 }
 
 
