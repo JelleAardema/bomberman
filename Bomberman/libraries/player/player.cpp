@@ -32,28 +32,29 @@ uint8_t stepper(Adafruit_ILI9341 *pen, struct DIMENSION dimension, uint8_t world
   if(bomb)
   {
     int i;
-
+    //loop through all the bombs
     for(i=0; i<MAXBOMBS; i++)
     {
-     // ((b1[i].placed) && (b1[i].x && p1->x)&&(b1[i].y && p1->y))
+      //check if bomb can be placed on that position and if the bomb can be saved in array
       if(world[p1->x][p1->y]==air)
       {
         if(!b1[i].placed )
         {
 
-        b1[i].x = p1->x;
-        b1[i].y = p1->y;
-        b1[i].placed = 1;
-        b1[i].fuse = 0;
-        i=MAXBOMBS;
+          b1[i].x = p1->x;
+          b1[i].y = p1->y;
+          b1[i].placed = 1;
+          b1[i].fuse = 0;
+          i=MAXBOMBS;
 
         }
       }
     }
   }
   // check if move is posible
-  if( ((X>=0)&&(X<=GRID_X)) && ((Y>=0)&&(Y<=GRID_Y)) && (world[X][Y]==air) )
+  if( ((X>=0)&&(X<GRID_X)) && ((Y>=0)&&(Y<GRID_Y)) && (world[X][Y]==air) )
   {
+    //clear the previous position of the player to remove the trace
     struct DIMENSION block;
     calcBlock(dimension,&block,p1->x,p1->y);
     drawBlock(pen,block,world[p1->x][p1->y]);

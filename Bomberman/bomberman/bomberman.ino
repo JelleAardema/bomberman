@@ -36,8 +36,9 @@ void setup() {
 
   // draw start screen
   screen.fillScreen(0x0000);
+  loadWorld(wrld,5);
   //genWorld(wrld,1);
-  genWorld(wrld,random(1,200));
+  //genWorld(wrld,random(1,200));
   drawGrid(&screen,dimension,wrld);
 
 
@@ -56,7 +57,8 @@ void setup() {
 void loop() {
   // change test
   if(gameUpdate()){
-    Serial.println("1");
+    
+    //drawGrid(&screen,dimension,wrld);
     Nunchuk.getState(0x52);
     if(stepper(&screen,dimension,wrld,(AIM)getDirection(),&player1,bomb1,Nunchuk.state.z_button)){
       drawPlayer(&screen,dimension,player1);
