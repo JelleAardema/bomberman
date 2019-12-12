@@ -20,8 +20,10 @@
 #include <connection.h>
 #include <globalTimer.h>
 
+#include "bomberman.h"
+
 int getDirection();
-Adafruit_ILI9341 screen = Adafruit_ILI9341(TFT_CS, TFT_DC);
+//Adafruit_ILI9341 screen = Adafruit_ILI9341(TFT_CS, TFT_DC);
 uint8_t wrld[GRID_X][GRID_Y];
 struct DIMENSION dimension = {10,10,220,220};
 struct PLAYER player1 = {1,1,MAXLIFE,0,4};
@@ -31,14 +33,14 @@ struct BOMB bomb2;
 
 void bombermanSetup(){
     //init();
-    screen.begin();
+    //screen.begin();
     //Wire.begin();
 	
     // set rotation of screen
-    screen.setRotation(1);
+    //screen.setRotation(1);
   
     // draw start screen
-    screen.fillScreen(0x0000);
+    //screen.fillScreen(0x0000);
     //genWorld(wrld,1);
     genWorld(wrld,random(1,200));
     drawGrid(&screen,dimension,wrld);
@@ -57,23 +59,23 @@ void bombermanSetup(){
     //!!!!!!!!!!!!!!!!!!!!!!!!
   	// make sure that both players have the game loaded
 }
-void bombermanUpdate(){
+void bombermanUpdate(Adafruit_ILI9341 *pen){
     Nunchuk.getState(0x52);
-    if(stepper(&screen,dimension,wrld,(AIM)getDirection(),&player1,bomb1,Nunchuk.state.z_button)){
-      drawPlayer(&screen,dimension,player1);
+    if(stepper(pen,dimension,wrld,(AIM)getDirection(),&player1,bomb1,Nunchuk.state.z_button)){
+      drawPlayer(pen,dimension,player1);
     }
-    bombs(&screen,dimension,wrld,bomb1,&player1);
+    bombs(pen,dimension,wrld,bomb1,&player1);
   	sendPlayerStatus(player1.x, player1.y, player1.life, player1.bombPlaced);
   	receivePlayerStatus(&player2.x, &player2.y, &player2.life, &player2.bombPlaced);
-  	drawPlayer(&screen,dimension,player2);
+  	drawPlayer(pen,dimension,player2);
 
     // Save highscore if 1 of the players reaches 0 lifes
     if(player2.life == 0 || player2.life == 0) {
-      endGame();
+		endGame();
     }
 }
 
 void endGame() {
-  uint16_t finalScore = calculateScore(player1.l);
+  uint16_t finalScore = calculateScore(player1.life);
   placeHighscore(finalScore);
 }
