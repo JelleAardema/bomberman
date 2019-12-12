@@ -1,7 +1,32 @@
 #include <EEPROM.h>
+#include "highscore.h"
 
 uint16_t addr;
-extern int highscores[5];
+uint16_t currentScore = 0;
+int highscores[5];
+
+// Values used to calculate the score
+#define destroyTile 5
+#define lifeLeft 200
+
+void destroyTileScore() {
+	currentScore += 10;
+}
+
+// Adds score for every life left and tile that is destroyed
+uint16_t calculateScore(int lifes) {
+  currentScore += lifes * lifeLeft;
+
+  return currentScore;
+}
+
+uint16_t getCurrentScore() {
+	return currentScore;
+}
+
+int * getHighscoreList() {
+  return highscores;
+}
 
 // Places highscores in highscores array
 void updateHighscoreList() {
@@ -17,6 +42,7 @@ void updateHighscoreList() {
   }
 }
 
+// places a new highscore
 void placeHighscore(uint16_t newScore) {
 
   addr = 256;
@@ -47,6 +73,6 @@ void placeHighscore(uint16_t newScore) {
     // Move 16 steps down the address
     addr += 16;
   }
-  
+  // Refresh list
   updateHighscoreList();
 }

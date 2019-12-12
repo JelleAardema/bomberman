@@ -25,7 +25,7 @@ void drawPlayer(Adafruit_ILI9341 *pen,struct DIMENSION screen,struct PLAYER p1);
 
 struct PLAYER
 {
-  uint16_t x,y,color,life;
+  uint8_t x,y,life,bombPlaced,color;
 };
 
 

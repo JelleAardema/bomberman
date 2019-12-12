@@ -2,13 +2,10 @@
 
 void setup() {
   Serial.begin(9600);
+  
+  uint16_t score = calculateScore(2, 20);
 
-  // Place 5 scores in the EEPROM
-  placeHighscore(56);
-  placeHighscore(34);
-  placeHighscore(4);
-  placeHighscore(3);
-  placeHighscore(70);
+  placeHighscore(score);
 
   // Print highscores
   for(int i = 0; i < 5; i++) {
