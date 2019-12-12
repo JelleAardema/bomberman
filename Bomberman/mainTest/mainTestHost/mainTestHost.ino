@@ -6,6 +6,7 @@
 #include <Adafruit_GFX.h>
 
 // mainmenu
+#include <highscore.h>
 #include <mainMenu.h>
 
 // nunchuck
