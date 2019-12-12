@@ -1,4 +1,5 @@
 #include <EEPROM.h>
+#include "highscore.h"
 
 uint16_t addr;
 uint16_t currentScore = 0;
