@@ -68,7 +68,8 @@ void bombermanUpdate(){
   	receivePlayerStatus(&player2.x, &player2.y, &player2.l, &player2.b);
   	drawPlayer(player2,&screen,dimension);
 
-    if(player2.l == 0) {
-
+    if(player2.l == 0 || player2.l == 0) {
+      uint16_t finalScore = calculateScore(player1.l);
+      placeHighscore(finalScore);
     }
 }
