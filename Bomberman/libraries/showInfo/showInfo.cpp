@@ -18,6 +18,7 @@ void drawInfo(Adafruit_ILI9341 *pen,struct DIMENSION dimension,const char *title
 	
 	// ---- draw
 	// draw box
+	pen->fillRect(dimension.x,dimension.y,dimension.width,dimension.height,0x0000);
 	pen->drawRect(dimension.x,dimension.y,dimension.width,dimension.height,0xff00);
 	
 	// draw title
