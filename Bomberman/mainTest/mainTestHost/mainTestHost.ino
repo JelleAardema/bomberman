@@ -28,8 +28,9 @@
 int mainLevelSeed = 0;
 int mainLevelType = 0;
 
-int enableMenu = 0;
+int enableMenu = 1;
 int enableBomberman = 0;
+
 void setup(){
   init();
   irccBegin(host);
