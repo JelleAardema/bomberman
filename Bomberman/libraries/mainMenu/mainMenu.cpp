@@ -86,7 +86,7 @@ void menu(void) {
 
     connecting();
     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	//startConnection(host);
+  //startConnection(host);
     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     //Clearing screen and drawing the menu items
@@ -253,6 +253,8 @@ void menuSetter(int currentHighlight){
 //Updating the highscores and displaying them 
 void highscore(int size, int offsetY){
   updateHighscoreList();
+  int * highscores;
+  highscores = getHighscoreList();
   xCoord = 50;
   yCoord = 25;
   screen.setTextColor(ILI9341_WHITE);
