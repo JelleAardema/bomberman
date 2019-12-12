@@ -73,7 +73,7 @@ void bombermanUpdate(){
     }
 }
 
-void endGame() {
-  uint16_t finalScore = calculateScore(player1.l);
+void endGame(){
+  uint16_t finalScore = calculateScore(player1.life);
   placeHighscore(finalScore);
 }
