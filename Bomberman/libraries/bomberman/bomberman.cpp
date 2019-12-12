@@ -14,6 +14,7 @@
 #include <bomb.h>
 #include <grid.h>
 #include <level.h>
+#include <highscore.h>
 
 // IR/timer
 #include <connection.h>
@@ -66,4 +67,8 @@ void bombermanUpdate(){
   	bombs(bomb1,&screen,dimension,wrld);
   	receivePlayerStatus(&player2.x, &player2.y, &player2.l, &player2.b);
   	drawPlayer(player2,&screen,dimension);
+
+    if(player2.l == 0) {
+
+    }
 }
