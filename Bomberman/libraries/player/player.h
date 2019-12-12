@@ -8,10 +8,10 @@
 #include <avr/io.h>
 
 
-#define FUSETIME 300     // Fuse time in ms
+#define FUSETIME 300      // Fuse time in ms
 #define WALKSPEED 100     // time before next step can be taken
 #define MAXBOMBS 3        // maximum amount of bombs per player
-
+#define MAXLIFE 3         // maximum life (hearts) per player
 
 enum AIM
 {
@@ -19,13 +19,13 @@ enum AIM
 };
 
 
-uint8_t stepper(enum AIM direction,uint8_t world[9][9],struct PLAYER *p1,struct DIMENSION dimension,Adafruit_ILI9341 *pen,struct BOMB *b1, int bomb);
-void drawPlayer(struct PLAYER p1, Adafruit_ILI9341 *pen,struct DIMENSION screen);
+uint8_t stepper(Adafruit_ILI9341 *pen, struct DIMENSION dimension, uint8_t world[9][9], enum AIM direction, struct PLAYER *p1, struct BOMB *b1, int bomb);
+void drawPlayer(Adafruit_ILI9341 *pen,struct DIMENSION screen,struct PLAYER p1);
 
 
 struct PLAYER
 {
-  uint8_t x,y,l,b,color;
+  uint8_t x,y,life,bombPlaced,color;
 };
 
 
