@@ -59,6 +59,7 @@ Adafruit_ILI9341 *pScreen;
 
 void mainMenuSetup(Adafruit_ILI9341 *pen) {
 
+  pScreen = pen;
   //Setting pointer on first menu page
   ptrArray = itemsMain;
 
@@ -76,8 +77,7 @@ void mainMenuSetup(Adafruit_ILI9341 *pen) {
 }
 
 
-void menu(Adafruit_ILI9341 *pen, int host) {
-	pScreen = pen;
+void menu(int host) {
   while(!startGameFlag){
   //Waiting for user input to setup initial connection over IR
   Nunchuk.getState(0x52);

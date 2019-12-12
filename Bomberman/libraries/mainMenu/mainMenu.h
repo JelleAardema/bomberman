@@ -11,7 +11,7 @@ void mainMenuSetup(Adafruit_ILI9341 *pen);
 
 void logoDisplay();
 
-void menu(Adafruit_ILI9341 *pen, int host);
+void menu(int host);
 
 void highlight(int size, int offsetY); 
 

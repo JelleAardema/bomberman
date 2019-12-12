@@ -31,7 +31,7 @@ Adafruit_ILI9341 screen = Adafruit_ILI9341(TFT_CS, TFT_DC);
 int mainLevelSeed = 0;
 int mainLevelType = 0;
 
-int enableMenu = 0;
+int enableMenu = 1;
 int enableBomberman = 1;
 
 void setup(){
@@ -49,7 +49,7 @@ void setup(){
     mainMenuSetup(&screen);
     Serial.println("Mainmenu Setup Done!");
     // mainmenu loop  
-    menu(&screen, host);
+    menu(host);
     Serial.println("Mainmenu Loop Done!");
   }
 
@@ -66,6 +66,7 @@ void loop(){
   if(enableBomberman){
   	if(gameUpdate()){
       bombermanUpdate(&screen);
+      Serial.println("l");
   	}
   }else{
     Serial.println("Haha goeie");
