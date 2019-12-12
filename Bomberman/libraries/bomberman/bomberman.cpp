@@ -67,7 +67,13 @@ void bombermanUpdate(){
   	receivePlayerStatus(&player2.x, &player2.y, &player2.life, &player2.bombPlaced);
   	drawPlayer(&screen,dimension,player2);
 
-    if(player2.life == 0) {
-
+    // Save highscore if 1 of the players reaches 0 lifes
+    if(player2.life == 0 || player2.life == 0) {
+      endGame();
     }
+}
+
+void endGame() {
+  uint16_t finalScore = calculateScore(player1.l);
+  placeHighscore(finalScore);
 }
