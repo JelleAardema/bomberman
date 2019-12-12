@@ -55,8 +55,8 @@ void setup(){
 
   // BOMBERMAN START
   if(enableBomberman){
-    bombermanSetup(&screen);
     screen.fillScreen(0x0000);
+    bombermanSetup(&screen);
     Serial.println("Bomberman Setup Done!");
   }
   
