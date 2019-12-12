@@ -4,5 +4,6 @@
 
 void bombermanSetup();
 void bombermanUpdate();
+void endGame();
 
 #endif

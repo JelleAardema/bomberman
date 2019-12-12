@@ -70,7 +70,11 @@ void bombermanUpdate(){
 
     // Save highscore if 1 of the players reaches 0 lifes
     if(player2.l == 0 || player2.l == 0) {
-      uint16_t finalScore = calculateScore(player1.l);
-      placeHighscore(finalScore);
+      endGame();
     }
+}
+
+void endGame() {
+  uint16_t finalScore = calculateScore(player1.l);
+  placeHighscore(finalScore);
 }
