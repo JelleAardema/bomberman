@@ -32,17 +32,16 @@ void loop() {
   tft.fillScreen(ILI9341_BLACK);
   player(x,y);
   delay(200);
-*/
 
+*/
   while(i < 5){
   x += 20;
   i++;
-  bomb(x,y);
+  explosion(x,y);
   }
   x = 0;
   y += 20;
   
-
 
 }
 
@@ -103,4 +102,46 @@ void bomb(int posX, int posY){
    //fuse
    tft.drawLine(posX+10, posY+5, posX+10, posY, ILI9341_MAROON);
    
+}
+
+void explosion(int posX,int posY){
+
+  ///UUUUUH IDK ABOUT THIS BOYS 
+  tft.fillRect(posX, posY, 20, 20,ILI9341_RED);
+
+  tft.fillCircle(random(posX, posX+20), random(posY, posY+20), 2, ILI9341_RED);
+  tft.fillCircle(random(posX, posX+20), random(posY, posY+20), 2, ILI9341_YELLOW);
+  tft.fillCircle(random(posX, posX+20), random(posY, posY+20), 2, ILI9341_BLACK);
+  
+  tft.fillCircle(random(posX, posX+20), random(posY, posY+20), 2, ILI9341_RED);
+  tft.fillCircle(random(posX, posX+20), random(posY, posY+20), 2, ILI9341_YELLOW);
+  tft.fillCircle(random(posX, posX+20), random(posY, posY+20), 2, ILI9341_BLACK);
+
+  tft.fillCircle(random(posX, posX+20), random(posY, posY+20), 2, ILI9341_RED);
+  tft.fillCircle(random(posX, posX+20), random(posY, posY+20), 2, ILI9341_YELLOW);
+  tft.fillCircle(random(posX, posX+20), random(posY, posY+20), 2, ILI9341_BLACK);
+  //pas 1
+  tft.drawLine(random(posX, posX+20), random(posY, posY+20), random(posX, posX+20), random(posY, posY+20), ILI9341_BLACK);
+  tft.drawLine(random(posX, posX+20), random(posY, posY+20), random(posX, posX+20), random(posY, posY+20), ILI9341_YELLOW);
+  tft.drawLine(random(posX, posX+20), random(posY, posY+20), random(posX, posX+20), random(posY, posY+20), ILI9341_RED);
+  //pas 2
+  tft.drawLine(random(posX, posX+20), random(posY, posY+20), random(posX, posX+20), random(posY, posY+20), ILI9341_BLACK);
+  tft.drawLine(random(posX, posX+20), random(posY, posY+20), random(posX, posX+20), random(posY, posY+20), ILI9341_YELLOW);
+  tft.drawLine(random(posX, posX+20), random(posY, posY+20), random(posX, posX+20), random(posY, posY+20), ILI9341_RED);
+  //pas 3
+  tft.drawLine(random(posX, posX+20), random(posY, posY+20), random(posX, posX+20), random(posY, posY+20), ILI9341_BLACK);
+  tft.drawLine(random(posX, posX+20), random(posY, posY+20), random(posX, posX+20), random(posY, posY+20), ILI9341_YELLOW);
+  tft.drawLine(random(posX, posX+20), random(posY, posY+20), random(posX, posX+20), random(posY, posY+20), ILI9341_RED);
+  //pas 4
+  tft.drawLine(random(posX, posX+20), random(posY, posY+20), random(posX, posX+20), random(posY, posY+20), ILI9341_BLACK);
+  tft.drawLine(random(posX, posX+20), random(posY, posY+20), random(posX, posX+20), random(posY, posY+20), ILI9341_YELLOW);
+  tft.drawLine(random(posX, posX+20), random(posY, posY+20), random(posX, posX+20), random(posY, posY+20), ILI9341_RED);
+  //pas 5
+  tft.drawLine(random(posX, posX+20), random(posY, posY+20), random(posX, posX+20), random(posY, posY+20), ILI9341_BLACK);
+  tft.drawLine(random(posX, posX+20), random(posY, posY+20), random(posX, posX+20), random(posY, posY+20), ILI9341_YELLOW);
+  tft.drawLine(random(posX, posX+20), random(posY, posY+20), random(posX, posX+20), random(posY, posY+20), ILI9341_RED);
+  //pas 6
+  tft.drawLine(random(posX, posX+20), random(posY, posY+20), random(posX, posX+20), random(posY, posY+20), ILI9341_BLACK);
+  tft.drawLine(random(posX, posX+20), random(posY, posY+20), random(posX, posX+20), random(posY, posY+20), ILI9341_YELLOW);
+  tft.drawLine(random(posX, posX+20), random(posY, posY+20), random(posX, posX+20), random(posY, posY+20), ILI9341_RED);
 }
