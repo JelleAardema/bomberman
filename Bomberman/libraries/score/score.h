@@ -6,6 +6,6 @@
 #define SCORE_H
 
 // ---- functions
-void drawScore(Adafruit_ILI9341 *pen,struct DIMENSION dimension,int score);
+void drawInfo(Adafruit_ILI9341 *pen,struct DIMENSION dimension,const char *title,int value);
 
 #endif

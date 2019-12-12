@@ -5,9 +5,8 @@
 #include "score.h"
 
 // draw the core on screen
-void drawScore(Adafruit_ILI9341 *pen,struct DIMENSION dimension,int score)
+void drawInfo(Adafruit_ILI9341 *pen,struct DIMENSION dimension,const char *title,int value)
 {
-  const char title[] = "score";
   int size,lenx,leny,x,y;
 	
 	// calculate sizes and places
@@ -15,19 +14,19 @@ void drawScore(Adafruit_ILI9341 *pen,struct DIMENSION dimension,int score)
 	size = dimension.width/(lenx);
 	x= (dimension.width-(lenx*size))/4;
 	leny = 7;
-	y= (dimension.height-(leny*size))/2;
+	y= (dimension.height-(leny*size))/2+3;
 	
 	// ---- draw
 	// draw box
 	pen->drawRect(dimension.x,dimension.y,dimension.width,dimension.height,0xff00);
 	
 	// draw title
-	pen->setCursor(dimension.x+x,dimension.y);
+	pen->setCursor(dimension.x+x,dimension.y+3);
 	pen->setTextSize(size);
 	pen->print(title);
 	
-	// draw score
+	// draw value
 	pen->setTextSize(size-1);
 	pen->setCursor(dimension.x+x,dimension.y+y);
-	pen->print(score);
+	pen->print(value);
 }
