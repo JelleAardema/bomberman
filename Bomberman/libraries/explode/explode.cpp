@@ -1,9 +1,10 @@
 #include <Adafruit_ILI9341.h>
 #include <Adafruit_GFX.h>
-#include "grid.h"
+#include <grid.h>
 #include "explode.h"
-#include "bomb.h"
-#include "player.h"
+#include <bomb.h>
+#include <player.h>
+#include <highscore.h>
 
 // destructing wave
 void bombWorld(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t world[GRID_X][GRID_Y],int x, int y, int power,struct PLAYER *p1)
@@ -31,9 +32,9 @@ void bombWorld(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t world[GRID_
             p1->life = p1->life - 1;
         }
         else break;
+      }
     }
   }
-}
 
 // clear exploding cloud
 void clearWave(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t world[GRID_X][GRID_Y],int x, int y, int power)
@@ -51,6 +52,7 @@ void clearWave(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t world[GRID_
           // redraw block
           redrawBlock(pen,screen,world,calcX,calcY);
         }
+
         else break;
     }
   }
@@ -63,7 +65,9 @@ int bombNext(int i, int q,int x, int y, int *calcX, int *calcY,uint8_t world[GRI
   // if previous time, a block expode stop wave
   if(explode==1)
   {
-	  explode=0;
+	  explode=0;    
+    // Add points for destroying a tile
+    destroyTileScore();
 	  return 0;
   }
 
@@ -76,15 +80,16 @@ int bombNext(int i, int q,int x, int y, int *calcX, int *calcY,uint8_t world[GRI
     return 0;
 
   // check of block is destuctable, if not return false
-  if(world[*calcX][*calcY] == wall)
+  if(world[*calcX][*calcY] == wall) {
     return 0;
+  }
 
   // check of block is air
-  if(world[*calcX][*calcY] == air)
+  if(world[*calcX][*calcY] == air){
     explode = 0;
-  else
-	explode = 1;
-
+  }else{
+    explode = 1;
+  }
   // if this point is reached, the block is destructuble and is in fire wave
   return 1;
 }

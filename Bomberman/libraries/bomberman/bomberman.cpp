@@ -14,6 +14,7 @@
 #include <bomb.h>
 #include <grid.h>
 #include <level.h>
+#include <highscore.h>
 
 // IR/timer
 #include <connection.h>
@@ -23,8 +24,8 @@ int getDirection();
 Adafruit_ILI9341 screen = Adafruit_ILI9341(TFT_CS, TFT_DC);
 uint8_t wrld[GRID_X][GRID_Y];
 struct DIMENSION dimension = {10,10,220,220};
-struct PLAYER player1 = {1,1,4,MAXLIFE};
-struct PLAYER player2 = {7,7,3,MAXLIFE};
+struct PLAYER player1 = {1,1,MAXLIFE,0,4};
+struct PLAYER player2 = {7,7,MAXLIFE,0,3};
 struct BOMB bomb1[MAXBOMBS];
 struct BOMB bomb2;
 
@@ -65,4 +66,8 @@ void bombermanUpdate(){
   	sendPlayerStatus(player1.x, player1.y, player1.life, player1.bombPlaced);
   	receivePlayerStatus(&player2.x, &player2.y, &player2.life, &player2.bombPlaced);
   	drawPlayer(&screen,dimension,player2);
+
+    if(player2.life == 0) {
+
+    }
 }
