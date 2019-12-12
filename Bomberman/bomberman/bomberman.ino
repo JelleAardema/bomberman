@@ -10,7 +10,6 @@
 #include <level.h>
 #include <connection.h>
 #include <globalTimer.h>
-#include <highscore.h>
 #include <explode.h>
 
 
@@ -21,8 +20,8 @@ int getDirection();
   Adafruit_ILI9341 screen = Adafruit_ILI9341(TFT_CS, TFT_DC);
   uint8_t wrld[GRID_X][GRID_Y];
   struct DIMENSION dimension = {10,10,220,220};
-  struct PLAYER player1 = {1,1,4,MAXLIFE};
-  struct PLAYER player2 = {7,7,3,MAXLIFE};
+  struct PLAYER player1 = {1,1,PLAYER1,MAXLIFE};
+  struct PLAYER player2 = {7,7,PLAYER2,MAXLIFE};
   struct BOMB bomb1[MAXBOMBS];
   struct BOMB bomb2;
 
@@ -50,18 +49,17 @@ void setup() {
     bomb1[a].y = 0;
     bomb1[a].fuse = 0;
     bomb1[a].placed = 0;
+    bomb1[a].player = PLAYER1;
   }
 
   irccBegin(host);
-
-  Serial.begin(9600);
 }
 
 void loop() {
   // change test
   if(gameUpdate()){
-    Serial.println("1");
-    Serial.println(getCurrentScore());
+    
+    //drawGrid(&screen,dimension,wrld);
     Nunchuk.getState(0x52);
     if(stepper(&screen,dimension,wrld,(AIM)getDirection(),&player1,bomb1,Nunchuk.state.z_button)){
       drawPlayer(&screen,dimension,player1);

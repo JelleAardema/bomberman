@@ -42,7 +42,7 @@ int i;
         b1[i].placed = 3;
         b1[i].fuse = 0;
         changeBlock(pen,dimension,world,b1[i].x,b1[i].y,air);
-        bombWorld(pen,dimension,world,b1[i].x,b1[i].y,FIRE,p1);
+        bombWorld(pen,dimension,world,b1[i].x,b1[i].y,FIRE,p1,b1[i].player);
       }
       if(b1[i].placed == 3)
       {
