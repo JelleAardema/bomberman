@@ -51,13 +51,13 @@ char itemsHighscore[1][10] = {
 char (*ptrArray)[10];
                 
 // Use hardware SPI (on Uno, #13, #12, #11) and the above for CS/DC
-Adafruit_ILI9341 screen = Adafruit_ILI9341(TFT_CS, TFT_DC);
+//Adafruit_ILI9341 screen = Adafruit_ILI9341(TFT_CS, TFT_DC);
 // If using the breakout, change pins as desired
 //Adafruit_ILI9341 screen = Adafruit_ILI9341(TFT_CS, TFT_DC, TFT_MOSI, TFT_CLK, TFT_RST, TFT_MISO);
+Adafruit_ILI9341 *pScreen;
 
 
-void initMainMenu(int h) {
-  host = h;
+void mainMenuSetup(Adafruit_ILI9341 *pen) {
 
   //Setting pointer on first menu page
   ptrArray = itemsMain;
@@ -68,15 +68,16 @@ void initMainMenu(int h) {
   currentPage = 2;
 
   //Setting up display orientation and clearing
-  screen.fillScreen(ILI9341_BLACK);
-  screen.setRotation(1);
+  pen->fillScreen(ILI9341_BLACK);
+  pen->setRotation(1);
  
   //Display logo and wait for user input
   logoDisplay();
 }
 
 
-void menu(void) {
+void menu(Adafruit_ILI9341 *pen, int host) {
+	pScreen = pen;
   while(!startGameFlag){
   //Waiting for user input to setup initial connection over IR
   Nunchuk.getState(0x52);
@@ -90,7 +91,7 @@ void menu(void) {
     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     //Clearing screen and drawing the menu items
-    screen.fillScreen(ILI9341_BLACK);
+    pScreen->fillScreen(ILI9341_BLACK);
     highlight(size,offsetY);     
    }
 
@@ -123,7 +124,7 @@ void menu(void) {
 
   if(Nunchuk.state.c_button == 1){
     ptrArray = itemsMain;
-    screen.fillScreen(ILI9341_BLACK);
+    pScreen->fillScreen(ILI9341_BLACK);
     currentPage = 2;
     size = 5;
     offsetY = 75;
@@ -146,14 +147,14 @@ void menu(void) {
 
 //Function to display bomberman logo
 void logoDisplay(){
-  screen.setCursor(25,50);
-  screen.setTextColor(ILI9341_WHITE);
-  screen.setTextSize(5); 
-  screen.println("BOMBERMAN");
-  screen.setCursor(60,150);
-  screen.setTextColor(ILI9341_WHITE);
-  screen.setTextSize(2);
-  screen.println("press Z to start");
+  pScreen->setCursor(25,50);
+  pScreen->setTextColor(ILI9341_WHITE);
+  pScreen->setTextSize(5); 
+  pScreen->println("BOMBERMAN");
+  pScreen->setCursor(60,150);
+  pScreen->setTextColor(ILI9341_WHITE);
+  pScreen->setTextSize(2);
+  pScreen->println("press Z to start");
 } 
 
 
@@ -161,21 +162,21 @@ void logoDisplay(){
 //Drawing the menu items and highlighting the selected items
 void highlight(int size, int offsetY){  
   if(ptrArray != itemsHighscore){
-  screen.setTextColor(ILI9341_WHITE);
-  screen.setTextSize(size); 
+  pScreen->setTextColor(ILI9341_WHITE);
+  pScreen->setTextSize(size); 
   xCoord = 25;
   yCoord = 25;
   for(int j = 0; j < currentPage; j++){
-    screen.setCursor(xCoord,yCoord);
+    pScreen->setCursor(xCoord,yCoord);
     for(int k = 0; k < 10; k++){
       if(j == i){
-        screen.setTextColor(ILI9341_YELLOW);    
+        pScreen->setTextColor(ILI9341_YELLOW);    
       }
-      screen.setCursor(xCoord,yCoord);
-      screen.println(ptrArray[j][k]);
+      pScreen->setCursor(xCoord,yCoord);
+      pScreen->println(ptrArray[j][k]);
       xCoord = xCoord + 30;  
     }
-    screen.setTextColor(ILI9341_WHITE); 
+    pScreen->setTextColor(ILI9341_WHITE); 
     xCoord = 25;
     yCoord += offsetY;   
     }
@@ -185,7 +186,7 @@ void highlight(int size, int offsetY){
 
 //Fucntion to select the coresponding menu page and binding behavior on menu items
 void menuSetter(int currentHighlight){
-    screen.fillScreen(ILI9341_BLACK);
+    pScreen->fillScreen(ILI9341_BLACK);
     
     //Main menu 
     if(ptrArray == itemsMain){
@@ -257,37 +258,37 @@ void highscore(int size, int offsetY){
   highscores = getHighscoreList();
   xCoord = 50;
   yCoord = 25;
-  screen.setTextColor(ILI9341_WHITE);
-  screen.setTextSize(size);
+  pScreen->setTextColor(ILI9341_WHITE);
+  pScreen->setTextSize(size);
   for(int j = 0; j < currentPage; j++){
-    screen.setCursor(xCoord,yCoord);
-    screen.setTextColor(ILI9341_YELLOW);
-    screen.println(j + 1);
-    screen.setCursor(xCoord + 20,yCoord);
-    screen.println(".");
-    screen.setTextColor(ILI9341_WHITE);
-    screen.setCursor(xCoord + 40,yCoord);
-    screen.println(highscores[j]);
+    pScreen->setCursor(xCoord,yCoord);
+    pScreen->setTextColor(ILI9341_YELLOW);
+    pScreen->println(j + 1);
+    pScreen->setCursor(xCoord + 20,yCoord);
+    pScreen->println(".");
+    pScreen->setTextColor(ILI9341_WHITE);
+    pScreen->setCursor(xCoord + 40,yCoord);
+    pScreen->println(highscores[j]);
     yCoord += offsetY;  
   }
 }
 
 //Loading screen
 void loading(){
-  screen.fillScreen(ILI9341_BLACK);
-  screen.setCursor(25,100);
-  screen.setTextColor(ILI9341_WHITE);
-  screen.setTextSize(4); 
-  screen.println("LOADING");
+  pScreen->fillScreen(ILI9341_BLACK);
+  pScreen->setCursor(25,100);
+  pScreen->setTextColor(ILI9341_WHITE);
+  pScreen->setTextSize(4); 
+  pScreen->println("LOADING");
 }
 
 //Connection screen
 void connecting(){
-  screen.fillScreen(ILI9341_BLACK);
-  screen.setCursor(25,50);
-  screen.setTextColor(ILI9341_WHITE);
-  screen.setTextSize(4); 
-  screen.println("CONNECTING");
+  pScreen->fillScreen(ILI9341_BLACK);
+  pScreen->setCursor(25,50);
+  pScreen->setTextColor(ILI9341_WHITE);
+  pScreen->setTextSize(4); 
+  pScreen->println("CONNECTING");
 }
 
 void getLevel(int* seed,int* type){

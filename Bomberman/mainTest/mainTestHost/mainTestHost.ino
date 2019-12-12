@@ -6,8 +6,8 @@
 #include <Adafruit_GFX.h>
 
 // mainmenu
-//#include <highscore.h>
-//#include <mainMenu.h>
+#include <highscore.h>
+#include <mainMenu.h>
 
 // nunchuck
 #include <Wire.h>
@@ -31,8 +31,8 @@ Adafruit_ILI9341 screen = Adafruit_ILI9341(TFT_CS, TFT_DC);
 int mainLevelSeed = 0;
 int mainLevelType = 0;
 
-int enableMenu = 1;
-int enableBomberman = 0;
+int enableMenu = 0;
+int enableBomberman = 1;
 
 void setup(){
   init();
@@ -46,10 +46,10 @@ void setup(){
 
   // MAINMENU START
   if(enableMenu){
-    //initMainMenu(host);
+    mainMenuSetup(&screen);
     Serial.println("Mainmenu Setup Done!");
     // mainmenu loop  
-    //menu();
+    menu(&screen, host);
     Serial.println("Mainmenu Loop Done!");
   }
 

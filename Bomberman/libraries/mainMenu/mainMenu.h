@@ -7,11 +7,11 @@
 #define TFT_CS 10
 
 //Functions used by mainMenu
-void initMainMenu(int h);
+void mainMenuSetup(Adafruit_ILI9341 *pen);
 
 void logoDisplay();
 
-void menu();
+void menu(Adafruit_ILI9341 *pen, int host);
 
 void highlight(int size, int offsetY); 
 
