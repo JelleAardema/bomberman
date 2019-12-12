@@ -3,7 +3,7 @@
 
 uint16_t addr;
 uint16_t currentScore = 0;
-extern int highscores[5];
+int highscores[5];
 
 // Values used to calculate the score
 #define destroyTile 5
