@@ -2,8 +2,8 @@
 #include <Adafruit_GFX.h>
 #include <grid.h>
 
-#ifndef SCORE_H
-#define SCORE_H
+#ifndef SHOW_INFO_H
+#define SHOW_INFO_H
 
 // ---- functions
 void drawInfo(Adafruit_ILI9341 *pen,struct DIMENSION dimension,const char *title,int value);

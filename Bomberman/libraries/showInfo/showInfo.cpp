@@ -2,7 +2,7 @@
 #include <Adafruit_GFX.h>
 #include <grid.h>
 #include <string.h>
-#include "score.h"
+#include "showInfo.h"
 
 // draw the core on screen
 void drawInfo(Adafruit_ILI9341 *pen,struct DIMENSION dimension,const char *title,int value)
