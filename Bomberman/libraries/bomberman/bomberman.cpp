@@ -31,7 +31,7 @@ struct PLAYER player2 = {7,7,MAXLIFE,0,3};
 struct BOMB bomb1[MAXBOMBS];
 struct BOMB bomb2;
 
-void bombermanSetup(){
+void bombermanSetup(Adafruit_ILI9341 *pen){
     //init();
     //screen.begin();
     //Wire.begin();
@@ -43,7 +43,7 @@ void bombermanSetup(){
     //screen.fillScreen(0x0000);
     //genWorld(wrld,1);
     genWorld(wrld,random(1,200));
-    drawGrid(&screen,dimension,wrld);
+    drawGrid(pen,dimension,wrld);
     
     // set all bombs to 0
     for(int a=0; a<MAXBOMBS; a++)
