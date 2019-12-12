@@ -1,12 +1,10 @@
 #include <Adafruit_GFX.h>         // Core graphics library
 #include <Adafruit_ILI9341.h>     // Hardware-specific library
+#include <sprites.h>
 
 // For the Adafruit shield, these are the default.
 #define TFT_DC 9
 #define TFT_CS 10
-
-extern uint8_t car[];
-//extern uint8_t floor[];
 
 // Use hardware SPI (on Uno, #13, #12, #11) and the above for CS/DC
 Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC);
@@ -16,7 +14,7 @@ Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC);
 
 int x,y,i;
 
-void setup() {
+void spriteInit() {
   // put your setup code here, to run once:
   Serial.begin(9600);
   Serial.println("ILI9341 Test!"); 
@@ -24,25 +22,6 @@ void setup() {
   tft.begin();
   tft.setRotation(1);
   tft.fillScreen(ILI9341_BLACK);
-}
-
-void loop() {
-  i = 0;
-  /*
-  tft.fillScreen(ILI9341_BLACK);
-  player(x,y);
-  delay(200);
-
-*/
-  while(i < 5){
-  x += 20;
-  i++;
-  explosion(x,y);
-  }
-  x = 0;
-  y += 20;
-  
-
 }
 
 void player(int posX, int posY){
