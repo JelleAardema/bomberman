@@ -21,11 +21,10 @@
 
 int getDirection();
 Adafruit_ILI9341 screen = Adafruit_ILI9341(TFT_CS, TFT_DC);
-
 uint8_t wrld[GRID_X][GRID_Y];
 struct DIMENSION dimension = {10,10,220,220};
-struct PLAYER player1 = {1,1,3,0,4};
-struct PLAYER player2 = {7,7,3,0,3};
+struct PLAYER player1 = {1,1,4,MAXLIFE};
+struct PLAYER player2 = {7,7,3,MAXLIFE};
 struct BOMB bomb1[MAXBOMBS];
 struct BOMB bomb2;
 
@@ -58,12 +57,12 @@ void bombermanSetup(){
   	// make sure that both players have the game loaded
 }
 void bombermanUpdate(){
-  	Nunchuk.getState(0x52);
-  	if(stepper((AIM)getDirection(),wrld,&player1,dimension,&screen,bomb1,Nunchuk.state.z_button)){
-  		drawPlayer(player1,&screen,dimension);
-  	}
-  	sendPlayerStatus(player1.x, player1.y, player1.l, player1.b);
-  	bombs(bomb1,&screen,dimension,wrld);
-  	receivePlayerStatus(&player2.x, &player2.y, &player2.l, &player2.b);
-  	drawPlayer(player2,&screen,dimension);
+    Nunchuk.getState(0x52);
+    if(stepper(&screen,dimension,wrld,(AIM)getDirection(),&player1,bomb1,Nunchuk.state.z_button)){
+      drawPlayer(&screen,dimension,player1);
+    }
+    bombs(&screen,dimension,wrld,bomb1,&player1);
+  	sendPlayerStatus(player1.x, player1.y, player1.life, player1.bombPlaced);
+  	receivePlayerStatus(&player2.x, &player2.y, &player2.life, &player2.bombPlaced);
+  	drawPlayer(&screen,dimension,player2);
 }
