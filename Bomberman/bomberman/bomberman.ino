@@ -10,6 +10,7 @@
 #include <level.h>
 #include <connection.h>
 #include <globalTimer.h>
+#include <highscore.h>
 #include <explode.h>
 
 
@@ -52,13 +53,15 @@ void setup() {
   }
 
   irccBegin(host);
+
+  Serial.begin(9600);
 }
 
 void loop() {
   // change test
   if(gameUpdate()){
-    
-    //drawGrid(&screen,dimension,wrld);
+    Serial.println("1");
+    Serial.println(getCurrentScore());
     Nunchuk.getState(0x52);
     if(stepper(&screen,dimension,wrld,(AIM)getDirection(),&player1,bomb1,Nunchuk.state.z_button)){
       drawPlayer(&screen,dimension,player1);
