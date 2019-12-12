@@ -51,12 +51,17 @@ void setup(){
     // mainmenu loop  
     menu(host);
     Serial.println("Mainmenu Loop Done!");
+    getLevel(&mainLevelSeed, &mainLevelType);
+    Serial.print("seed:  ");
+    Serial.print(mainLevelSeed);
+    Serial.print("  type:  ");
+    Serial.println(mainLevelType);
   }
 
   // BOMBERMAN START
   if(enableBomberman){
     screen.fillScreen(0x0000);
-    bombermanSetup(&screen);
+    bombermanSetup(&screen, mainLevelSeed, mainLevelType);
     Serial.println("Bomberman Setup Done!");
   }
   

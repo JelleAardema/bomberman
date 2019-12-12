@@ -31,7 +31,7 @@ struct PLAYER player2 = {7,7,MAXLIFE,0,3};
 struct BOMB bomb1[MAXBOMBS];
 struct BOMB bomb2;
 
-void bombermanSetup(Adafruit_ILI9341 *pen){
+void bombermanSetup(Adafruit_ILI9341 *pen, int seed, int type){
     //init();
     //screen.begin();
     //Wire.begin();
@@ -41,7 +41,11 @@ void bombermanSetup(Adafruit_ILI9341 *pen){
   
     // draw start screen
     //screen.fillScreen(0x0000);
-    //genWorld(wrld,1);
+	if(type){
+		loadWorld(wrld,seed);		// load standard level
+	}else{
+		genWorld(wrld,seed);		// load random level
+	}
     genWorld(wrld,random(1,200));
     drawGrid(pen,dimension,wrld);
     
