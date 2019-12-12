@@ -75,7 +75,7 @@ void bombermanUpdate(Adafruit_ILI9341 *pen){
     }
 }
 
-void endGame() {
+void endGame(){
   uint16_t finalScore = calculateScore(player1.life);
   placeHighscore(finalScore);
 }

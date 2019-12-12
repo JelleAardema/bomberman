@@ -23,6 +23,10 @@ uint16_t getCurrentScore() {
 	return currentScore;
 }
 
+int * getHighscoreList() {
+  return highscores;
+}
+
 // Places highscores in highscores array
 void updateHighscoreList() {
 
