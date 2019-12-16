@@ -70,6 +70,3 @@ int checkEndGame(){
 	}
 	return 0;
 }
-int getLifes(){
-	return player1.life;
-}

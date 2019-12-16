@@ -96,7 +96,7 @@ void spriteBomb(int posX, int posY, Adafruit_ILI9341 *tft){
    
 }
 
-void sptireExplosion(int posX,int posY, Adafruit_ILI9341 *tft){
+void spriteExplosion(int posX,int posY, Adafruit_ILI9341 *tft){
 
   ///UUUUUH IDK ABOUT THIS BOYS 
   tft->fillRect(posX, posY, 24, 24,ILI9341_RED);

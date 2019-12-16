@@ -49,7 +49,7 @@ void drawBlock(Adafruit_ILI9341 *pen,struct DIMENSION block,uint8_t type)
 			spritePlayer(block.x, block.y, pen);
 			break;
 		case 5:
-			sptireExplosion(block.x, block.y, pen);
+			spriteExplosion(block.x, block.y, pen);
 			break;
 		default:	// black
 			color=BLACK;

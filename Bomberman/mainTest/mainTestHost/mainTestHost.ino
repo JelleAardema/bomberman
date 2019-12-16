@@ -80,9 +80,12 @@ void setup(){
 			bombermanUpdate(&screen);			// update player pos en 
 			endGameFlag = checkEndGame();
 			Serial.println(getLifes());
-			//drawInfo(screen, , "score", getCurrentScore());
-			//drawInfo(screen, , "lifes1", getPlayer1Lifes());
-			//drawInfo(screen, , "lifes2", getPlayer2Lifes());
+			//struct DIMENSION  score = (240,10,70,50);
+			//struct DIMENSION  life1 = (240,70,70,50);
+			//struct DIMENSION  life2 = (240,130,70,50);
+			//drawInfo(screen, score, "score", getCurrentScore());
+			//drawInfo(screen, life1, "lifes1", getPlayer1Lifes());
+			//drawInfo(screen, life2, "lifes2", getPlayer2Lifes());
 			}
 		}
 	}
