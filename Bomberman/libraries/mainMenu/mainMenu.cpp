@@ -140,6 +140,8 @@ void menu(int host) {
   }
  }
   //Displaying loading screen and awaiting game start instructions
+  started = 0;
+  startGameFlag = 0;
   loading();
 }
 

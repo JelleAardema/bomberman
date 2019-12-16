@@ -31,8 +31,6 @@ Adafruit_ILI9341 screen = Adafruit_ILI9341(TFT_CS, TFT_DC);
 int mainLevelSeed = 0;
 int mainLevelType = 0;
 
-int enableMenu = 1;
-int enableBomberman = 1;
 int endGameFlag = 0;
 
 int main() {
@@ -47,9 +45,11 @@ int main() {
 
 	while(1){
 		// WAIT FOR HOST TO PRESS Z
+		Serial.println("Waiting for host, press Z.");
 		startConnection(host);
-
+		
 		// WAIT FOR HOST TO SEND LEVEL
+		Serial.println("Waiting for host, level select.");
 		receiveLevel(&mainLevelSeed, &mainLevelType);
 		
 		// LOAD LEVEL
@@ -57,15 +57,12 @@ int main() {
 		bombermanSetup(&screen, mainLevelSeed, mainLevelType);
 		Serial.println("Bomberman Setup Done!");
 		
-		// make sure that both players have the game loaded
-		confirmLoad(host);
+		// Make sure that both players have the game loaded
+		//confirmLoad(host);		
 		Serial.println("Level Loaded"); 
-	  
-		//!!!!!!!!!!!!!!!!!!!!!!!!
-		//confirmLoad(host);
-		//!!!!!!!!!!!!!!!!!!!!!!!!
-		// make sure that both players have the game loaded
-		// game loop
+		
+		// BOMBERMAN Loop
+		Serial.println("Starting loop"); 
 		while(!endGameFlag){
 			if(enableBomberman){
 				if(gameUpdate()){

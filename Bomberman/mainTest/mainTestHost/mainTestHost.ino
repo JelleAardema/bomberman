@@ -31,8 +31,6 @@ Adafruit_ILI9341 screen = Adafruit_ILI9341(TFT_CS, TFT_DC);
 int mainLevelSeed = 0;
 int mainLevelType = 0;
 
-int enableMenu = 1;
-int enableBomberman = 1;
 int endGameFlag = 0;
 
 void setup(){
@@ -46,57 +44,40 @@ void setup(){
 	Serial.println("Setup Done!");
 
 	while(1){
-	// MAINMENU START
+		// MAINMENU Setup
 		endGameFlag = 0;
-		if(enableMenu){
-			mainMenuSetup(&screen);
-			Serial.println("Mainmenu Setup Done!");
-			// mainmenu loop  
-			menu(host);
-			Serial.println("Mainmenu Loop Done!");
-			getLevel(&mainLevelSeed, &mainLevelType);
-			Serial.print("seed:  ");
-			Serial.print(mainLevelSeed);
-			Serial.print("  type:  ");
-			Serial.println(mainLevelType);
-		}
-
-		// BOMBERMAN START
-		if(enableBomberman){
-			screen.fillScreen(0x0000);
-			bombermanSetup(&screen, mainLevelSeed, mainLevelType);
-			Serial.println("Bomberman Setup Done!");
-		}
+		mainMenuSetup(&screen);
+		Serial.println("Host pressed Z.");
 		
-		//!!!!!!!!!!!!!!!!!!!!!!!!
+		// MAINMENU Loop
+		menu(host);
+		
+		Serial.println("Level selected");
+		getLevel(&mainLevelSeed, &mainLevelType);
+		
+		//Print level
+		Serial.print("seed:  ");
+		Serial.print(mainLevelSeed);
+		Serial.print("  type:  ");
+		Serial.println(mainLevelType);
+
+		// BOMBERMAN Setup
+		screen.fillScreen(0x0000);
+		bombermanSetup(&screen, mainLevelSeed, mainLevelType);
+		Serial.println("Bomberman Setup Done!");
+		
+		// Make sure that both players have the game loaded
 		//confirmLoad(host);
-		//!!!!!!!!!!!!!!!!!!!!!!!!
-		// make sure that both players have the game loaded
+		Serial.println("Level Loaded"); 
 	
+		// BOMBERMAN Loop
 		Serial.println("Starting loop");
-	  
-		while(!endGameFlag){
-			if(enableBomberman){
-				if(gameUpdate()){
-				bombermanUpdate(&screen);
-				endGameFlag = checkEndGame();
-				Serial.println(getLifes());
-				}
-			}else{
-			Serial.println("Haha goeie");
+		while(!endGameFlag){					// check if nobody is dead			
+			if(gameUpdate()){					// only update bomberman after a sertain time
+			bombermanUpdate(&screen);			// update player pos en 
+			endGameFlag = checkEndGame();
+			Serial.println(getLifes());
 			}
 		}
 	}
-}
-
-
-void loop(){
-  if(enableBomberman){
-  	if(gameUpdate()){
-      bombermanUpdate(&screen);
-      Serial.println("l");
-  	}
-  }else{
-    Serial.println("Haha goeie");
-  }
 }
