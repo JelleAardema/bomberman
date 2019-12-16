@@ -10,6 +10,10 @@
 void bombWorld(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t world[GRID_X][GRID_Y],int x, int y, int power,struct PLAYER *p1,uint8_t bOm)
 {
   int i,q,calcX,calcY;
+	//subtract two lifes from player, if player is on center of explosion
+    if((p1->y == x)&&(p1->x == y))
+		p1->life -= 2;
+  
     // go trough all directions (left,right,up,down) of explosion
     for(q=0; q < 4; q++)
     {
