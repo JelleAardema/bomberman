@@ -48,6 +48,9 @@ void drawBlock(Adafruit_ILI9341 *pen,struct DIMENSION block,uint8_t type)
 		case 4:		// yellow, player
 			spritePlayer(block.x, block.y, pen);
 			break;
+		case 5:
+			sptireExplosion(block.x, block.y, pen);
+			break;
 		default:	// black
 			color=BLACK;
   }

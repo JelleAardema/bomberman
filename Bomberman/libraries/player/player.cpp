@@ -77,3 +77,11 @@ void drawPlayer(Adafruit_ILI9341 *pen,struct DIMENSION screen,struct PLAYER p1)
   calcBlock(screen,&block,p1.x,p1.y);
   drawBlock(pen,block,p1.color);
 }
+
+uint8_t getPlayer1Lifes(){
+	return player1.lifes;
+}
+
+uint8_t getPlayer1Lifes(){
+	return player2.lifes;
+}

@@ -24,7 +24,6 @@
 #include <connection.h>
 #include <globalTimer.h>
 
-// sprites
 #include <showInfo.h>
 
 #define host 1
@@ -35,6 +34,7 @@ int mainLevelSeed = 0;
 int mainLevelType = 0;
 
 int endGameFlag = 0;
+
 
 void setup(){
 	init();
@@ -80,6 +80,9 @@ void setup(){
 			bombermanUpdate(&screen);			// update player pos en 
 			endGameFlag = checkEndGame();
 			Serial.println(getLifes());
+			//drawInfo(screen, , "score", getCurrentScore());
+			//drawInfo(screen, , "lifes1", getPlayer1Lifes());
+			//drawInfo(screen, , "lifes2", getPlayer2Lifes());
 			}
 		}
 	}
