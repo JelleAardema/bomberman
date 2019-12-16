@@ -7,7 +7,7 @@
 #include <highscore.h>
 
 // destructing wave
-void bombWorld(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t world[GRID_X][GRID_Y],int x, int y, int power,struct PLAYER *p1)
+void bombWorld(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t world[GRID_X][GRID_Y],int x, int y, int power,struct PLAYER *p1,uint8_t bOm)
 {
   int i,q,calcX,calcY;
     // go trough all directions (left,right,up,down) of explosion
@@ -17,7 +17,7 @@ void bombWorld(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t world[GRID_
       for(i=1; i<power; i++)
       {
         // calculate which block is next and check of it can be destroyed
-        if(bombNext(i,q,x,y,&calcX, &calcY,world))
+        if(bombNext(i,q,x,y,&calcX, &calcY,world,bOm))
         {
           // destroy the block
           world[calcX][calcY] = air;
@@ -47,7 +47,7 @@ void clearWave(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t world[GRID_
       for(i=1; i<power; i++)
       {
         // calculate which block is next and check of it can be destroyed
-        if(bombNext(i,q,x,y,&calcX, &calcY,world))
+        if(bombNext(i,q,x,y,&calcX, &calcY,world,0))
         {
           // redraw block
           redrawBlock(pen,screen,world,calcX,calcY);
@@ -59,15 +59,15 @@ void clearWave(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t world[GRID_
 }
 
 // calc next block to destroy and check if the block is within the world
-int bombNext(int i, int q,int x, int y, int *calcX, int *calcY,uint8_t world[GRID_X][GRID_Y])
+int bombNext(int i, int q,int x, int y, int *calcX, int *calcY,uint8_t world[GRID_X][GRID_Y],uint8_t bOm)
 {
  static int explode=0;
   // if previous time, a block expode stop wave
   if(explode==1)
   {
-	  explode=0;    
-    // Add points for destroying a tile
-    destroyTileScore();
+	  explode=0;
+    if (bOm == PLAYER1) // Add points for destroying a tile
+      destroyTileScore();
 	  return 0;
   }
 
