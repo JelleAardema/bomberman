@@ -25,7 +25,7 @@
 #include <globalTimer.h>
 
 // sprites
-#include <sprites.h>
+#include <showInfo.h>
 
 #define host 1
 
