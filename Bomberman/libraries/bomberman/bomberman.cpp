@@ -39,7 +39,6 @@ void bombermanSetup(Adafruit_ILI9341 *pen, int seed, int type){
 	}else{
 		genWorld(wrld,seed);		// load random level
 	}
-    genWorld(wrld,random(1,200));
     drawGrid(pen,dimension,wrld);
     
     // set all bombs to 0
