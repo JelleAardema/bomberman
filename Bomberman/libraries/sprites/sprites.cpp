@@ -21,7 +21,7 @@ void spriteInit() {
   tft.fillScreen(ILI9341_BLACK);
 }
 
-void player(int posX, int posY){
+void spritePlayer(int posX, int posY){
   tft.fillRect(posX+10, posY+2, 4, 4,ILI9341_GREEN);
   //body
   tft.fillRect(posX+8, posY+6, 8, 6,ILI9341_BLUE);
@@ -35,7 +35,7 @@ void player(int posX, int posY){
   tft.drawLine(posX+11, posY+14, posX+11, posY+20, ILI9341_BLACK);
 }
 
-void tile(int posX, int posY){
+void spriteAir(int posX, int posY){
   //floor tile
   tft.fillRect(posX, posY, 24, 24,ILI9341_WHITE);
   //outline
@@ -48,7 +48,7 @@ void tile(int posX, int posY){
   tft.fillCircle(posX+12, posY+12, 2, ILI9341_BLACK);
 }
 
-void wall(int posX, int posY){
+void spriteWall(int posX, int posY){
   //Wall tile
   tft.fillRect(posX, posY, 24, 24,ILI9341_BLUE);
   //outline
@@ -75,7 +75,7 @@ void wall(int posX, int posY){
   tft.drawRect(posX+20, posY+20, 4, 4,ILI9341_BLACK);
 }
 
-void box(int posX,int posY){
+void spriteBox(int posX,int posY){
     //floor tile
   tft.fillRect(posX, posY, 24, 24,ILI9341_MAROON);
   //outline
@@ -93,7 +93,7 @@ void box(int posX,int posY){
   tft.drawLine(posX, posY+17, posX+24, posY+17, ILI9341_BLACK);
 }
 
-void bomb(int posX, int posY){
+void spriteBomb(int posX, int posY){
   //bomb
    tft.fillCircle(posX+12, posY+12, 5, ILI9341_BLUE);
    //highlight
@@ -107,7 +107,7 @@ void bomb(int posX, int posY){
    
 }
 
-void explosion(int posX,int posY){
+void sptireExplosion(int posX,int posY){
 
   ///UUUUUH IDK ABOUT THIS BOYS 
   tft.fillRect(posX, posY, 24, 24,ILI9341_RED);

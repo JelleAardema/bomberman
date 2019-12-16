@@ -6,6 +6,8 @@
 #include "grid.h"
 #include <stdint.h>
 #include <avr/io.h>
+#include <sprites.h>
+
 uint8_t stepper(Adafruit_ILI9341 *pen, struct DIMENSION dimension, uint8_t world[9][9], enum AIM direction, struct PLAYER *p1, struct BOMB *b1, int bomb)
 {
   uint16_t X = p1->x;
@@ -75,4 +77,5 @@ void drawPlayer(Adafruit_ILI9341 *pen,struct DIMENSION screen,struct PLAYER p1)
   struct DIMENSION block;
   calcBlock(screen,&block,p1.x,p1.y);
   drawBlock(pen,block,p1.color);
+  spritePlayer(p1.x,p1.y);
 }

@@ -11,16 +11,16 @@
 
 void spriteInit();
 
-void player(int posX, int posY);
+void spritePlayer(int posX, int posY);
 
-void tile(int posX, int posY);
+void spriteAir(int posX, int posY);
 
-void wall(int posX, int posY);
+void spriteWall(int posX, int posY);
 
-void box(int posX,int posY);
+void spriteBox(int posX,int posY);
 
-void bomb(int posX, int posY);
+void spriteBomb(int posX, int posY);
 
-void explosion(int posX,int posY);
+void spriteExplosion(int posX,int posY);
 
 #endif
