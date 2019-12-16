@@ -47,6 +47,7 @@ void setup(){
 
 	while(1){
 	// MAINMENU START
+		endGameFlag = 0;
 		if(enableMenu){
 			mainMenuSetup(&screen);
 			Serial.println("Mainmenu Setup Done!");
