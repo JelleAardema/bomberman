@@ -8,6 +8,10 @@ extern int highscores[5];
 #define destroyTile 5
 #define lifeLeft 200
 
+void resetScore() {
+  currentScore = 0;
+}
+
 void destroyTileScore() {
 	currentScore += 10;
 }
