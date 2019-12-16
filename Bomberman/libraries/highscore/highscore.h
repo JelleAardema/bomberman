@@ -1,6 +1,7 @@
 #ifndef HIGHSCORE_h
 #define HIGHSCORE_h
 
+void resetScore();
 int * getHighscoreList();
 void destroyTileScore();
 uint16_t calculateScore(int lifes);

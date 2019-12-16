@@ -9,6 +9,10 @@ int highscores[5];
 #define destroyTile 5
 #define lifeLeft 200
 
+void resetScore() {
+  currentScore = 0;
+}
+
 void destroyTileScore() {
 	currentScore += 10;
 }
@@ -75,4 +79,5 @@ void placeHighscore(uint16_t newScore) {
   }
   // Refresh list
   updateHighscoreList();
+  resetScore();
 }
