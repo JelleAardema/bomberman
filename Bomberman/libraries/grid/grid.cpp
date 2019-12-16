@@ -33,19 +33,19 @@ void drawBlock(Adafruit_ILI9341 *pen,struct DIMENSION block,uint8_t type)
     // Decide wich color is used
 	switch(type)
 	{
-		case 0:		// white
-			color=WHITE;
-			break;
-		case 1:		// green
+		case 0:		// white, floor
 			spriteWall(block.x, block.y, pen);
 			break;
-		case 2:		// blue
+		case 1:		// green, full wall
+			spriteWall(block.x, block.y, pen);
+			break;
+		case 2:		// blue, break wall
 			spriteBox(block.x, block.y, pen);
 			break;
-		case 3:		// red
+		case 3:		// red, bomb
 			spriteBomb(block.x, block.y, pen);
 			break;
-		case 4:		// yellow
+		case 4:		// yellow, player
 			spritePlayer(block.x, block.y, pen);
 			break;
 		default:	// black
