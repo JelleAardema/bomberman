@@ -44,29 +44,44 @@ void setup(){
   Serial.begin(9600);
   Serial.println("Setup Done!");
 
-  // MAINMENU START
-  if(enableMenu){
-    mainMenuSetup(&screen);
-    Serial.println("Mainmenu Setup Done!");
-    // mainmenu loop  
-    menu(host);
-    Serial.println("Mainmenu Loop Done!");
-    getLevel(&mainLevelSeed, &mainLevelType);
-    Serial.print("seed:  ");
-    Serial.print(mainLevelSeed);
-    Serial.print("  type:  ");
-    Serial.println(mainLevelType);
-  }
+	while(1){
+	// MAINMENU START
+		if(enableMenu){
+			mainMenuSetup(&screen);
+			Serial.println("Mainmenu Setup Done!");
+			// mainmenu loop  
+			menu(host);
+			Serial.println("Mainmenu Loop Done!");
+			getLevel(&mainLevelSeed, &mainLevelType);
+			Serial.print("seed:  ");
+			Serial.print(mainLevelSeed);
+			Serial.print("  type:  ");
+			Serial.println(mainLevelType);
+		}
 
-  // BOMBERMAN START
-  if(enableBomberman){
-    screen.fillScreen(0x0000);
-    bombermanSetup(&screen, mainLevelSeed, mainLevelType);
-    Serial.println("Bomberman Setup Done!");
-  }
-  
-  Serial.println("Starting loop");
+		// BOMBERMAN START
+		if(enableBomberman){
+			screen.fillScreen(0x0000);
+			bombermanSetup(&screen, mainLevelSeed, mainLevelType);
+			Serial.println("Bomberman Setup Done!");
+		}
+	  
+		Serial.println("Starting loop");
+	  
+		while(?){
+			if(enableBomberman){
+				if(gameUpdate()){
+				bombermanUpdate(&screen);
+				Serial.println("l");
+				}
+			}else{
+			Serial.println("Haha goeie");
+			}
+		}
+	}
 }
+
+
 void loop(){
   if(enableBomberman){
   	if(gameUpdate()){
