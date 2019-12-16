@@ -76,6 +76,6 @@ void drawPlayer(Adafruit_ILI9341 *pen,struct DIMENSION screen,struct PLAYER p1)
 {
   struct DIMENSION block;
   calcBlock(screen,&block,p1.x,p1.y);
-  drawBlock(pen,block,p1.color);
-  spritePlayer(p1.x,p1.y);
+  //drawBlock(pen,block,p1.color);
+  spritePlayer(p1.x*24+12,p1.y*24+12, pen);
 }

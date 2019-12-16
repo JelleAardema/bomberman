@@ -24,7 +24,8 @@
 #include <connection.h>
 #include <globalTimer.h>
 
-#include <util/delay.h>
+// sprites
+#include <sprites.h>
 
 #define host 1
 
@@ -56,9 +57,6 @@ void setup(){
 		
 		Serial.println("Level selected");
 		getLevel(&mainLevelSeed, &mainLevelType);
-		
-		spritesPlayer(40,80);
-    _ms_delay(100);
 		
 		//Print level
 		Serial.print("seed:  ");
