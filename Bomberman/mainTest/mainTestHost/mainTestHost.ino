@@ -55,6 +55,8 @@ void setup(){
 		Serial.println("Level selected");
 		getLevel(&mainLevelSeed, &mainLevelType);
 		
+		spritesPlayer(40,80);
+		
 		//Print level
 		Serial.print("seed:  ");
 		Serial.print(mainLevelSeed);

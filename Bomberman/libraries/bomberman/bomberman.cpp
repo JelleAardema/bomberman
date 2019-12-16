@@ -32,8 +32,8 @@ struct BOMB bomb1[MAXBOMBS];
 struct BOMB bomb2;
 
 void bombermanSetup(Adafruit_ILI9341 *pen, int seed, int type){
-	player1.life = 3;
-	player2.life = 3;
+	player1 = {1,1,MAXLIFE,0,4};
+	player2 = {7,7,MAXLIFE,0,3};
 	if(type){
 		loadWorld(wrld,seed);		// load standard level
 	}else{
@@ -63,7 +63,7 @@ void bombermanUpdate(Adafruit_ILI9341 *pen){
 
 int checkEndGame(){    
 	// Save highscore if 1 of the players reaches 0 lifes
-    if(player1.life == 0 || player2.life == 0) {
+    if(player1.life <= 0 || player2.life <= 0) {
 		uint16_t finalScore = calculateScore(player1.life);
 		placeHighscore(finalScore);
 		return 1;
