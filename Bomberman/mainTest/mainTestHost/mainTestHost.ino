@@ -33,16 +33,17 @@ int mainLevelType = 0;
 
 int enableMenu = 1;
 int enableBomberman = 1;
+int endGameFlag = 0;
 
 void setup(){
-  init();
-  screen.begin();
-  screen.setRotation(1);  
-  irccBegin(host);
-  Wire.begin();
-  Nunchuk.begin(0x52); 
-  Serial.begin(9600);
-  Serial.println("Setup Done!");
+	init();
+	screen.begin();
+	screen.setRotation(1);  
+	irccBegin(host);
+	Wire.begin();
+	Nunchuk.begin(0x52); 
+	Serial.begin(9600);
+	Serial.println("Setup Done!");
 
 	while(1){
 	// MAINMENU START
@@ -65,13 +66,19 @@ void setup(){
 			bombermanSetup(&screen, mainLevelSeed, mainLevelType);
 			Serial.println("Bomberman Setup Done!");
 		}
-	  
+		
+		//!!!!!!!!!!!!!!!!!!!!!!!!
+		//confirmLoad(host);
+		//!!!!!!!!!!!!!!!!!!!!!!!!
+		// make sure that both players have the game loaded
+	
 		Serial.println("Starting loop");
 	  
-		while(?){
+		while(!endGameFlag){
 			if(enableBomberman){
 				if(gameUpdate()){
 				bombermanUpdate(&screen);
+				endGameFlag = checkEndGame();
 				Serial.println("l");
 				}
 			}else{
