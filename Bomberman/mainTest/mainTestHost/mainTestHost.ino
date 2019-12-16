@@ -24,6 +24,8 @@
 #include <connection.h>
 #include <globalTimer.h>
 
+#include <util/delay.h>
+
 #define host 1
 
 Adafruit_ILI9341 screen = Adafruit_ILI9341(TFT_CS, TFT_DC);
@@ -56,6 +58,7 @@ void setup(){
 		getLevel(&mainLevelSeed, &mainLevelType);
 		
 		spritesPlayer(40,80);
+    _ms_delay(100);
 		
 		//Print level
 		Serial.print("seed:  ");
