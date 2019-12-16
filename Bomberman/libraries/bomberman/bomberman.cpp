@@ -57,11 +57,6 @@ void bombermanSetup(Adafruit_ILI9341 *pen, int seed, int type){
       bomb1[a].fuse = 0;
       bomb1[a].placed = 0;
     }
-    
-    //!!!!!!!!!!!!!!!!!!!!!!!!
-    //confirmLoad(host);
-    //!!!!!!!!!!!!!!!!!!!!!!!!
-  	// make sure that both players have the game loaded
 }
 void bombermanUpdate(Adafruit_ILI9341 *pen){
     Nunchuk.getState(0x52);
@@ -72,14 +67,17 @@ void bombermanUpdate(Adafruit_ILI9341 *pen){
   	sendPlayerStatus(player1.x, player1.y, player1.life, player1.bombPlaced);
   	receivePlayerStatus(&player2.x, &player2.y, &player2.life, &player2.bombPlaced);
   	drawPlayer(pen,dimension,player2);
-
-    // Save highscore if 1 of the players reaches 0 lifes
-    if(player1.life == 0 || player2.life == 0) {
-		endGame();
-    }
 }
 
-void endGame(){
-  uint16_t finalScore = calculateScore(player1.life);
-  placeHighscore(finalScore);
+int checkEndGame(){    
+	// Save highscore if 1 of the players reaches 0 lifes
+    if(player1.life == 0 || player2.life == 0) {
+		uint16_t finalScore = calculateScore(player1.life);
+		placeHighscore(finalScore);
+		return 1;
+	}
+	return 0;
+}
+int getLifes(){
+	return player1.life;
 }

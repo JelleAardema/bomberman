@@ -79,7 +79,7 @@ void setup(){
 				if(gameUpdate()){
 				bombermanUpdate(&screen);
 				endGameFlag = checkEndGame();
-				Serial.println("l");
+				Serial.println(getLifes());
 				}
 			}else{
 			Serial.println("Haha goeie");
