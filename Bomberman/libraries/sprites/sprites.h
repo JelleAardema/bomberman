@@ -15,6 +15,8 @@ void player(int posX, int posY);
 
 void tile(int posX, int posY);
 
+void wall(int posX, int posY);
+
 void box(int posX,int posY);
 
 void bomb(int posX, int posY);
