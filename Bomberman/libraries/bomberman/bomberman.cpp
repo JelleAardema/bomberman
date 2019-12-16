@@ -32,15 +32,8 @@ struct BOMB bomb1[MAXBOMBS];
 struct BOMB bomb2;
 
 void bombermanSetup(Adafruit_ILI9341 *pen, int seed, int type){
-    //init();
-    //screen.begin();
-    //Wire.begin();
-	
-    // set rotation of screen
-    //screen.setRotation(1);
-  
-    // draw start screen
-    //screen.fillScreen(0x0000);
+	player1.life = 3;
+	player2.life = 3;
 	if(type){
 		loadWorld(wrld,seed);		// load standard level
 	}else{
