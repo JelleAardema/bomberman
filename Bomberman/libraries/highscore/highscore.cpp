@@ -1,8 +1,9 @@
 #include <EEPROM.h>
+#include "highscore.h"
 
 uint16_t addr;
 uint16_t currentScore = 0;
-extern int highscores[5];
+int highscores[5];
 
 // Values used to calculate the score
 #define destroyTile 5
@@ -25,6 +26,10 @@ uint16_t calculateScore(int lifes) {
 
 uint16_t getCurrentScore() {
 	return currentScore;
+}
+
+int * getHighscoreList() {
+  return highscores;
 }
 
 // Places highscores in highscores array

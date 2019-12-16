@@ -13,6 +13,9 @@
 #define MAXBOMBS 3        // maximum amount of bombs per player
 #define MAXLIFE 3         // maximum life (hearts) per player
 
+#define PLAYER1 4         //zinvolle commnet
+#define PLAYER2 5         //nog zon een
+
 enum AIM
 {
   NEUTRAL, LEFT, DOWN, RIGHT,UP, BOMB
@@ -25,7 +28,7 @@ void drawPlayer(Adafruit_ILI9341 *pen,struct DIMENSION screen,struct PLAYER p1);
 
 struct PLAYER
 {
-  uint16_t x,y,color,life;
+  uint8_t x,y,life,bombPlaced,color;
 };
 
 

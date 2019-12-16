@@ -8,7 +8,13 @@
 #include <avr/io.h>
 #include <explode.h>
 
-
+/*
+  function for bomb functionalities
+  the bomb state will be changed everytime the function is called
+  state 1: bomb is placed and is counting time till explosion (state 2)
+  state 2: bomb explosion is turned on and state is changed to state 3
+  state 3: bomb explosion is counting so it will stay for a while and then fade away
+*/
 
 void bombs(Adafruit_ILI9341 *pen,struct DIMENSION dimension,uint8_t world[9][9],struct BOMB *b1,struct PLAYER *p1){
 int i;
@@ -36,9 +42,7 @@ int i;
         b1[i].placed = 3;
         b1[i].fuse = 0;
         changeBlock(pen,dimension,world,b1[i].x,b1[i].y,air);
-        bombWorld(pen,dimension,world,b1[i].x,b1[i].y,FIRE,p1);
-        //b1[i].x = 0;
-        //b1[i].y = 0;
+        bombWorld(pen,dimension,world,b1[i].x,b1[i].y,FIRE,p1,b1[i].player);
       }
       if(b1[i].placed == 3)
       {
