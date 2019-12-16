@@ -27,7 +27,7 @@ int getDirection();
 uint8_t wrld[GRID_X][GRID_Y];
 struct DIMENSION dimension = {10,10,220,220};
 struct PLAYER player1 = {1,1,MAXLIFE,0,4};
-struct PLAYER player2 = {7,7,MAXLIFE,0,3};
+struct PLAYER player2 = {7,7,MAXLIFE,0,4};
 struct BOMB bomb1[MAXBOMBS];
 struct BOMB bomb2;
 
