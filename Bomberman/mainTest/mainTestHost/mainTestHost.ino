@@ -33,40 +33,62 @@ int mainLevelType = 0;
 
 int enableMenu = 1;
 int enableBomberman = 1;
+int endGameFlag = 0;
 
 void setup(){
-  init();
-  screen.begin();
-  screen.setRotation(1);  
-  irccBegin(host);
-  Wire.begin();
-  Nunchuk.begin(0x52); 
-  Serial.begin(9600);
-  Serial.println("Setup Done!");
+	init();
+	screen.begin();
+	screen.setRotation(1);  
+	irccBegin(host);
+	Wire.begin();
+	Nunchuk.begin(0x52); 
+	Serial.begin(9600);
+	Serial.println("Setup Done!");
 
-  // MAINMENU START
-  if(enableMenu){
-    mainMenuSetup(&screen);
-    Serial.println("Mainmenu Setup Done!");
-    // mainmenu loop  
-    menu(host);
-    Serial.println("Mainmenu Loop Done!");
-    getLevel(&mainLevelSeed, &mainLevelType);
-    Serial.print("seed:  ");
-    Serial.print(mainLevelSeed);
-    Serial.print("  type:  ");
-    Serial.println(mainLevelType);
-  }
+	while(1){
+	// MAINMENU START
+		if(enableMenu){
+			mainMenuSetup(&screen);
+			Serial.println("Mainmenu Setup Done!");
+			// mainmenu loop  
+			menu(host);
+			Serial.println("Mainmenu Loop Done!");
+			getLevel(&mainLevelSeed, &mainLevelType);
+			Serial.print("seed:  ");
+			Serial.print(mainLevelSeed);
+			Serial.print("  type:  ");
+			Serial.println(mainLevelType);
+		}
 
-  // BOMBERMAN START
-  if(enableBomberman){
-    screen.fillScreen(0x0000);
-    bombermanSetup(&screen, mainLevelSeed, mainLevelType);
-    Serial.println("Bomberman Setup Done!");
-  }
-  
-  Serial.println("Starting loop");
+		// BOMBERMAN START
+		if(enableBomberman){
+			screen.fillScreen(0x0000);
+			bombermanSetup(&screen, mainLevelSeed, mainLevelType);
+			Serial.println("Bomberman Setup Done!");
+		}
+		
+		//!!!!!!!!!!!!!!!!!!!!!!!!
+		//confirmLoad(host);
+		//!!!!!!!!!!!!!!!!!!!!!!!!
+		// make sure that both players have the game loaded
+	
+		Serial.println("Starting loop");
+	  
+		while(!endGameFlag){
+			if(enableBomberman){
+				if(gameUpdate()){
+				bombermanUpdate(&screen);
+				endGameFlag = checkEndGame();
+				Serial.println("l");
+				}
+			}else{
+			Serial.println("Haha goeie");
+			}
+		}
+	}
 }
+
+
 void loop(){
   if(enableBomberman){
   	if(gameUpdate()){

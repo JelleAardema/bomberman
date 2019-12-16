@@ -24,68 +24,58 @@
 
 
 int getDirection();
-#define host 1
+#define host 0
 
 Adafruit_ILI9341 screen = Adafruit_ILI9341(TFT_CS, TFT_DC);
-uint8_t wrld[GRID_X][GRID_Y];
-struct DIMENSION dimension = {10,10,220,220};
-struct PLAYER player1 = {7,7,4};
-struct PLAYER player2 = {1,1,3};
-struct BOMB bomb1[MAXBOMBS];
-struct BOMB bomb2;
 
-int levelSeed;
-int levelType;
+int mainLevelSeed = 0;
+int mainLevelType = 0;
+
+int enableMenu = 1;
+int enableBomberman = 1;
+int endGameFlag = 0;
 
 int main() {
-	// setup
-	screen.begin();
 	init();
-	Wire.begin();
-	Nunchuk.begin(0x52);
+	screen.begin();
+	screen.setRotation(1);  
 	irccBegin(host);
+	Wire.begin();
+	Nunchuk.begin(0x52); 
 	Serial.begin(9600);
-	Serial.println("Loaded");
-    
-	// search for other player
-	startConnection(host);
+	Serial.println("Setup Done!");
 
-	// search for level
-	receiveLevel(&seed, &type);
-
-	// load level
-	screen.fillScreen(0x0000);
-	receiveLevel(&levelSeed, &levelType);
-	if(levelType){
-		genWorld(wrld,levelSeed);		// select random level
-	}else{
-		loadWorld(wrld,levelSeed);		// select standard level
-	}
-	drawGrid(&screen,dimension,wrld);
-	// load bombs
-	for(int a=0;a<MAXBOMBS;a++)
-	{
-		bomb1[a].x = 0;
-		bomb1[a].y = 0;
-		bomb1[a].fuse = 0;
-		bomb1[a].placed = 0;
-	}
-	// make sure that both players have the game loaded
-	confirmLoad(host);
-	Serial.println("Level Loaded"); 
-  
-	// game loop
 	while(1){
-		if(gameUpdate()){
-			Serial.println("1");
-			Nunchuk.getState(0x52);
-			if(stepper((AIM)getDirection(),wrld,&player1,dimension,&screen,bomb1,Nunchuk.state.z_button)){
-				drawPlayer(player1,&screen,dimension);
+		// WAIT FOR HOST TO PRESS Z
+		startConnection(host);
+
+		// WAIT FOR HOST TO SEND LEVEL
+		receiveLevel(&mainLevelSeed, &mainLevelType);
+		
+		// LOAD LEVEL
+		screen.fillScreen(0x0000);
+		bombermanSetup(&screen, mainLevelSeed, mainLevelType);
+		Serial.println("Bomberman Setup Done!");
+		
+		// make sure that both players have the game loaded
+		confirmLoad(host);
+		Serial.println("Level Loaded"); 
+	  
+		//!!!!!!!!!!!!!!!!!!!!!!!!
+		//confirmLoad(host);
+		//!!!!!!!!!!!!!!!!!!!!!!!!
+		// make sure that both players have the game loaded
+		// game loop
+		while(!endGameFlag){
+			if(enableBomberman){
+				if(gameUpdate()){
+				bombermanUpdate(&screen);
+				endGameFlag = checkEndGame();
+				Serial.println("l");
+				}
+			}else{
+			Serial.println("Haha goeie");
 			}
-			sendPlayerStatus(player1.x, player1.y, player1.l, player1.b);
-			bombs(bomb1,&screen,dimension,wrld);
-			receivePlayerStatus(&player2.x, &player2.y, &player2.l, &player2.b);
-			drawPlayer(player2,&screen,dimension);
 		}
 	}
 	return 0;

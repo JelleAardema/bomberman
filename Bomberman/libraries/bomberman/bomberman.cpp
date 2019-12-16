@@ -74,7 +74,7 @@ void bombermanUpdate(Adafruit_ILI9341 *pen){
   	drawPlayer(pen,dimension,player2);
 
     // Save highscore if 1 of the players reaches 0 lifes
-    if(player2.life == 0 || player2.life == 0) {
+    if(player1.life == 0 || player2.life == 0) {
 		endGame();
     }
 }
