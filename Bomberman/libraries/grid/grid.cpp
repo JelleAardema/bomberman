@@ -34,7 +34,7 @@ void drawBlock(Adafruit_ILI9341 *pen,struct DIMENSION block,uint8_t type)
 	switch(type)
 	{
 		case 0:		// white, floor
-			spriteWall(block.x, block.y, pen);
+			spriteFloor(block.x, block.y, pen);
 			break;
 		case 1:		// green, full wall
 			spriteWall(block.x, block.y, pen);
