@@ -66,6 +66,7 @@ int checkEndGame(){
     if(player1.life <= 0 || player2.life <= 0) {
 		uint16_t finalScore = calculateScore(player1.life);
 		placeHighscore(finalScore);
+    resetScore();
 		return 1;
 	}
 	return 0;
