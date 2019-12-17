@@ -87,7 +87,7 @@ void menu(int host) {
 
     connecting();
     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  //startConnection(host);
+	startConnection(host);
     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     //Clearing screen and drawing the menu items

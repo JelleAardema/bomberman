@@ -75,7 +75,7 @@ void setup(){
 		Serial.println("Bomberman Setup Done!");
 		
 		// Make sure that both players have the game loaded
-		//confirmLoad(host);
+		confirmLoad(host);
 		Serial.println("Level Loaded"); 
 	
 		// BOMBERMAN Loop
