@@ -78,3 +78,7 @@ uint8_t getPlayer1Life(){
 uint8_t getPlayer2Life(){
 	return player2.life;
 }
+// reset bombPlaced after sending the data
+void unsetBomb(){
+  player1.bombPlaced = 0;
+}

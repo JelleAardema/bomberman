@@ -84,6 +84,8 @@ void setup(){
 			if(gameUpdate()){					        // only update bomberman after a sertain time
 			bombermanUpdate(&screen);			    	// update player pos en 
 			endGameFlag = checkEndGame();
+			unsetBomb();                        //resets player1.bombPlaced to 0
+			// HUD
 			drawInfo(&screen, score, "score", getCurrentScore());
 			drawInfo(&screen, life1, "lifes1", getPlayer1Life());
 			drawInfo(&screen, life2, "lifes2", getPlayer2Life());
