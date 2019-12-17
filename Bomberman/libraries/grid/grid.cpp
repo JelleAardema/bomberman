@@ -48,15 +48,13 @@ void drawBlock(Adafruit_ILI9341 *pen,struct DIMENSION block,uint8_t type)
 		case 4:		// yellow, player
 			spritePlayer(block.x, block.y, pen);
 			break;
-		case 5:
+		case 5:		// destruction wave
 			spriteExplosion(block.x, block.y, pen);
 			break;
 		default:	// black
 			color=BLACK;
+			pen->fillRect(block.x,block.y,block.width,block.height,color);
   }
-
-    // Draw block
- // pen->fillRect(block.x,block.y,block.width,block.height,color);
 }
 
 // changeBlock type and Draw change to screen

@@ -70,3 +70,11 @@ int checkEndGame(){
 	}
 	return 0;
 }
+
+uint8_t getPlayer1Life(){
+	return player1.life;
+}
+
+uint8_t getPlayer2Life(){
+	return player2.life;
+}

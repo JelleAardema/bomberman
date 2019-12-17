@@ -35,6 +35,10 @@ int mainLevelType = 0;
 
 int endGameFlag = 0;
 
+// postion HUD elements
+struct DIMENSION  score = {240,10,70,50};
+struct DIMENSION  life1 = {240,70,70,50};
+struct DIMENSION  life2 = {240,130,70,50};
 
 void setup(){
 	init();
@@ -75,17 +79,14 @@ void setup(){
 	
 		// BOMBERMAN Loop
 		Serial.println("Starting loop");
-		while(!endGameFlag){					// check if nobody is dead			
-			if(gameUpdate()){					// only update bomberman after a sertain time
-			bombermanUpdate(&screen);			// update player pos en 
+		while(!endGameFlag){					      // check if nobody is dead			
+			if(gameUpdate()){					        // only update bomberman after a sertain time
+			bombermanUpdate(&screen);			    // update player pos en 
 			endGameFlag = checkEndGame();
-			Serial.println(getLifes());
-			//struct DIMENSION  score = (240,10,70,50);
-			//struct DIMENSION  life1 = (240,70,70,50);
-			//struct DIMENSION  life2 = (240,130,70,50);
-			//drawInfo(screen, score, "score", getCurrentScore());
-			//drawInfo(screen, life1, "lifes1", getPlayer1Lifes());
-			//drawInfo(screen, life2, "lifes2", getPlayer2Lifes());
+			Serial.println(getPlayer1Life());
+			drawInfo(&screen, score, "score", getCurrentScore());
+			drawInfo(&screen, life1, "lifes1", getPlayer1Life());
+			drawInfo(&screen, life2, "lifes2", getPlayer2Life());
 			}
 		}
 	}
