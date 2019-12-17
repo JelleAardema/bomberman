@@ -40,7 +40,7 @@ void bombermanSetup(Adafruit_ILI9341 *pen, int seed, int type){
 		genWorld(wrld,seed);		// load random level
 	}
     drawGrid(pen,dimension,wrld);
-    
+
     // set all bombs to 0
     for(int a=0; a<MAXBOMBS; a++)
     {
@@ -60,11 +60,11 @@ void bombermanUpdate(Adafruit_ILI9341 *pen){
   	receivePlayerStatus(&player2.x, &player2.y, &player2.life, &player2.bombPlaced);
   	drawPlayer(pen,dimension,player2);
 	if(player2.bombPlaced){
-		placeBomb(&bomb2, player2.x, player2.y);
+		placeBomb(&bomb2, player2.x, player2.y, wrld[player2.x][player2.y]);
 	}
 }
 
-int checkEndGame(){    
+int checkEndGame(){
 	// Save highscore if 1 of the players reaches 0 lifes
     if(player1.life <= 0 || player2.life <= 0) {
 		uint16_t finalScore = calculateScore(player1.life);
