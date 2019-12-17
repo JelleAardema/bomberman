@@ -22,6 +22,7 @@ void spriteInit() {
 }
 
 void player(int posX, int posY){
+
   tft.fillRect(posX+10, posY+2, 4, 4,ILI9341_GREEN);
   //body
   tft.fillRect(posX+8, posY+6, 8, 6,ILI9341_BLUE);
@@ -111,40 +112,42 @@ void explosion(int posX,int posY){
 
   ///UUUUUH IDK ABOUT THIS BOYS 
   tft.fillRect(posX, posY, 24, 24,ILI9341_RED);
+  int offsetMin = 2;
+  int offsetMax = 22;
 
-  tft.fillCircle(random(posX, posX+24), random(posY, posY+24), 2, ILI9341_RED);
-  tft.fillCircle(random(posX, posX+24), random(posY, posY+24), 2, ILI9341_YELLOW);
-  tft.fillCircle(random(posX, posX+24), random(posY, posY+24), 2, ILI9341_BLACK);
+  tft.fillCircle(random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), 2, ILI9341_RED);
+  tft.fillCircle(random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), 2, ILI9341_YELLOW);
+  tft.fillCircle(random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), 2, ILI9341_BLACK);
   
-  tft.fillCircle(random(posX, posX+24), random(posY, posY+24), 2, ILI9341_RED);
-  tft.fillCircle(random(posX, posX+24), random(posY, posY+24), 2, ILI9341_YELLOW);
-  tft.fillCircle(random(posX, posX+24), random(posY, posY+24), 2, ILI9341_BLACK);
+  tft.fillCircle(random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), 2, ILI9341_RED);
+  tft.fillCircle(random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), 2, ILI9341_YELLOW);
+  tft.fillCircle(random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), 2, ILI9341_BLACK);
 
-  tft.fillCircle(random(posX, posX+20), random(posY, posY+24), 2, ILI9341_RED);
-  tft.fillCircle(random(posX, posX+24), random(posY, posY+24), 2, ILI9341_YELLOW);
-  tft.fillCircle(random(posX, posX+24), random(posY, posY+24), 2, ILI9341_BLACK);
+  tft.fillCircle(random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), 2, ILI9341_RED);
+  tft.fillCircle(random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), 2, ILI9341_YELLOW);
+  tft.fillCircle(random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), 2, ILI9341_BLACK);
   //pas 1
-  tft.drawLine(random(posX, posX+24), random(posY, posY+24), random(posX, posX+24), random(posY, posY+24), ILI9341_BLACK);
-  tft.drawLine(random(posX, posX+24), random(posY, posY+24), random(posX, posX+24), random(posY, posY+24), ILI9341_YELLOW);
-  tft.drawLine(random(posX, posX+24), random(posY, posY+24), random(posX, posX+24), random(posY, posY+24), ILI9341_RED);
+  tft.drawLine(random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), ILI9341_BLACK);
+  tft.drawLine(random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), ILI9341_YELLOW);
+  tft.drawLine(random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), ILI9341_RED);
   //pas 2
-  tft.drawLine(random(posX, posX+24), random(posY, posY+24), random(posX, posX+24), random(posY, posY+24), ILI9341_BLACK);
-  tft.drawLine(random(posX, posX+24), random(posY, posY+24), random(posX, posX+24), random(posY, posY+24), ILI9341_YELLOW);
-  tft.drawLine(random(posX, posX+24), random(posY, posY+24), random(posX, posX+24), random(posY, posY+24), ILI9341_RED);
+  tft.drawLine(random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), ILI9341_BLACK);
+  tft.drawLine(random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), ILI9341_YELLOW);
+  tft.drawLine(random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), ILI9341_RED);
   //pas 3
-  tft.drawLine(random(posX, posX+24), random(posY, posY+24), random(posX, posX+24), random(posY, posY+24), ILI9341_BLACK);
-  tft.drawLine(random(posX, posX+24), random(posY, posY+24), random(posX, posX+24), random(posY, posY+24), ILI9341_YELLOW);
-  tft.drawLine(random(posX, posX+24), random(posY, posY+24), random(posX, posX+24), random(posY, posY+24), ILI9341_RED);
+  tft.drawLine(random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), ILI9341_BLACK);
+  tft.drawLine(random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), ILI9341_YELLOW);
+  tft.drawLine(random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), ILI9341_RED);
   //pas 4
-  tft.drawLine(random(posX, posX+24), random(posY, posY+24), random(posX, posX+24), random(posY, posY+24), ILI9341_BLACK);
-  tft.drawLine(random(posX, posX+24), random(posY, posY+24), random(posX, posX+24), random(posY, posY+24), ILI9341_YELLOW);
-  tft.drawLine(random(posX, posX+24), random(posY, posY+24), random(posX, posX+24), random(posY, posY+24), ILI9341_RED);
+  tft.drawLine(random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), ILI9341_BLACK);
+  tft.drawLine(random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), ILI9341_YELLOW);
+  tft.drawLine(random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), ILI9341_RED);
   //pas 5
-  tft.drawLine(random(posX, posX+24), random(posY, posY+24), random(posX, posX+24), random(posY, posY+24), ILI9341_BLACK);
-  tft.drawLine(random(posX, posX+24), random(posY, posY+24), random(posX, posX+24), random(posY, posY+24), ILI9341_YELLOW);
-  tft.drawLine(random(posX, posX+24), random(posY, posY+24), random(posX, posX+24), random(posY, posY+24), ILI9341_RED);
+  tft.drawLine(random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), ILI9341_BLACK);
+  tft.drawLine(random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), ILI9341_YELLOW);
+  tft.drawLine(random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), ILI9341_RED);
   //pas 6
-  tft.drawLine(random(posX, posX+24), random(posY, posY+24), random(posX, posX+24), random(posY, posY+24), ILI9341_BLACK);
-  tft.drawLine(random(posX, posX+24), random(posY, posY+24), random(posX, posX+24), random(posY, posY+24), ILI9341_YELLOW);
-  tft.drawLine(random(posX, posX+24), random(posY, posY+24), random(posX, posX+24), random(posY, posY+24), ILI9341_RED);
+  tft.drawLine(random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), ILI9341_BLACK);
+  tft.drawLine(random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), ILI9341_YELLOW);
+  tft.drawLine(random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), random(posX + offsetMin, posX + offsetMax), random(posY + offsetMin, posY + offsetMax), ILI9341_RED);
 }
