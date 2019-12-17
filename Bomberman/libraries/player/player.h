@@ -24,7 +24,7 @@ enum AIM
 
 uint8_t stepper(Adafruit_ILI9341 *pen, struct DIMENSION dimension, uint8_t world[9][9], enum AIM direction, struct PLAYER *p1, struct BOMB *b1, int bomb);
 void drawPlayer(Adafruit_ILI9341 *pen,struct DIMENSION screen,struct PLAYER p1);
-
+uint8_t placeBomb(struct BOMB *b1,uint8_t x,uint8_t y);
 
 struct PLAYER
 {

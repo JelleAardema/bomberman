@@ -24,7 +24,7 @@ void spritePlayer(int posX, int posY, Adafruit_ILI9341 *tft){
   tft->drawLine(posX+11, posY+14, posX+11, posY+20, ILI9341_BLACK);
 }
 
-void spriteAir(int posX, int posY, Adafruit_ILI9341 *tft){
+void spriteFloor(int posX, int posY, Adafruit_ILI9341 *tft){
   //floor tile
   tft->fillRect(posX, posY, 24, 24,ILI9341_WHITE);
   //outline
@@ -96,7 +96,7 @@ void spriteBomb(int posX, int posY, Adafruit_ILI9341 *tft){
    
 }
 
-void sptireExplosion(int posX,int posY, Adafruit_ILI9341 *tft){
+void spriteExplosion(int posX,int posY, Adafruit_ILI9341 *tft){
 
   ///UUUUUH IDK ABOUT THIS BOYS 
   tft->fillRect(posX, posY, 24, 24,ILI9341_RED);

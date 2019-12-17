@@ -11,7 +11,7 @@
 
 void spritePlayer(int posX, int posY, Adafruit_ILI9341 *tft);
 
-void spriteAir(int posX, int posY, Adafruit_ILI9341 *tft);
+void spriteFloor(int posX, int posY, Adafruit_ILI9341 *tft);
 
 void spriteWall(int posX, int posY, Adafruit_ILI9341 *tft);
 

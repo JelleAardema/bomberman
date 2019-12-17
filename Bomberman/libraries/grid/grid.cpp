@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <avr/io.h>
 #include <arduino.h>
+#include <sprites.h>
 
 
 // Draw whole grid
@@ -28,31 +29,32 @@ void drawGrid(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t world[GRID_X
 // Draw a block
 void drawBlock(Adafruit_ILI9341 *pen,struct DIMENSION block,uint8_t type)
 {
-  uint16_t color;
+	uint16_t color;
     // Decide wich color is used
-  switch(type)
-  {
-    case 0:
-      color=WHITE;
-      break;
-    case 1:
-      color=GREEN;
-      break;
-    case 2:
-      color=BLUE;
-      break;
-    case 3:
-      color=RED;
-      break;
-    case 4:
-      color=YELLOW;
-      break;
-    default:
-      color=BLACK;
+	switch(type)
+	{
+		case 0:		// white, floor
+			spriteFloor(block.x, block.y, pen);
+			break;
+		case 1:		// green, full wall
+			spriteWall(block.x, block.y, pen);
+			break;
+		case 2:		// blue, break wall
+			spriteBox(block.x, block.y, pen);
+			break;
+		case 3:		// red, bomb
+			spriteBomb(block.x, block.y, pen);
+			break;
+		case 4:		// yellow, player
+			spritePlayer(block.x, block.y, pen);
+			break;
+		case 5:		// destruction wave
+			spriteExplosion(block.x, block.y, pen);
+			break;
+		default:	// black
+			color=BLACK;
+			pen->fillRect(block.x,block.y,block.width,block.height,color);
   }
-
-    // Draw block
-  pen->fillRect(block.x,block.y,block.width,block.height,color);
 }
 
 // changeBlock type and Draw change to screen

@@ -5,6 +5,8 @@
 void bombermanSetup(Adafruit_ILI9341 *pen, int seed, int type);
 void bombermanUpdate(Adafruit_ILI9341 *pen);
 int checkEndGame();
-int getLifes();
+uint8_t getPlayer1Life();
+uint8_t getPlayer2Life();
+void unsetBomb();
 
 #endif

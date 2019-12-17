@@ -27,7 +27,7 @@ int getDirection();
 uint8_t wrld[GRID_X][GRID_Y];
 struct DIMENSION dimension = {10,10,220,220};
 struct PLAYER player1 = {1,1,MAXLIFE,0,4};
-struct PLAYER player2 = {7,7,MAXLIFE,0,3};
+struct PLAYER player2 = {7,7,MAXLIFE,0,4};
 struct BOMB bomb1[MAXBOMBS];
 struct BOMB bomb2;
 
@@ -59,6 +59,9 @@ void bombermanUpdate(Adafruit_ILI9341 *pen){
   	sendPlayerStatus(player1.x, player1.y, player1.life, player1.bombPlaced);
   	receivePlayerStatus(&player2.x, &player2.y, &player2.life, &player2.bombPlaced);
   	drawPlayer(pen,dimension,player2);
+	if(player2.bombPlaced){
+		placeBomb(&bomb2, player2.x, player2.y);
+	}
 }
 
 int checkEndGame(){    
@@ -70,6 +73,15 @@ int checkEndGame(){
 	}
 	return 0;
 }
-int getLifes(){
+
+uint8_t getPlayer1Life(){
 	return player1.life;
+}
+
+uint8_t getPlayer2Life(){
+	return player2.life;
+}
+// reset bombPlaced after sending the data
+void unsetBomb(){
+  player1.bombPlaced = 0;
 }

@@ -24,8 +24,7 @@
 #include <connection.h>
 #include <globalTimer.h>
 
-// sprites
-#include <sprites.h>
+#include <showInfo.h>
 
 #define host 1
 
@@ -35,6 +34,11 @@ int mainLevelSeed = 0;
 int mainLevelType = 0;
 
 int endGameFlag = 0;
+
+// postion HUD elements
+struct DIMENSION  score = {240,10,70,50};
+struct DIMENSION  life1 = {240,70,70,50};
+struct DIMENSION  life2 = {240,130,70,50};
 
 void setup(){
 	init();
@@ -56,7 +60,8 @@ void setup(){
 		menu(host);
 		
 		Serial.println("Level selected");
-		getLevel(&mainLevelSeed, &mainLevelType);
+		mainLevelSeed = getLevelSeed();
+		mainLevelType = getLevelType();
 		
 		//Print level
 		Serial.print("seed:  ");
@@ -75,11 +80,15 @@ void setup(){
 	
 		// BOMBERMAN Loop
 		Serial.println("Starting loop");
-		while(!endGameFlag){					// check if nobody is dead			
-			if(gameUpdate()){					// only update bomberman after a sertain time
-			bombermanUpdate(&screen);			// update player pos en 
+		while(!endGameFlag){					      	// check if nobody is dead			
+			if(gameUpdate()){					        // only update bomberman after a sertain time
+			bombermanUpdate(&screen);			    	// update player pos en 
 			endGameFlag = checkEndGame();
-			Serial.println(getLifes());
+			unsetBomb();                        //resets player1.bombPlaced to 0
+			// HUD
+			drawInfo(&screen, score, "score", getCurrentScore());
+			drawInfo(&screen, life1, "lifes1", getPlayer1Life());
+			drawInfo(&screen, life2, "lifes2", getPlayer2Life());
 			}
 		}
 	}
