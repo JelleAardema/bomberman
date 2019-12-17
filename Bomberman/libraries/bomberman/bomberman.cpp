@@ -61,6 +61,7 @@ void bombermanUpdate(Adafruit_ILI9341 *pen){
       drawPlayer(pen,dimension,player1);
     }
     bombs(pen,dimension,wrld,bomb1,&player1);
+    clearLastPos();
   	sendPlayerStatus(player1.x, player1.y, player1.life, player1.bombPlaced);
   	receivePlayerStatus(&player2.x, &player2.y, &player2.life, &player2.bombPlaced);
   	drawPlayer(pen,dimension,player2);
@@ -89,4 +90,9 @@ uint8_t getPlayer2Life(){
 // reset bombPlaced after sending the data
 void unsetBomb(){
   player1.bombPlaced = 0;
+}
+
+
+void clearLastPos() {
+  drawBlock(pScreen, player2, 0);
 }
