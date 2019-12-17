@@ -70,7 +70,7 @@ int bombNext(int i, int q,int x, int y, int *calcX, int *calcY,uint8_t world[GRI
   if(explode==1)
   {
 	  explode=0;
-    if (bOm == PLAYER1) // Add points for destroying a tile
+       // Add points for destroying a tile
       destroyTileScore();
 	  return 0;
   }
