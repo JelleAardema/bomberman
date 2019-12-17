@@ -43,10 +43,10 @@ struct DIMENSION  life2 = {240,130,70,50};
 void setup(){
 	init();
 	screen.begin();
-	screen.setRotation(1);  
+	screen.setRotation(1);
 	irccBegin(host);
 	Wire.begin();
-	Nunchuk.begin(0x52); 
+	Nunchuk.begin(0x52);
 	Serial.begin(9600);
 	Serial.println("Setup Done!");
 
@@ -55,14 +55,14 @@ void setup(){
 		endGameFlag = 0;
 		mainMenuSetup(&screen);
 		Serial.println("Host pressed Z.");
-		
+
 		// MAINMENU Loop
 		menu(host);
-		
+
 		Serial.println("Level selected");
 		mainLevelSeed = getLevelSeed();
 		mainLevelType = getLevelType();
-		
+
 		//Print level
 		Serial.print("seed:  ");
 		Serial.print(mainLevelSeed);
@@ -73,22 +73,32 @@ void setup(){
 		screen.fillScreen(0x0000);
 		bombermanSetup(&screen, mainLevelSeed, mainLevelType);
 		Serial.println("Bomberman Setup Done!");
-		
+
 		// Make sure that both players have the game loaded
 		//confirmLoad(host);
-		Serial.println("Level Loaded"); 
-	
+		Serial.println("Level Loaded");
+
 		// BOMBERMAN Loop
 		Serial.println("Starting loop");
-		while(!endGameFlag){					      	// check if nobody is dead			
-			if(gameUpdate()){					        // only update bomberman after a sertain time
-			bombermanUpdate(&screen);			    	// update player pos en 
-			endGameFlag = checkEndGame();
-			unsetBomb();                        //resets player1.bombPlaced to 0
-			// HUD
-			drawInfo(&screen, score, "score", getCurrentScore());
-			drawInfo(&screen, life1, "lifes1", getPlayer1Life());
-			drawInfo(&screen, life2, "lifes2", getPlayer2Life());
+
+		//flags for refresh
+		uint16_t prevScore = 1;
+		uint8_t prev1 = 4;
+		uint8_t prev2 = 4;
+		while(!endGameFlag){					      	// check if nobody is dead
+			if(gameUpdate()){					        // only update bomberman after a certain time
+				bombermanUpdate(&screen);			    	// update player pos en
+				endGameFlag = checkEndGame();
+				unsetBomb();                        //resets player1.bombPlaced to 0
+				// HUD
+
+					prevScore = drawInfo(&screen, score, "score", getCurrentScore(),prevScore);
+
+					prev1 = drawInfo(&screen, life1, "lifes1", getPlayer1Life(),prev1);
+
+					prev2 = drawInfo(&screen, life2, "lifes2", getPlayer2Life(),prev2);
+
+
 			}
 		}
 	}
