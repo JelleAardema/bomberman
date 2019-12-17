@@ -300,3 +300,23 @@ int getLevelSeed(){
 int getLevelType(){
 	return levelType;
 }
+
+void endScreenDisplay(int win){
+  pScreen->setCursor(25,50);
+  pScreen->setTextColor(ILI9341_WHITE);
+  pScreen->setTextSize(5); 
+  pScreen->println("YOU");
+  pScreen->setCursor(50,50);
+  if(win){
+    pScreen->println("WIN");
+  }
+  else{
+    pScreen->println("LOSE");
+  }
+  pScreen->setCursor(25,75);
+  pScreen->println(getCurrentScore());
+  pScreen->setCursor(60,150);
+  pScreen->setTextColor(ILI9341_WHITE);
+  pScreen->setTextSize(2);
+  pScreen->println("press Z to return to main menu");
+} 
