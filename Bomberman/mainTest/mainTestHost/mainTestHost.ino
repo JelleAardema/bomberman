@@ -60,7 +60,8 @@ void setup(){
 		menu(host);
 		
 		Serial.println("Level selected");
-		getLevel(&mainLevelSeed, &mainLevelType);
+		mainLevelSeed = getLevelSeed();
+		mainLevelType = getLevelType();
 		
 		//Print level
 		Serial.print("seed:  ");
@@ -79,11 +80,10 @@ void setup(){
 	
 		// BOMBERMAN Loop
 		Serial.println("Starting loop");
-		while(!endGameFlag){					      // check if nobody is dead			
+		while(!endGameFlag){					      	// check if nobody is dead			
 			if(gameUpdate()){					        // only update bomberman after a sertain time
-			bombermanUpdate(&screen);			    // update player pos en 
+			bombermanUpdate(&screen);			    	// update player pos en 
 			endGameFlag = checkEndGame();
-			Serial.println(getPlayer1Life());
 			drawInfo(&screen, score, "score", getCurrentScore());
 			drawInfo(&screen, life1, "lifes1", getPlayer1Life());
 			drawInfo(&screen, life2, "lifes2", getPlayer2Life());

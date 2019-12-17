@@ -49,8 +49,9 @@ int main() {
 		startConnection(host);
 		
 		// WAIT FOR HOST TO SEND LEVEL
-		Serial.println("Waiting for host, level select.");
-		receiveLevel(&mainLevelSeed, &mainLevelType);
+		Serial.println("Waiting for host, level select.");		
+		mainLevelSeed = getLevelSeed();
+		mainLevelType = getLevelType();
 		
 		// LOAD LEVEL
 		screen.fillScreen(0x0000);
@@ -64,15 +65,13 @@ int main() {
 		// BOMBERMAN Loop
 		Serial.println("Starting loop"); 
 		while(!endGameFlag){
-			if(enableBomberman){
-				if(gameUpdate()){
-				bombermanUpdate(&screen);
-				endGameFlag = checkEndGame();
-				Serial.println("l");
-				}
-			}else{
-			Serial.println("Haha goeie");
-			}
+			if(gameUpdate()){
+			bombermanUpdate(&screen);
+			endGameFlag = checkEndGame();
+			drawInfo(&screen, score, "score", getCurrentScore());
+			drawInfo(&screen, life1, "lifes1", getPlayer1Life());
+			drawInfo(&screen, life2, "lifes2", getPlayer2Life());
+
 		}
 	}
 	return 0;

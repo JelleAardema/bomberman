@@ -293,7 +293,10 @@ void connecting(){
   pScreen->println("CONNECTING");
 }
 
-void getLevel(int* seed,int* type){
-  seed = &levelSeed;
-  type = &levelType;   
+int getLevelSeed(){
+	return levelSeed;
+}
+
+int getLevelType(){
+	return levelType;
 }

@@ -23,6 +23,7 @@ void loading();
 
 void connecting();
 
-void getLevel(int* seed, int* type);
+int getLevelSeed();
+int getLevelType();
 
 #endif
