@@ -47,6 +47,7 @@ uint8_t stepper(Adafruit_ILI9341 *pen, struct DIMENSION dimension, uint8_t world
           b1[i].placed = 1;
           b1[i].fuse = 0;
           i=MAXBOMBS;
+          p1->bombPlaced = 1;
 
         }
       }
@@ -76,4 +77,8 @@ void drawPlayer(Adafruit_ILI9341 *pen,struct DIMENSION screen,struct PLAYER p1)
   struct DIMENSION block;
   calcBlock(screen,&block,p1.x,p1.y);
   drawBlock(pen,block,p1.color);
+}
+
+void unsetBomb(){
+  player1.bombPlaced = 0;
 }
