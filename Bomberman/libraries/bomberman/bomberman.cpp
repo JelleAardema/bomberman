@@ -59,6 +59,9 @@ void bombermanUpdate(Adafruit_ILI9341 *pen){
   	sendPlayerStatus(player1.x, player1.y, player1.life, player1.bombPlaced);
   	receivePlayerStatus(&player2.x, &player2.y, &player2.life, &player2.bombPlaced);
   	drawPlayer(pen,dimension,player2);
+	if(player2.bombPlaced){
+		placeBomb(&bomb2, player2.x, player2.y);
+	}
 }
 
 int checkEndGame(){    
