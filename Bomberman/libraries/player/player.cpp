@@ -32,26 +32,7 @@ uint8_t stepper(Adafruit_ILI9341 *pen, struct DIMENSION dimension, uint8_t world
   }
   if(bomb)
   {
-    int i;
-    //loop through all the bombs
-    for(i=0; i<MAXBOMBS; i++)
-    {
-      //check if bomb can be placed on that position and if the bomb can be saved in array
-      if(world[p1->x][p1->y]==air)
-      {
-        if(!b1[i].placed )
-        {
-
-          b1[i].x = p1->x;
-          b1[i].y = p1->y;
-          b1[i].placed = 1;
-          b1[i].fuse = 0;
-          i=MAXBOMBS;
-          p1->bombPlaced = 1;
-
-        }
-      }
-    }
+    p1->bombPlaced = placeBomb(b1,p1->x,p1->y);
   }
   // check if move is posible
   if( ((X>=0)&&(X<GRID_X)) && ((Y>=0)&&(Y<GRID_Y)) && (world[X][Y]==air) )
@@ -77,4 +58,30 @@ void drawPlayer(Adafruit_ILI9341 *pen,struct DIMENSION screen,struct PLAYER p1)
   struct DIMENSION block;
   calcBlock(screen,&block,p1.x,p1.y);
   drawBlock(pen,block,p1.color);
+}
+
+uint8_t placeBomb(struct BOMB *b1,uint8_t x,uint8_t y)
+{
+  int i;
+  //loop through all the bombs
+  for(i=0; i<MAXBOMBS; i++)
+  {
+    //check if bomb can be placed on that position and if the bomb can be saved in array
+    if(world[p1->x][p1->y]==air)
+    {
+      if(!b1[i].placed )
+      {
+
+        b1[i].x = x;
+        b1[i].y = y;
+        b1[i].placed = 1;
+        b1[i].fuse = 0;
+        i=MAXBOMBS;
+        return 1;
+
+      }
+    }
+  }
+  return 0;
+
 }
