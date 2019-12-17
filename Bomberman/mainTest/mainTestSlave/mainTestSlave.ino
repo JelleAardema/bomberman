@@ -6,6 +6,7 @@
 #include <Adafruit_GFX.h>
 
 // mainmenu
+#include <highscore.h>
 #include <mainMenu.h>
 
 // nunchuck
@@ -13,6 +14,7 @@
 #include <Nunchuk.h>
 
 // bomberman
+#include <bomberman.h>
 #include <player.h>
 #include <bomb.h>
 #include <grid.h>
@@ -22,6 +24,7 @@
 #include <connection.h>
 #include <globalTimer.h>
 
+#include <showInfo.h>
 
 int getDirection();
 #define host 0
@@ -33,7 +36,12 @@ int mainLevelType = 0;
 
 int endGameFlag = 0;
 
-int main() {
+// postion HUD elements
+struct DIMENSION  score = {240,10,70,50};
+struct DIMENSION  life1 = {240,70,70,50};
+struct DIMENSION  life2 = {240,130,70,50};
+
+void setup() {
 	init();
 	screen.begin();
 	screen.setRotation(1);  
@@ -50,8 +58,8 @@ int main() {
 		
 		// WAIT FOR HOST TO SEND LEVEL
 		Serial.println("Waiting for host, level select.");		
-		mainLevelSeed = getLevelSeed();
-		mainLevelType = getLevelType();
+	  receiveLevel(&mainLevelSeed, &mainLevelType);
+ 
 		
 		// LOAD LEVEL
 		screen.fillScreen(0x0000);
@@ -59,20 +67,21 @@ int main() {
 		Serial.println("Bomberman Setup Done!");
 		
 		// Make sure that both players have the game loaded
-		//confirmLoad(host);		
+		confirmLoad(host);		
 		Serial.println("Level Loaded"); 
 		
 		// BOMBERMAN Loop
 		Serial.println("Starting loop"); 
 		while(!endGameFlag){
-			if(gameUpdate()){
-			bombermanUpdate(&screen);
-			endGameFlag = checkEndGame();
-			drawInfo(&screen, score, "score", getCurrentScore());
-			drawInfo(&screen, life1, "lifes1", getPlayer1Life());
-			drawInfo(&screen, life2, "lifes2", getPlayer2Life());
-
-		}
-	}
-	return 0;
+      if(gameUpdate()){                 // only update bomberman after a sertain time
+      bombermanUpdate(&screen);           // update player pos en 
+      endGameFlag = checkEndGame();
+      unsetBomb();                        //resets player1.bombPlaced to 0
+      // HUD
+      drawInfo(&screen, score, "score", getCurrentScore());
+      drawInfo(&screen, life1, "lifes1", getPlayer1Life());
+      drawInfo(&screen, life2, "lifes2", getPlayer2Life());
+      }
+  	}
+  }
 }

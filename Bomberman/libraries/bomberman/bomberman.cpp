@@ -26,14 +26,19 @@ int getDirection();
 //Adafruit_ILI9341 screen = Adafruit_ILI9341(TFT_CS, TFT_DC);
 uint8_t wrld[GRID_X][GRID_Y];
 struct DIMENSION dimension = {10,10,220,220};
-struct PLAYER player1 = {1,1,MAXLIFE,0,4};
-struct PLAYER player2 = {7,7,MAXLIFE,0,4};
+struct PLAYER player1;
+struct PLAYER player2;
 struct BOMB bomb1[MAXBOMBS];
 struct BOMB bomb2;
 
-void bombermanSetup(Adafruit_ILI9341 *pen, int seed, int type){
-	player1 = {1,1,MAXLIFE,0,4};
-	player2 = {7,7,MAXLIFE,0,3};
+void bombermanSetup(Adafruit_ILI9341 *pen, int seed, int type, int host){
+	if(host){
+		player1 = {1,1,MAXLIFE,0,4};
+		player2 = {7,7,MAXLIFE,0,4};
+	}else{
+		player1 = {7,7,MAXLIFE,0,4};
+		player2 = {1,1,MAXLIFE,0,4};
+	}
 	if(type){
 		loadWorld(wrld,seed);		// load standard level
 	}else{

@@ -26,7 +26,7 @@
 
 #include <showInfo.h>
 
-#define host 1
+#define host 0
 
 Adafruit_ILI9341 screen = Adafruit_ILI9341(TFT_CS, TFT_DC);
 
@@ -51,17 +51,25 @@ void setup(){
 	Serial.println("Setup Done!");
 
 	while(1){
-		// MAINMENU Setup
 		endGameFlag = 0;
-		mainMenuSetup(&screen);
-		Serial.println("Host pressed Z.");
+    if(host){
+      // MAINMENU Setup
+  		mainMenuSetup(&screen);
+  		Serial.println("Host pressed Z.");
 
-		// MAINMENU Loop
-		menu(host);
+  		// MAINMENU Loop
+  		menu(host);
+  		Serial.println("Level selected");
+  		mainLevelSeed = getLevelSeed();
+  		mainLevelType = getLevelType();
+    }else{
+      Serial.println("Waiting for host, press Z.");
+      startConnection(host);
 
-		Serial.println("Level selected");
-		mainLevelSeed = getLevelSeed();
-		mainLevelType = getLevelType();
+      // WAIT FOR HOST TO SEND LEVEL
+      Serial.println("Waiting for host, level select.");
+      receiveLevel(&mainLevelSeed, &mainLevelType);
+    }
 
 		//Print level
 		Serial.print("seed:  ");
@@ -75,7 +83,7 @@ void setup(){
 		Serial.println("Bomberman Setup Done!");
 
 		// Make sure that both players have the game loaded
-		//confirmLoad(host);
+		confirmLoad(host);
 		Serial.println("Level Loaded");
 
 		// BOMBERMAN Loop
