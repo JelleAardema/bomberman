@@ -26,4 +26,6 @@ void connecting();
 int getLevelSeed();
 int getLevelType();
 
+void endScreenDisplay(int win);
+
 #endif
