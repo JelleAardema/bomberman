@@ -11,7 +11,7 @@
 
 void spriteInit();
 
-void player(int posX, int posY);
+void player(int posX, int posY, int playerID);
 
 void tile(int posX, int posY);
 

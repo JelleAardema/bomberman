@@ -1,5 +1,6 @@
 #include <Adafruit_GFX.h>         // Core graphics library
 #include <Adafruit_ILI9341.h>     // Hardware-specific library
+#include <stdint.h>
 #include "sprites.h" 
 
 // For the Adafruit shield, these are the default.
@@ -21,11 +22,18 @@ void spriteInit() {
   tft.fillScreen(ILI9341_BLACK);
 }
 
-void player(int posX, int posY){
-
-  tft.fillRect(posX+10, posY+2, 4, 4,ILI9341_GREEN);
+void player(int posX, int posY, int playerID){
+if(playerID == 1){
+  uint16_t head = ILI9341_GREEN;
+  uint16_t body = ILI9341_BLUE;  
+  }
+  else{
+    head = ILI9341_MAROON;
+    body = ILI9341_YELLOW;
+  }
+  tft.fillRect(posX+10, posY+2, 4, 4,head);
   //body
-  tft.fillRect(posX+8, posY+6, 8, 6,ILI9341_BLUE);
+  tft.fillRect(posX+8, posY+6, 8, 6,body);
   //left arm
   tft.drawLine(posX+9, posY+7, posX+9, posY+12, ILI9341_BLACK);
   //right arm
