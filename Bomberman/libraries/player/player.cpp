@@ -32,7 +32,7 @@ uint8_t stepper(Adafruit_ILI9341 *pen, struct DIMENSION dimension, uint8_t world
   }
   if(bomb)
   {
-    p1->bombPlaced = placeBomb(b1,p1->x,p1->y);
+    p1->bombPlaced = placeBomb(b1,p1->x,p1->y,world[p1->x][p1->y]);
   }
   // check if move is posible
   if( ((X>=0)&&(X<GRID_X)) && ((Y>=0)&&(Y<GRID_Y)) && (world[X][Y]==air) )
@@ -60,14 +60,14 @@ void drawPlayer(Adafruit_ILI9341 *pen,struct DIMENSION screen,struct PLAYER p1)
   drawBlock(pen,block,p1.color);
 }
 
-uint8_t placeBomb(struct BOMB *b1,uint8_t x,uint8_t y)
+uint8_t placeBomb(struct BOMB *b1,uint8_t x,uint8_t y,uint8_t block)
 {
   int i;
   //loop through all the bombs
   for(i=0; i<MAXBOMBS; i++)
   {
     //check if bomb can be placed on that position and if the bomb can be saved in array
-    if(world[p1->x][p1->y]==air)
+    if(block==air)
     {
       if(!b1[i].placed )
       {
