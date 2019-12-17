@@ -51,17 +51,25 @@ void setup(){
 	Serial.println("Setup Done!");
 
 	while(1){
-		// MAINMENU Setup
 		endGameFlag = 0;
-		mainMenuSetup(&screen);
-		Serial.println("Host pressed Z.");
-		
-		// MAINMENU Loop
-		menu(host);
-		
-		Serial.println("Level selected");
-		mainLevelSeed = getLevelSeed();
-		mainLevelType = getLevelType();
+    if(host){
+      // MAINMENU Setup
+  		mainMenuSetup(&screen);
+  		Serial.println("Host pressed Z.");
+  		
+  		// MAINMENU Loop
+  		menu(host);
+  		Serial.println("Level selected");
+  		mainLevelSeed = getLevelSeed();
+  		mainLevelType = getLevelType();
+    }else{
+      Serial.println("Waiting for host, press Z.");
+      startConnection(host);
+    
+      // WAIT FOR HOST TO SEND LEVEL
+      Serial.println("Waiting for host, level select.");    
+      receiveLevel(&mainLevelSeed, &mainLevelType);
+    }
 		
 		//Print level
 		Serial.print("seed:  ");
