@@ -31,9 +31,14 @@ struct PLAYER player2;
 struct BOMB bomb1[MAXBOMBS];
 struct BOMB bomb2;
 
-void bombermanSetup(Adafruit_ILI9341 *pen, int seed, int type){
-	player1 = {1,1,MAXLIFE,0,4};
-	player2 = {7,7,MAXLIFE,0,4};
+void bombermanSetup(Adafruit_ILI9341 *pen, int seed, int type, int host){
+	if(host){
+		player1 = {1,1,MAXLIFE,0,4};
+		player2 = {7,7,MAXLIFE,0,4};
+	}else{
+		player1 = {7,7,MAXLIFE,0,4};
+		player2 = {1,1,MAXLIFE,0,4};
+	}
 	if(type){
 		loadWorld(wrld,seed);		// load standard level
 	}else{
