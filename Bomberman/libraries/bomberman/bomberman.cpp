@@ -53,7 +53,7 @@ void bombermanSetup(Adafruit_ILI9341 *pen, int seed, int type, int host){
       bomb1[a].y = 0;
       bomb1[a].fuse = 0;
       bomb1[a].placed = 0;
-			bomb1[a].player = PLAYER1;
+	  bomb1[a].player = PLAYER1;
     }
 		for(int a=0; a<MAXBOMBS; a++)
     {
@@ -61,7 +61,7 @@ void bombermanSetup(Adafruit_ILI9341 *pen, int seed, int type, int host){
       bomb2[a].y = 0;
       bomb2[a].fuse = 0;
       bomb2[a].placed = 0;
-			bomb2[a].player = PLAYER2;
+	  bomb2[a].player = PLAYER2;
     }
 }
 void bombermanUpdate(Adafruit_ILI9341 *pen){
@@ -70,12 +70,13 @@ void bombermanUpdate(Adafruit_ILI9341 *pen){
       drawPlayer(pen,dimension,player1);					// draw player if player moved
     }
     bombs(pen,dimension,wrld,bomb1,&player1);
+	bombs(pen,dimension,wrld,bomb2,&player2);
     clearLastPos(pen, dimension, wrld, player2);					// clear last position of player 2
   	sendPlayerStatus(player1.x, player1.y, player1.life, player1.bombPlaced);		// send player 1 status to player 2
   	receivePlayerStatus(&player2.x, &player2.y, &player2.life, &player2.bombPlaced);	// receive player 2 status
   	drawPlayer(pen, dimension, player2);					// draw new position of player 2
 	if(player2.bombPlaced){
-		placeBomb(&bomb2, player2.x, player2.y, wrld[player2.x][player2.y]);
+		placeBomb(bomb2, player2.x, player2.y, wrld[player2.x][player2.y]);
 	}
 }
 
