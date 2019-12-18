@@ -61,7 +61,7 @@ void bombermanUpdate(Adafruit_ILI9341 *pen){
       drawPlayer(pen,dimension,player1);					// draw player if player moved
     }
     bombs(pen,dimension,wrld,bomb1,&player1);				
-    clearLastPos(pen, dimension, player2);					// clear last position of player 2
+    clearLastPos(pen, dimension, wrld, player2);					// clear last position of player 2
   	sendPlayerStatus(player1.x, player1.y, player1.life, player1.bombPlaced);		// send player 1 status to player 2
   	receivePlayerStatus(&player2.x, &player2.y, &player2.life, &player2.bombPlaced);	// receive player 2 status
   	drawPlayer(pen, dimension, player2);					// draw new position of player 2
@@ -77,7 +77,6 @@ int checkEndGame(){
 		sendPlayerStatus(player1.x, player1.y, player1.life, player1.bombPlaced);		// send player 1 status to player 2, to end game
 	}
     if(player1.life >= 10 || player2.life >= 10) {			// lifes bigger then 10 end game, IR connection sometimes sends 0
-		sendPlayerStatus(player1.x, player1.y, player1.life, player1.bombPlaced);		// send player 1 status to player 2
 		uint16_t finalScore = calculateScore(player1.life);
 		placeHighscore(finalScore);
 		return 1;

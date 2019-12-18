@@ -328,4 +328,15 @@ void endScreenDisplay(int win){
 	pScreen->println("press Z to return");
 	pScreen->setCursor(50,200);
 	pScreen->println("to main menu");
+	
+	// keep displaying until z pressed
+	int reset = 0;
+	while(!reset){
+		//Waiting for user input to setup initial connection over IR
+		Nunchuk.getState(0x52);
+		sendPlayerStatus(0, 0, 10, 0);		// send end game to player 2
+		if (Nunchuk.state.z_button == 1){
+			reset = 1;
+		}
+	}
 } 
