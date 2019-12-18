@@ -72,7 +72,11 @@ void bombermanUpdate(Adafruit_ILI9341 *pen){
 
 int checkEndGame(){
 	// Save highscore if 1 of the players reaches 0 lifes
-    if(player1.life <= 0 || player2.life <= 0) {
+	if(player1.life == 0){
+		player1.life = 10;
+	}
+    if(player1.life >= 10 || player2.life >= 10) {
+		sendPlayerStatus(player1.x, player1.y, player1.life, player1.bombPlaced);		// send player 1 status to player 2
 		uint16_t finalScore = calculateScore(player1.life);
 		placeHighscore(finalScore);
 		return 1;

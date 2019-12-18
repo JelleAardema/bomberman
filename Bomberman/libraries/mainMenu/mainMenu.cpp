@@ -305,7 +305,8 @@ void endScreenDisplay(int win){
   pScreen->setTextColor(ILI9341_WHITE);
   pScreen->setTextSize(5); 
   pScreen->println("YOU");
-  pScreen->setCursor(50,50);
+  
+  pScreen->setCursor(100,50);
   if(win){
     pScreen->println("WIN");
   }
