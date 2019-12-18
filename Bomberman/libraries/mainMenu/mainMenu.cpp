@@ -318,7 +318,7 @@ void endScreenDisplay(int win){
 	}
 	// score: 0
 	pScreen->setTextSize(3);   
-	pScreen->setCursor(20,100);
+	pScreen->setCursor(50,100);
 	pScreen->println("score:");
 	pScreen->setCursor(180,100);
 	pScreen->println(getCurrentScore());
@@ -329,6 +329,7 @@ void endScreenDisplay(int win){
 	pScreen->setCursor(50,200);
 	pScreen->println("to main menu");
 	
+  resetScore();
 	// keep displaying until z pressed
 	int reset = 0;
 	while(!reset){

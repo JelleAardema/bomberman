@@ -81,5 +81,4 @@ void placeHighscore(uint16_t newScore) {
 	}
 	// Refresh list
 	updateHighscoreList();
-	resetScore();
 }
