@@ -302,7 +302,7 @@ int getLevelType(){
 
 void endScreenDisplay(int win){
 	// fill black
-	screen.fillScreen(0x0000);
+	pScreen->fillScreen(0x0000);
 	// write you
 	pScreen->setCursor(50,50);
 	pScreen->setTextColor(ILI9341_WHITE);
