@@ -9,7 +9,7 @@
 
 //Functions used by mainMenu
 
-void spritePlayer(int posX, int posY, Adafruit_ILI9341 *tft);
+void spritePlayer(int posX, int posY, int playerID, Adafruit_ILI9341 *tft);
 
 void spriteFloor(int posX, int posY, Adafruit_ILI9341 *tft);
 
