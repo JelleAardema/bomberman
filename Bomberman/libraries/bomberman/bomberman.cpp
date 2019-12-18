@@ -70,7 +70,7 @@ void bombermanUpdate(Adafruit_ILI9341 *pen){
       drawPlayer(pen,dimension,player1);					// draw player if player moved
     }
     bombs(pen,dimension,wrld,bomb1,&player1);
-	bombs(pen,dimension,wrld,bomb2,&player2);
+	bombs(pen,dimension,wrld,bomb2,&player1);
     clearLastPos(pen, dimension, wrld, player2);					// clear last position of player 2
   	sendPlayerStatus(player1.x, player1.y, player1.life, player1.bombPlaced);		// send player 1 status to player 2
   	receivePlayerStatus(&player2.x, &player2.y, &player2.life, &player2.bombPlaced);	// receive player 2 status
