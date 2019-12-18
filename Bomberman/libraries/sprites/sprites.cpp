@@ -118,7 +118,6 @@ void bomb(int posX, int posY){
 
 void explosion(int posX,int posY){
 
-  ///UUUUUH IDK ABOUT THIS BOYS 
   tft.fillRect(posX, posY, 24, 24,ILI9341_RED);
   int offsetMin = 2;
   int offsetMax = 22;
