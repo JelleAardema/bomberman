@@ -142,7 +142,6 @@ void menu(int host) {
   //Displaying loading screen and awaiting game start instructions
   started = 0;
   startGameFlag = 0;
-  loading();
 }
 
 
@@ -276,12 +275,12 @@ void highscore(int size, int offsetY){
 }
 
 //Loading screen
-void loading(){
+void waitingForHost(){
   pScreen->fillScreen(ILI9341_BLACK);
   pScreen->setCursor(25,100);
   pScreen->setTextColor(ILI9341_WHITE);
   pScreen->setTextSize(4); 
-  pScreen->println("LOADING");
+  pScreen->println("Waiting for Host");
 }
 
 //Connection screen

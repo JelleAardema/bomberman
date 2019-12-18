@@ -19,7 +19,7 @@ void menuSetter(int currentHighlight);
 
 void highscore(int size, int offsetY);
  
-void loading();
+void waitingForHost();
 
 void connecting();
 

@@ -72,11 +72,11 @@ void setup(){
 			mainLevelType = getLevelType();
 		}else{		//SLAVE WAITS
 			// WAIT FOR HOST TO START
-			Serial.println("Waiting for host, press Z.");
+			connecting();				// screen shows Connecting...
 			startConnection(host);
 	
 			// WAIT FOR HOST TO SEND LEVEL
-			Serial.println("Waiting for host, level select.");
+			waitingForHost();			// screen shows Waiting for Host
 			receiveLevel(&mainLevelSeed, &mainLevelType);
 		}
 
