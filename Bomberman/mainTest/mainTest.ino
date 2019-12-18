@@ -58,6 +58,8 @@ void setup(){
 	while(1){
 		endGameFlag = 0;
 		mainMenuSetup(&screen);
+   
+    //screen.fillScreen(0x0000);
 		//endScreenDisplay(1);
 		
 		if(host){	//HOST LOAD MAINMENU
@@ -112,5 +114,10 @@ void setup(){
 				prev2 = drawInfo(&screen, life2, "lifes2", getPlayer2Life(),prev2);
 			}
 		}
+    if(getPlayer1Life()>= 10){
+      endScreenDisplay(0);
+    }else{
+      endScreenDisplay(1);
+    }
 	}
 }
