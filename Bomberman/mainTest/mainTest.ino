@@ -110,8 +110,8 @@ void setup(){
 				unsetBomb();                        //resets player1.bombPlaced to 0
 				// HUD
 				prevScore = drawInfo(&screen, score, "score", getCurrentScore(),prevScore);
-				prev1 = drawInfo(&screen, life1, "lifes1", getPlayer1Life(),prev1);
-				prev2 = drawInfo(&screen, life2, "lifes2", getPlayer2Life(),prev2);
+				prev1 = drawInfo(&screen, life1, "life1", getPlayer1Life(),prev1);
+				prev2 = drawInfo(&screen, life2, "life2", getPlayer2Life(),prev2);
 			}
 		}
     if(getPlayer1Life()>= 10){
