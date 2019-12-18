@@ -34,9 +34,9 @@ struct BOMB bomb2[MAXBOMBS];
 void bombermanSetup(Adafruit_ILI9341 *pen, int seed, int type, int host){
 	if(host){
 		player1 = {1,1,MAXLIFE,0,4};
-		player2 = {7,7,MAXLIFE,0,4};
+		player2 = {7,7,MAXLIFE,0,6};
 	}else{
-		player1 = {7,7,MAXLIFE,0,4};
+		player1 = {7,7,MAXLIFE,0,6};
 		player2 = {1,1,MAXLIFE,0,4};
 	}
 	if(type){

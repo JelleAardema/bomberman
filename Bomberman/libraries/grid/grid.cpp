@@ -46,11 +46,13 @@ void drawBlock(Adafruit_ILI9341 *pen,struct DIMENSION block,uint8_t type)
 			spriteBomb(block.x, block.y, pen);
 			break;
 		case 4:		// yellow, player
-			spritePlayer(block.x, block.y, pen);
+			spritePlayer(block.x, block.y,1, pen);
 			break;
 		case 5:		// destruction wave
 			spriteExplosion(block.x, block.y, pen);
 			break;
+		case 6:		// yellow, player
+			spritePlayer(block.x, block.y,0, pen);
 		default:	// black
 			color=BLACK;
 			pen->fillRect(block.x,block.y,block.width,block.height,color);
