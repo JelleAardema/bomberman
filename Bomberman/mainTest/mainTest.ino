@@ -26,7 +26,7 @@
 
 #include <showInfo.h>
 
-#define host 0
+#define host 1
 
 Adafruit_ILI9341 screen = Adafruit_ILI9341(TFT_CS, TFT_DC);
 

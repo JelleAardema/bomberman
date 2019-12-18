@@ -240,8 +240,8 @@ void menuSetter(int currentHighlight){
           levelSeed = 5;
           break;
         case 5 :  
-          levelType = TCNT2;	// random number from timer2
-          levelSeed = 0;
+          levelType = 0;
+          levelSeed = TCNT2;	// random number from timer2
           break;
       }
       startGameFlag = 1;
