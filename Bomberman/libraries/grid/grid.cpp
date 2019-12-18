@@ -53,6 +53,7 @@ void drawBlock(Adafruit_ILI9341 *pen,struct DIMENSION block,uint8_t type)
 			break;
 		case 6:		// yellow, player
 			spritePlayer(block.x, block.y,0, pen);
+			break;
 		default:	// black
 			color=BLACK;
 			pen->fillRect(block.x,block.y,block.width,block.height,color);
