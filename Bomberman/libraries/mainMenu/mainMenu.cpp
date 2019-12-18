@@ -301,28 +301,31 @@ int getLevelType(){
 }
 
 void endScreenDisplay(int win){
-  pScreen->setCursor(50,50);
-  pScreen->setTextColor(ILI9341_WHITE);
-  pScreen->setTextSize(5); 
-  pScreen->println("YOU");
-  
-  pScreen->setCursor(160,50);
-  if(win){
-    pScreen->println("WIN");
-  }
-  else{
-    pScreen->println("LOSE");
-  }
-  
-  pScreen->setTextSize(3);   
-  pScreen->setCursor(50,110);
-  pScreen->println("score:");
-  pScreen->setCursor(180,110);
-  pScreen->println(20);
-  
-  pScreen->setCursor(50,180);
-  pScreen->setTextSize(2);
-  pScreen->println("press Z to return");
-  pScreen->setCursor(50,200);
-  pScreen->println("to main menu");
+	// fill black
+	screen.fillScreen(0x0000);
+	// write you
+	pScreen->setCursor(50,50);
+	pScreen->setTextColor(ILI9341_WHITE);
+	pScreen->setTextSize(5); 
+	pScreen->println("YOU");
+	// win or lose
+	pScreen->setCursor(150,50);
+	if(win){
+		pScreen->println("WIN");
+	}	
+	else{
+		pScreen->println("LOSE");
+	}
+	// score: 0
+	pScreen->setTextSize(3);   
+	pScreen->setCursor(20,100);
+	pScreen->println("score:");
+	pScreen->setCursor(180,100);
+	pScreen->println(getCurrentScore());
+	// press z to return to main menu
+	pScreen->setCursor(50,180);
+	pScreen->setTextSize(2);
+	pScreen->println("press Z to return");
+	pScreen->setCursor(50,200);
+	pScreen->println("to main menu");
 } 
