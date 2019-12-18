@@ -114,7 +114,7 @@ void setup(){
 				prev2 = drawInfo(&screen, life2, "life2", getPlayer2Life(),prev2);
 			}
 		}
-    if(getPlayer1Life()>= 10){
+    if(getPlayer1Life() == 10){
       endScreenDisplay(0);
     }else{
       endScreenDisplay(1);
