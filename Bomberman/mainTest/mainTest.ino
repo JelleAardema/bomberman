@@ -35,6 +35,11 @@ int mainLevelType = 0;
 
 int endGameFlag = 0;
 
+//flags for refresh
+uint16_t prevScore = 1;
+uint8_t prev1 = 4;
+uint8_t prev2 = 4;
+
 // postion HUD elements
 struct DIMENSION  score = {240,10,70,50};
 struct DIMENSION  life1 = {240,70,70,50};
@@ -52,24 +57,28 @@ void setup(){
 
 	while(1){
 		endGameFlag = 0;
-    if(host){
-      // MAINMENU Setup
-  		mainMenuSetup(&screen);
-  		Serial.println("Host pressed Z.");
-
-  		// MAINMENU Loop
-  		menu(host);
-  		Serial.println("Level selected");
-  		mainLevelSeed = getLevelSeed();
-  		mainLevelType = getLevelType();
-    }else{
-      Serial.println("Waiting for host, press Z.");
-      startConnection(host);
-
-      // WAIT FOR HOST TO SEND LEVEL
-      Serial.println("Waiting for host, level select.");
-      receiveLevel(&mainLevelSeed, &mainLevelType);
-    }
+		//mainMenuSetup(&screen);
+		//screen.fillScreen(0x0000);
+		//endScreenDisplay(1);
+		
+		if(host){	//HOST LOAD MAINMENU
+			// MAINMENU Setup
+			mainMenuSetup(&screen);
+			Serial.println("Host pressed Z.");
+			// MAINMENU Loop
+			menu(host);
+			Serial.println("Level selected");
+			mainLevelSeed = getLevelSeed();
+			mainLevelType = getLevelType();
+		}else{		//SLAVE WAITS
+			// WAIT FOR HOST TO START
+			Serial.println("Waiting for host, press Z.");
+			startConnection(host);
+	
+			// WAIT FOR HOST TO SEND LEVEL
+			Serial.println("Waiting for host, level select.");
+			receiveLevel(&mainLevelSeed, &mainLevelType);
+		}
 
 		//Print level
 		Serial.print("seed:  ");
@@ -79,7 +88,7 @@ void setup(){
 
 		// BOMBERMAN Setup
 		screen.fillScreen(0x0000);
-		bombermanSetup(&screen, mainLevelSeed, mainLevelType);
+		bombermanSetup(&screen, mainLevelSeed, mainLevelType,host);
 		Serial.println("Bomberman Setup Done!");
 
 		// Make sure that both players have the game loaded
@@ -89,24 +98,19 @@ void setup(){
 		// BOMBERMAN Loop
 		Serial.println("Starting loop");
 
-		//flags for refresh
-		uint16_t prevScore = 1;
-		uint8_t prev1 = 4;
-		uint8_t prev2 = 4;
+		// reset flags for refresh
+		prevScore = 1;
+		prev1 = 4;
+		prev2 = 4;
 		while(!endGameFlag){					      	// check if nobody is dead
 			if(gameUpdate()){					        // only update bomberman after a certain time
 				bombermanUpdate(&screen);			    	// update player pos en
 				endGameFlag = checkEndGame();
 				unsetBomb();                        //resets player1.bombPlaced to 0
 				// HUD
-
-					prevScore = drawInfo(&screen, score, "score", getCurrentScore(),prevScore);
-
-					prev1 = drawInfo(&screen, life1, "lifes1", getPlayer1Life(),prev1);
-
-					prev2 = drawInfo(&screen, life2, "lifes2", getPlayer2Life(),prev2);
-
-
+				prevScore = drawInfo(&screen, score, "score", getCurrentScore(),prevScore);
+				prev1 = drawInfo(&screen, life1, "lifes1", getPlayer1Life(),prev1);
+				prev2 = drawInfo(&screen, life2, "lifes2", getPlayer2Life(),prev2);
 			}
 		}
 	}

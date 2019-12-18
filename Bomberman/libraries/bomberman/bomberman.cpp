@@ -56,15 +56,15 @@ void bombermanSetup(Adafruit_ILI9341 *pen, int seed, int type, int host){
     }
 }
 void bombermanUpdate(Adafruit_ILI9341 *pen){
-    Nunchuk.getState(0x52);
+    Nunchuk.getState(0x52);									// get Nunchuck input.
     if(stepper(pen,dimension,wrld,(AIM)getDirection(),&player1,bomb1,Nunchuk.state.z_button)){
-      drawPlayer(pen,dimension,player1);
+      drawPlayer(pen,dimension,player1);					// draw player if player moved
     }
-    bombs(pen,dimension,wrld,bomb1,&player1);
-    clearLastPos();
-  	sendPlayerStatus(player1.x, player1.y, player1.life, player1.bombPlaced);
-  	receivePlayerStatus(&player2.x, &player2.y, &player2.life, &player2.bombPlaced);
-  	drawPlayer(pen,dimension,player2);
+    bombs(pen,dimension,wrld,bomb1,&player1);				
+    clearLastPos(pen, dimension, player2);					// clear last position of player 2
+  	sendPlayerStatus(player1.x, player1.y, player1.life, player1.bombPlaced);		// send player 1 status to player 2
+  	receivePlayerStatus(&player2.x, &player2.y, &player2.life, &player2.bombPlaced);	// receive player 2 status
+  	drawPlayer(pen, dimension, player2);					// draw new position of player 2
 	if(player2.bombPlaced){
 		placeBomb(&bomb2, player2.x, player2.y, wrld[player2.x][player2.y]);
 	}
@@ -90,9 +90,4 @@ uint8_t getPlayer2Life(){
 // reset bombPlaced after sending the data
 void unsetBomb(){
   player1.bombPlaced = 0;
-}
-
-
-void clearLastPos() {
-  drawBlock(pScreen, player2, 0);
 }

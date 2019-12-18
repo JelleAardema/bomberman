@@ -60,6 +60,14 @@ void drawPlayer(Adafruit_ILI9341 *pen,struct DIMENSION screen,struct PLAYER p1)
   drawBlock(pen,block,p1.color);
 }
 
+// draw air over last position
+void clearLastPos(Adafruit_ILI9341 *pen,struct DIMENSION screen,struct PLAYER p1)
+{
+  struct DIMENSION block;
+  calcBlock(screen,&block,p1.x,p1.y);
+  drawBlock(pen,block,p1.color);
+}
+
 uint8_t placeBomb(struct BOMB *b1,uint8_t x,uint8_t y,uint8_t block)
 {
   int i;
