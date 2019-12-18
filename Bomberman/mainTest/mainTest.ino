@@ -26,7 +26,7 @@
 
 #include <showInfo.h>
 
-#define host 0
+#define host 1
 
 Adafruit_ILI9341 screen = Adafruit_ILI9341(TFT_CS, TFT_DC);
 
@@ -57,13 +57,12 @@ void setup(){
 
 	while(1){
 		endGameFlag = 0;
-		//mainMenuSetup(&screen);
-		//screen.fillScreen(0x0000);
+		mainMenuSetup(&screen);
 		//endScreenDisplay(1);
 		
 		if(host){	//HOST LOAD MAINMENU
 			// MAINMENU Setup
-			mainMenuSetup(&screen);
+			//mainMenuSetup(&screen);
 			Serial.println("Host pressed Z.");
 			// MAINMENU Loop
 			menu(host);
