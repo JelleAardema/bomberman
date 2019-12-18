@@ -274,7 +274,7 @@ void highscore(int size, int offsetY){
   }
 }
 
-//Loading screen
+//Waiting screen for slave
 void waitingForHost(){
   pScreen->fillScreen(ILI9341_BLACK);
   pScreen->setCursor(25,100);
@@ -301,22 +301,28 @@ int getLevelType(){
 }
 
 void endScreenDisplay(int win){
-  pScreen->setCursor(25,50);
+  pScreen->setCursor(50,50);
   pScreen->setTextColor(ILI9341_WHITE);
   pScreen->setTextSize(5); 
   pScreen->println("YOU");
   
-  pScreen->setCursor(100,50);
+  pScreen->setCursor(160,50);
   if(win){
     pScreen->println("WIN");
   }
   else{
     pScreen->println("LOSE");
   }
-  pScreen->setCursor(25,75);
-  pScreen->println(getCurrentScore());
-  pScreen->setCursor(60,150);
-  pScreen->setTextColor(ILI9341_WHITE);
+  
+  pScreen->setTextSize(3);   
+  pScreen->setCursor(50,110);
+  pScreen->println("score:");
+  pScreen->setCursor(180,110);
+  pScreen->println(20);
+  
+  pScreen->setCursor(50,180);
   pScreen->setTextSize(2);
-  pScreen->println("press Z to return to main menu");
+  pScreen->println("press Z to return");
+  pScreen->setCursor(50,200);
+  pScreen->println("to main menu");
 } 
