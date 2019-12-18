@@ -11,10 +11,14 @@
 // If using the breakout, change pins as desired
 //Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC, TFT_MOSI, TFT_CLK, TFT_RST, TFT_MISO);
 
+
+uint16_t head;
+uint16_t body;  
+
 void spritePlayer(int posX, int posY, int playerID,  Adafruit_ILI9341 *tft){
-if(playerID == 1){
-  uint16_t head = ILI9341_GREEN;
-  uint16_t body = ILI9341_BLUE;  
+  if(playerID == 1){
+	head = ILI9341_GREEN;
+	body = ILI9341_BLUE;  
   }
   else{
     head = ILI9341_MAROON;
