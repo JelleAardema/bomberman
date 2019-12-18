@@ -14,11 +14,11 @@ void bombWorld(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t world[GRID_
 	//subtract two lifes from player, if player is on center of explosion
     if((p1->x == x)&&(p1->y == y))
 		p1->life -= 1;
-	
+
 	// draw destruction wave at bomb
 	calcBlock(screen,&block,x,y);
     drawBlock(pen,block,5);
-  
+
     // go trough all directions (left,right,up,down) of explosion
     for(q=0; q < 4; q++)
     {
@@ -50,7 +50,7 @@ void clearWave(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t world[GRID_
   int i,q,calcX,calcY;
 	// redraw block in the middle
 	redrawBlock(pen,screen,world,x,y);
-  
+
     // go trough all directions (left,right,up,down) of explosion
     for(q=0; q < 4; q++)
     {
@@ -77,8 +77,11 @@ int bombNext(int i, int q,int x, int y, int *calcX, int *calcY,uint8_t world[GRI
   if(explode==1)
   {
 	  explode=0;
-       // Add points for destroying a tile
-      destroyTileScore();
+    if(bOm == PLAYER1){
+      // Add points for destroying a tile
+     destroyTileScore();
+    }
+
 	  return 0;
   }
 

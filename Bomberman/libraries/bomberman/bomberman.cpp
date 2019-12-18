@@ -29,7 +29,7 @@ struct DIMENSION dimension = {10,10,220,220};
 struct PLAYER player1;
 struct PLAYER player2;
 struct BOMB bomb1[MAXBOMBS];
-struct BOMB bomb2;
+struct BOMB bomb2[MAXBOMBS];
 
 void bombermanSetup(Adafruit_ILI9341 *pen, int seed, int type, int host){
 	if(host){
@@ -53,6 +53,15 @@ void bombermanSetup(Adafruit_ILI9341 *pen, int seed, int type, int host){
       bomb1[a].y = 0;
       bomb1[a].fuse = 0;
       bomb1[a].placed = 0;
+			bomb1[a].player = PLAYER1;
+    }
+		for(int a=0; a<MAXBOMBS; a++)
+    {
+      bomb2[a].x = 0;
+      bomb2[a].y = 0;
+      bomb2[a].fuse = 0;
+      bomb2[a].placed = 0;
+			bomb2[a].player = PLAYER2;
     }
 }
 void bombermanUpdate(Adafruit_ILI9341 *pen){
@@ -60,7 +69,7 @@ void bombermanUpdate(Adafruit_ILI9341 *pen){
     if(stepper(pen,dimension,wrld,(AIM)getDirection(),&player1,bomb1,Nunchuk.state.z_button)){
       drawPlayer(pen,dimension,player1);					// draw player if player moved
     }
-    bombs(pen,dimension,wrld,bomb1,&player1);				
+    bombs(pen,dimension,wrld,bomb1,&player1);
     clearLastPos(pen, dimension, wrld, player2);					// clear last position of player 2
   	sendPlayerStatus(player1.x, player1.y, player1.life, player1.bombPlaced);		// send player 1 status to player 2
   	receivePlayerStatus(&player2.x, &player2.y, &player2.life, &player2.bombPlaced);	// receive player 2 status
