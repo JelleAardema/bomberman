@@ -66,7 +66,7 @@ int decodeMessageType(uint16_t fullMessage){
 }
 
 
-void decodeStatus(int *x, int *y, int *lifes, int *bombPlaced){
+void decodeStatus(uint8_t *x, uint8_t *y, uint8_t *lifes, uint8_t *bombPlaced){
 	*x = message & 0b1111;	
     message = message >> 4;    		//remove x bits
 	

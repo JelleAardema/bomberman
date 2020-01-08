@@ -6,8 +6,8 @@
 void irccBegin(int host);
 
 // player status			type = 1
-void sendPlayerStatus(int xPos, int yPos, int lives, int bombPlaced);
-void receivePlayerStatus(int *xPos, int *yPos, int *lives, int *bombPlaced);
+void sendPlayerStatus(uint8_t xPos, uint8_t yPos, uint8_t lives, uint8_t bombPlaced);
+void receivePlayerStatus(uint8_t *xPos, uint8_t *yPos, uint8_t *lives, uint8_t *bombPlaced);
 
 // level					type = 2
 void sendLevel(int seed, int type);

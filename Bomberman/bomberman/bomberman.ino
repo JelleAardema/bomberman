@@ -10,6 +10,8 @@
 #include <level.h>
 #include <connection.h>
 #include <globalTimer.h>
+#include <explode.h>
+
 
 int getDirection();
 #define host 1
@@ -18,8 +20,8 @@ int getDirection();
   Adafruit_ILI9341 screen = Adafruit_ILI9341(TFT_CS, TFT_DC);
   uint8_t wrld[GRID_X][GRID_Y];
   struct DIMENSION dimension = {10,10,220,220};
-  struct PLAYER player1 = {1,1,4};
-  struct PLAYER player2 = {7,7,3};
+  struct PLAYER player1 = {1,1,PLAYER1,MAXLIFE};
+  struct PLAYER player2 = {7,7,PLAYER2,MAXLIFE};
   struct BOMB bomb1[MAXBOMBS];
   struct BOMB bomb2;
 
@@ -34,10 +36,11 @@ void setup() {
 
   // draw start screen
   screen.fillScreen(0x0000);
+  loadWorld(wrld,5);
   //genWorld(wrld,1);
-  genWorld(wrld,random(1,200));
+  //genWorld(wrld,random(1,200));
   drawGrid(&screen,dimension,wrld);
-  
+
 
   int a;
   for(a=0;a<MAXBOMBS;a++)
@@ -46,20 +49,22 @@ void setup() {
     bomb1[a].y = 0;
     bomb1[a].fuse = 0;
     bomb1[a].placed = 0;
+    bomb1[a].player = PLAYER1;
   }
-  
+
   irccBegin(host);
 }
 
 void loop() {
   // change test
   if(gameUpdate()){
-    Serial.println("1");
+    
+    //drawGrid(&screen,dimension,wrld);
     Nunchuk.getState(0x52);
-    if(stepper((AIM)getDirection(),wrld,&player1,dimension,&screen,bomb1,Nunchuk.state.z_button)){
-      drawPlayer(player1,&screen,dimension);
+    if(stepper(&screen,dimension,wrld,(AIM)getDirection(),&player1,bomb1,Nunchuk.state.z_button)){
+      drawPlayer(&screen,dimension,player1);
     }
-    bombs(bomb1,&screen,dimension,wrld);
+    bombs(&screen,dimension,wrld,bomb1,&player1);
     // stepper(random(-1,5),wrld,&player2,dimension,&screen);
     //drawPlayer(player2,&screen,dimension);
   }

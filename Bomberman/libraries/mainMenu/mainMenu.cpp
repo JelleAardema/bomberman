@@ -17,7 +17,9 @@ int started,
     size,
     offsetY,
     host,
-    startGameFlag;
+    startGameFlag,
+    levelSeed,
+    levelType;
 
 int getDirection();
 
@@ -47,21 +49,17 @@ char itemsHighscore[1][10] = {
 
 // Pointer initialization
 char (*ptrArray)[10];
-char (*prevPtrArray)[10];
                 
 // Use hardware SPI (on Uno, #13, #12, #11) and the above for CS/DC
-Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC);
+//Adafruit_ILI9341 screen = Adafruit_ILI9341(TFT_CS, TFT_DC);
 // If using the breakout, change pins as desired
-//Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC, TFT_MOSI, TFT_CLK, TFT_RST, TFT_MISO);
+//Adafruit_ILI9341 screen = Adafruit_ILI9341(TFT_CS, TFT_DC, TFT_MOSI, TFT_CLK, TFT_RST, TFT_MISO);
+Adafruit_ILI9341 *pScreen;
 
 
-void init(int h) {
-  host = h;
-  Wire.begin();
-  Nunchuk.begin(0x52); 
-  tft.begin();
-  irccBegin(host);
+void mainMenuSetup(Adafruit_ILI9341 *pen) {
 
+  pScreen = pen;
   //Setting pointer on first menu page
   ptrArray = itemsMain;
 
@@ -71,15 +69,15 @@ void init(int h) {
   currentPage = 2;
 
   //Setting up display orientation and clearing
-  tft.fillScreen(ILI9341_BLACK);
-  tft.setRotation(1);
+  pen->fillScreen(ILI9341_BLACK);
+  pen->setRotation(1);
  
   //Display logo and wait for user input
   logoDisplay();
 }
 
 
-void menu(void) {
+void menu(int host) {
   while(!startGameFlag){
   //Waiting for user input to setup initial connection over IR
   Nunchuk.getState(0x52);
@@ -88,10 +86,12 @@ void menu(void) {
     started = 1;
 
     connecting();
-    startConnection(host);
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  //startConnection(host);
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     //Clearing screen and drawing the menu items
-    tft.fillScreen(ILI9341_BLACK);
+    pScreen->fillScreen(ILI9341_BLACK);
     highlight(size,offsetY);     
    }
 
@@ -124,7 +124,7 @@ void menu(void) {
 
   if(Nunchuk.state.c_button == 1){
     ptrArray = itemsMain;
-    tft.fillScreen(ILI9341_BLACK);
+    pScreen->fillScreen(ILI9341_BLACK);
     currentPage = 2;
     size = 5;
     offsetY = 75;
@@ -147,14 +147,14 @@ void menu(void) {
 
 //Function to display bomberman logo
 void logoDisplay(){
-  tft.setCursor(25,50);
-  tft.setTextColor(ILI9341_WHITE);
-  tft.setTextSize(5); 
-  tft.println("BOMBERMAN");
-  tft.setCursor(60,150);
-  tft.setTextColor(ILI9341_WHITE);
-  tft.setTextSize(2);
-  tft.println("press Z to start");
+  pScreen->setCursor(25,50);
+  pScreen->setTextColor(ILI9341_WHITE);
+  pScreen->setTextSize(5); 
+  pScreen->println("BOMBERMAN");
+  pScreen->setCursor(60,150);
+  pScreen->setTextColor(ILI9341_WHITE);
+  pScreen->setTextSize(2);
+  pScreen->println("press Z to start");
 } 
 
 
@@ -162,21 +162,21 @@ void logoDisplay(){
 //Drawing the menu items and highlighting the selected items
 void highlight(int size, int offsetY){  
   if(ptrArray != itemsHighscore){
-  tft.setTextColor(ILI9341_WHITE);
-  tft.setTextSize(size); 
+  pScreen->setTextColor(ILI9341_WHITE);
+  pScreen->setTextSize(size); 
   xCoord = 25;
   yCoord = 25;
   for(int j = 0; j < currentPage; j++){
-    tft.setCursor(xCoord,yCoord);
+    pScreen->setCursor(xCoord,yCoord);
     for(int k = 0; k < 10; k++){
       if(j == i){
-        tft.setTextColor(ILI9341_YELLOW);    
+        pScreen->setTextColor(ILI9341_YELLOW);    
       }
-      tft.setCursor(xCoord,yCoord);
-      tft.println(ptrArray[j][k]);
+      pScreen->setCursor(xCoord,yCoord);
+      pScreen->println(ptrArray[j][k]);
       xCoord = xCoord + 30;  
     }
-    tft.setTextColor(ILI9341_WHITE); 
+    pScreen->setTextColor(ILI9341_WHITE); 
     xCoord = 25;
     yCoord += offsetY;   
     }
@@ -186,7 +186,7 @@ void highlight(int size, int offsetY){
 
 //Fucntion to select the coresponding menu page and binding behavior on menu items
 void menuSetter(int currentHighlight){
-    tft.fillScreen(ILI9341_BLACK);
+    pScreen->fillScreen(ILI9341_BLACK);
     
     //Main menu 
     if(ptrArray == itemsMain){
@@ -221,32 +221,30 @@ void menuSetter(int currentHighlight){
 
     //Level select
     else if(ptrArray == itemsLevel){
+      levelType = 1;
       switch (currentHighlight){
         case 0 :   
-          sendLevel(1,1);
-          startGameFlag = 1;
+          levelSeed = 1;
           break;
         case 1 :  
-          sendLevel(2,1);
-          startGameFlag = 1;
+          levelSeed = 2;
           break;
         case 2 :  
-          sendLevel(3,1);
-          startGameFlag = 1;
+          levelSeed = 3;          
           break;
         case 3 :  
-          sendLevel(4,1);
-          startGameFlag = 1;
+          levelSeed = 4;
           break;
         case 4 :  
-          sendLevel(5,1);
-          startGameFlag = 1;
+          levelSeed = 5;
           break;
         case 5 :  
-          sendLevel(0,0);
-          startGameFlag = 1;
+          levelType = 0;
+          levelSeed = 0;
           break;
-        }    
+      }
+      startGameFlag = 1;
+      sendLevel(levelSeed,levelType);    
     }
 
     highlight(size, offsetY);
@@ -256,37 +254,44 @@ void menuSetter(int currentHighlight){
 //Updating the highscores and displaying them 
 void highscore(int size, int offsetY){
   updateHighscoreList();
+  int * highscores;
+  highscores = getHighscoreList();
   xCoord = 50;
   yCoord = 25;
-  tft.setTextColor(ILI9341_WHITE);
-  tft.setTextSize(size);
+  pScreen->setTextColor(ILI9341_WHITE);
+  pScreen->setTextSize(size);
   for(int j = 0; j < currentPage; j++){
-    tft.setCursor(xCoord,yCoord);
-    tft.setTextColor(ILI9341_YELLOW);
-    tft.println(j + 1);
-    tft.setCursor(xCoord + 20,yCoord);
-    tft.println(".");
-    tft.setTextColor(ILI9341_WHITE);
-    tft.setCursor(xCoord + 40,yCoord);
-    tft.println(highscores[j]);
+    pScreen->setCursor(xCoord,yCoord);
+    pScreen->setTextColor(ILI9341_YELLOW);
+    pScreen->println(j + 1);
+    pScreen->setCursor(xCoord + 20,yCoord);
+    pScreen->println(".");
+    pScreen->setTextColor(ILI9341_WHITE);
+    pScreen->setCursor(xCoord + 40,yCoord);
+    pScreen->println(highscores[j]);
     yCoord += offsetY;  
   }
 }
 
 //Loading screen
 void loading(){
-  tft.fillScreen(ILI9341_BLACK);
-  tft.setCursor(25,100);
-  tft.setTextColor(ILI9341_WHITE);
-  tft.setTextSize(4); 
-  tft.println("LOADING");
+  pScreen->fillScreen(ILI9341_BLACK);
+  pScreen->setCursor(25,100);
+  pScreen->setTextColor(ILI9341_WHITE);
+  pScreen->setTextSize(4); 
+  pScreen->println("LOADING");
 }
 
 //Connection screen
 void connecting(){
-  tft.fillScreen(ILI9341_BLACK);
-  tft.setCursor(25,50);
-  tft.setTextColor(ILI9341_WHITE);
-  tft.setTextSize(4); 
-  tft.println("CONNECTING");
+  pScreen->fillScreen(ILI9341_BLACK);
+  pScreen->setCursor(25,50);
+  pScreen->setTextColor(ILI9341_WHITE);
+  pScreen->setTextSize(4); 
+  pScreen->println("CONNECTING");
+}
+
+void getLevel(int* seed,int* type){
+  seed = &levelSeed;
+  type = &levelType;   
 }
