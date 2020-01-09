@@ -19,10 +19,13 @@ void menuSetter(int currentHighlight);
 
 void highscore(int size, int offsetY);
  
-void loading();
+void waitingForHost();
 
 void connecting();
 
-void getLevel(int* seed, int* type);
+int getLevelSeed();
+int getLevelType();
+
+void endScreenDisplay(int win);
 
 #endif

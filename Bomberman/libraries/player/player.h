@@ -13,8 +13,8 @@
 #define MAXBOMBS 3        // maximum amount of bombs per player
 #define MAXLIFE 3         // maximum life (hearts) per player
 
-#define PLAYER1 4         //zinvolle commnet
-#define PLAYER2 5         //nog zon een
+#define PLAYER1 4         // Player number based on color enum 
+#define PLAYER2 5
 
 enum AIM
 {
@@ -24,7 +24,8 @@ enum AIM
 
 uint8_t stepper(Adafruit_ILI9341 *pen, struct DIMENSION dimension, uint8_t world[9][9], enum AIM direction, struct PLAYER *p1, struct BOMB *b1, int bomb);
 void drawPlayer(Adafruit_ILI9341 *pen,struct DIMENSION screen,struct PLAYER p1);
-
+uint8_t placeBomb(struct BOMB *b1,uint8_t x,uint8_t y,uint8_t block);
+void clearLastPos(Adafruit_ILI9341 *pen,struct DIMENSION screen, uint8_t world[9][9], struct PLAYER p1);
 
 struct PLAYER
 {

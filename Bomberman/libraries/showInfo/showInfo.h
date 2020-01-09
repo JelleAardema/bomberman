@@ -6,6 +6,6 @@
 #define SHOW_INFO_H
 
 // ---- functions
-void drawInfo(Adafruit_ILI9341 *pen,struct DIMENSION dimension,const char *title,int value);
+uint16_t drawInfo(Adafruit_ILI9341 *pen,struct DIMENSION dimension,const char *title,int value,int prev);
 
 #endif

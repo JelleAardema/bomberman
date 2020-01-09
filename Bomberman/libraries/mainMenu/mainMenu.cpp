@@ -87,7 +87,7 @@ void menu(int host) {
 
     connecting();
     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  //startConnection(host);
+	startConnection(host);
     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     //Clearing screen and drawing the menu items
@@ -140,7 +140,8 @@ void menu(int host) {
   }
  }
   //Displaying loading screen and awaiting game start instructions
-  loading();
+  started = 0;
+  startGameFlag = 0;
 }
 
 
@@ -240,7 +241,7 @@ void menuSetter(int currentHighlight){
           break;
         case 5 :  
           levelType = 0;
-          levelSeed = 0;
+          levelSeed = TCNT2;	// random number from timer2
           break;
       }
       startGameFlag = 1;
@@ -273,13 +274,13 @@ void highscore(int size, int offsetY){
   }
 }
 
-//Loading screen
-void loading(){
+//Waiting screen for slave
+void waitingForHost(){
   pScreen->fillScreen(ILI9341_BLACK);
   pScreen->setCursor(25,100);
   pScreen->setTextColor(ILI9341_WHITE);
   pScreen->setTextSize(4); 
-  pScreen->println("LOADING");
+  pScreen->println("Waiting for Host");
 }
 
 //Connection screen
@@ -291,7 +292,52 @@ void connecting(){
   pScreen->println("CONNECTING");
 }
 
-void getLevel(int* seed,int* type){
-  seed = &levelSeed;
-  type = &levelType;   
+int getLevelSeed(){
+	return levelSeed;
 }
+
+int getLevelType(){
+	return levelType;
+}
+
+void endScreenDisplay(int win){
+	// fill black
+	pScreen->fillScreen(0x0000);
+	// write you
+	pScreen->setCursor(50,50);
+	pScreen->setTextColor(ILI9341_WHITE);
+	pScreen->setTextSize(5); 
+	pScreen->println("YOU");
+	// win or lose
+	pScreen->setCursor(150,50);
+	if(win){
+		pScreen->println("WIN");
+	}	
+	else{
+		pScreen->println("LOSE");
+	}
+	// score: 0
+	pScreen->setTextSize(3);   
+	pScreen->setCursor(50,100);
+	pScreen->println("score:");
+	pScreen->setCursor(180,100);
+	pScreen->println(getCurrentScore());
+	// press z to return to main menu
+	pScreen->setCursor(50,180);
+	pScreen->setTextSize(2);
+	pScreen->println("press Z to return");
+	pScreen->setCursor(50,200);
+	pScreen->println("to main menu");
+	
+  resetScore();
+	// keep displaying until z pressed
+	int reset = 0;
+	while(!reset){
+		//Waiting for user input to setup initial connection over IR
+		Nunchuk.getState(0x52);
+		sendPlayerStatus(0, 0, 10, 0);		// send end game to player 2
+		if (Nunchuk.state.z_button == 1){
+			reset = 1;
+		}
+	}
+} 

@@ -10,6 +10,15 @@
 void bombWorld(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t world[GRID_X][GRID_Y],int x, int y, int power,struct PLAYER *p1,uint8_t bOm)
 {
   int i,q,calcX,calcY;
+  struct DIMENSION block;
+	//subtract two lifes from player, if player is on center of explosion
+    if((p1->x == x)&&(p1->y == y))
+		p1->life -= 1;
+
+	// draw destruction wave at bomb
+	calcBlock(screen,&block,x,y);
+    drawBlock(pen,block,5);
+
     // go trough all directions (left,right,up,down) of explosion
     for(q=0; q < 4; q++)
     {
@@ -23,7 +32,6 @@ void bombWorld(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t world[GRID_
           world[calcX][calcY] = air;
 
           // draw destruction wave
-          struct DIMENSION block;
           calcBlock(screen,&block,calcX,calcY);
           drawBlock(pen,block,5);
 
@@ -40,6 +48,9 @@ void bombWorld(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t world[GRID_
 void clearWave(Adafruit_ILI9341 *pen,struct DIMENSION screen,uint8_t world[GRID_X][GRID_Y],int x, int y, int power)
 {
   int i,q,calcX,calcY;
+	// redraw block in the middle
+	redrawBlock(pen,screen,world,x,y);
+
     // go trough all directions (left,right,up,down) of explosion
     for(q=0; q < 4; q++)
     {
@@ -66,8 +77,11 @@ int bombNext(int i, int q,int x, int y, int *calcX, int *calcY,uint8_t world[GRI
   if(explode==1)
   {
 	  explode=0;
-    if (bOm == PLAYER1) // Add points for destroying a tile
-      destroyTileScore();
+    if(bOm == PLAYER1){
+      // Add points for destroying a tile
+     destroyTileScore();
+    }
+
 	  return 0;
   }
 
