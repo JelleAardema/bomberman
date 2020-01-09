@@ -9,18 +9,16 @@
 
 //Functions used by mainMenu
 
-void spriteInit();
+void spritePlayer(int posX, int posY, int playerID, Adafruit_ILI9341 *tft);
 
-void player(int posX, int posY, int playerID);
+void spriteFloor(int posX, int posY, Adafruit_ILI9341 *tft);
 
-void tile(int posX, int posY);
+void spriteWall(int posX, int posY, Adafruit_ILI9341 *tft);
 
-void wall(int posX, int posY);
+void spriteBox(int posX,int posY, Adafruit_ILI9341 *tft);
 
-void box(int posX,int posY);
+void spriteBomb(int posX, int posY, Adafruit_ILI9341 *tft);
 
-void bomb(int posX, int posY);
-
-void explosion(int posX,int posY);
+void spriteExplosion(int posX,int posY, Adafruit_ILI9341 *tft);
 
 #endif

@@ -48,11 +48,7 @@ void startConnection(int host){
 // level					type = 2
 // -----------------------------------------------------------------------------------------------------------------------
 void sendLevel(int seed, int type){
-	if(type){
-		sendIRCC(encodeLevel(seed,type));	
-	}else{
-		sendIRCC(encodeLevel(TCNT2, type));
-	}
+	sendIRCC(encodeLevel(seed,type));	
 }
 
 void receiveLevel(int *seed, int *type){
